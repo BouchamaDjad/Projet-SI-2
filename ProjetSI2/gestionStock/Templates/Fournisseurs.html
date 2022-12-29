@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fournisseurs</title>
+</head>
+<body>
+    <h1>Liste des Fournisseurs</h1>
+    <table border="1">
+        <thead>
+            <th>nom</th>
+            <th>prenom</th>
+            <th>adresse</th>
+            <th>phone</th>
+            <th>solde</th>
+        </thead>
+        {% for fournisseur in fournisseurs %}
+            <tbody>
+                <td>{{ fournisseur.nom }}</td>
+                <td>{{ fournisseur.prenom }}</td>
+                <td>{{ fournisseur.adresse }}</td>
+                <td>{{ fournisseur.pohne }}</td>
+                <td>{{ fournisseur.solde }}</td>
+            </tbody>
+        {% endfor %}
+    </table>
+</body>
+</html>
