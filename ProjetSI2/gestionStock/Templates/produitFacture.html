@@ -1,0 +1,11 @@
+<center>
+    {{msg}}
+</center>
+
+<form method ="POST">
+    {% csrf_token %}
+    {{form_produit.as_p}}
+    {{form_prix.as_p}}
+    {{form_avoir.as_p}}
+    <button type = "submit">confirmer</button>
+</form>
