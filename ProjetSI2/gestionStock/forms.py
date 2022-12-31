@@ -27,19 +27,12 @@ class FactureForm(forms.ModelForm):
             
         }
 
-class FactureForm(forms.ModelForm):
-    class Meta:
-        model = Facture
-        fields = ('numero','date','fournisseur')
-        widgets = {
-            'date':forms.DateInput( attrs= {'type':'date'})
-            
-        }
-
-class produitFacture(forms.ModelForm):
-    class Meta :
-        model = Produit
-        fields = ['designation']
+class produitFacture(forms.Form):
+    choices = []
+    products = Produit.objects.all()
+    for p in products :
+        choices.append((p.designation,p.designation))
+    designation = forms.ChoiceField(choices = tuple(choices), widget=forms.Select())
 
 class prixFacture(forms.ModelForm):
     class Meta : 

@@ -4,8 +4,17 @@
 
 <form method ="POST">
     {% csrf_token %}
-    {{form_produit.as_p}}
+    <label for="pr">Produit : </label>
+    <input type="text" list="designation_list" name = "designation" id = "pr" autocomplete="off">
+    <datalist id="designation_list">
+    <select>
+        {% for option in choices %}
+        <option value="{{option.0}}">{{ option.1 }}</option>
+        {% endfor %}
+    </select>
+    </datalist>
     {{form_prix.as_p}}
     {{form_avoir.as_p}}
     <button type = "submit">confirmer</button>
+    <a href = "{%url 'saisiefacture' %}">retour</a> 
 </form>

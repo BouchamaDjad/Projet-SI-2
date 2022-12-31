@@ -25,12 +25,11 @@ def saisie_facture(request):
 
 def produits_facture(request):
     if request.method == 'POST':
-        form_produit = produitFacture(request.POST)
         form_prix = prixFacture(request.POST)
         form_avoir = qtAchete(request.POST)
-        if form_produit.is_valid() and form_prix.is_valid() and form_avoir.is_valid():
+        if form_prix.is_valid() and form_avoir.is_valid():
             msg = "produit ajoute avec succes, ajouter un autre."
-            idP = Produit.objects.get(designation = form_produit.cleaned_data['designation']).CodeP
+            idP = Produit.objects.get(designation = request.POST.get('designation')).CodeP
             prixU = form_prix.cleaned_data['PrixUnite']
             prixV = form_prix.cleaned_data['PrixVente']
             if Prix.objects.filter(PrixUnite = prixU, PrixVente = prixV).exists():
@@ -46,14 +45,14 @@ def produits_facture(request):
            msg = "erreur reessayer"
     else :
         msg = "Ajouter un produit a la facture"
-
     form_produit = produitFacture()
     form_prix = prixFacture()
     form_avoir = qtAchete()
-    context = { 'form_produit' : form_produit,
+    context = {
                 'form_prix' : form_prix,
                 'form_avoir' : form_avoir,
                 'msg' : msg,
+                'choices' :form_produit.fields['designation'].choices,
     }
 
     return render(request,"produitFacture.html",context)
@@ -61,7 +60,6 @@ def produits_facture(request):
 
 def updateStock(idP,idPrix,qta):
     if Stock.objects.filter(produit_id = idP,Prix_id = idPrix).exists():
-        print("in")
         instance = Stock.objects.get(produit_id = idP,Prix_id = idPrix)
         instance.Qtp += qta
         instance.save()
