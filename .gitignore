@@ -1,2 +1,5 @@
 myenv
-db.sqlite3
+
+ProjetSI2/db.sqlite3
+
+__pycache__

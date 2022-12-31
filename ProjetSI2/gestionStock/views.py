@@ -61,3 +61,9 @@ def updateStock(idP,idPrix,qta):
         instance.save()
     else :
         Stock.objects.create(Qtp = qta,produit_id = idP,Prix_id = idPrix)
+
+def afficher_fournisseur(request):
+    fournisseurs = Fournisseur.objects.all()
+    return render(request,"Fournisseurs.html",{"fournisseurs":fournisseurs})
+
+
