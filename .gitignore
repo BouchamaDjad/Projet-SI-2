@@ -1,9 +1,14 @@
 myenv
 
+<<<<<<< HEAD
 files
 
 ## l9it un gitignore pret mn internet copiyetou
 
+=======
+## l9it un gitignore pret mn internet copiyetou
+
+>>>>>>> faad77caaa6575fc5121d1d2525999c75007818d
 # Django #
 *.log
 *.pot
@@ -64,4 +69,8 @@ GitHub.sublime-settings
 !.vscode/tasks.json 
 !.vscode/launch.json 
 !.vscode/extensions.json 
+<<<<<<< HEAD
 .history
+=======
+.history
+>>>>>>> faad77caaa6575fc5121d1d2525999c75007818d

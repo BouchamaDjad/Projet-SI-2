@@ -18,4 +18,40 @@ class BCForm(forms.Form):
     fournisseur = FournisseurChoiceField(Fournisseur.objects.all())
     produits = MultiProduitField(Produit.objects.all())
 
+class FactureForm(forms.ModelForm):
+    class Meta:
+        model = Facture
+        fields = ('numero','date','fournisseur')
+        widgets = {
+            'date':forms.DateInput( attrs= {'type':'date'})
+            
+        }
 
+class FactureForm(forms.ModelForm):
+    class Meta:
+        model = Facture
+        fields = ('numero','date','fournisseur')
+        widgets = {
+            'date':forms.DateInput( attrs= {'type':'date'})
+            
+        }
+
+class produitFacture(forms.ModelForm):
+    class Meta :
+        model = Produit
+        fields = ['designation']
+
+class prixFacture(forms.ModelForm):
+    class Meta : 
+        model = Prix
+        fields = '__all__'
+
+
+class qtAchete(forms.ModelForm):
+    class Meta :
+        model = Avoir
+        fields = ['qta']
+        labels = {
+            'qta':'Quantite',
+        }
+    

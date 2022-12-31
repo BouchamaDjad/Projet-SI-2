@@ -5,12 +5,7 @@ from django.db import models
 class Prix(models.Model):
     PrixUnite = models.FloatField()
     PrixVente = models.FloatField()
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['PrixUnite', 'PrixVente'], name='uniquePrix'
-            )
-        ]
+    
 
 class TypeProduit(models.Model):
     designation = models.CharField(max_length=20)
@@ -90,8 +85,9 @@ class Fournisseur(models.Model):
 
 
 class Facture(models.Model):
-    date = models.DateField(auto_now=True)
-    sommeRestante = models.FloatField()
+    numero = models.IntegerField(primary_key=True)
+    date = models.DateField()
+    sommeRestante = models.FloatField(default=0)
     fournisseur = models.ForeignKey(Fournisseur,on_delete=models.SET_NULL,null=True)
     def __str__(self):
         return f'{self.date} {self.fournisseur.nom}'

@@ -1,0 +1,10 @@
+
+<center>
+    Bonjour veuillez saisir la facture
+</center>
+
+<form method="POST">
+    {% csrf_token %}
+    {{form}}
+<button type ="submit">Ajouter des produits</button>
+</form>
