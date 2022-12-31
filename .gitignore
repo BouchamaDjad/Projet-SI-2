@@ -2,8 +2,6 @@ myenv
 
 *.pdf
 
-#ProjetSI2/db.sqlite3
-
 ## l9it un gitignore pret mn internet copiyetou
 
 # Django #
