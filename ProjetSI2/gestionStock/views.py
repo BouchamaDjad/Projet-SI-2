@@ -25,11 +25,12 @@ def saisie_facture(request):
 
 def produits_facture(request):
     if request.method == 'POST':
+        form_produit = produitFacture(request.POST)
         form_prix = prixFacture(request.POST)
         form_avoir = qtAchete(request.POST)
-        if form_prix.is_valid() and form_avoir.is_valid():
+        if form_prix.is_valid() and form_avoir.is_valid() and form_produit.is_valid():
             msg = "produit ajoute avec succes, ajouter un autre."
-            idP = Produit.objects.get(designation = request.POST.get('designation')).CodeP
+            idP = Produit.objects.get(designation = form_produit.cleaned_data['designation']).CodeP
             prixU = form_prix.cleaned_data['PrixUnite']
             prixV = form_prix.cleaned_data['PrixVente']
             if Prix.objects.filter(PrixUnite = prixU, PrixVente = prixV).exists():

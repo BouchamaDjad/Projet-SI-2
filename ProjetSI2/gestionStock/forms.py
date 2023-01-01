@@ -32,7 +32,7 @@ class produitFacture(forms.Form):
     products = Produit.objects.all()
     for p in products :
         choices.append((p.designation,p.designation))
-    designation = forms.ChoiceField(choices = tuple(choices), widget=forms.Select())
+    designation = forms.ChoiceField(choices = tuple(choices))
 
 class prixFacture(forms.ModelForm):
     class Meta : 
