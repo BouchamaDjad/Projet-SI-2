@@ -12,8 +12,15 @@ def pdf_gen(content,path='./gestionStock/files/doc.pdf'):
     return path.split('/')[-1]
 
 def cleaning_post_info(info):
-    r = ''
-    for i in info:
-        if i != "csrfmiddlewaretoken":
-            r += f"{i}:{info[i]}\n"
+    r = f"date:{info['date']}\n"
+    r += f"fournisseur:{info['fournisseur']}\n"
+    r += "code produits : quantité\n"
+
+    l = list(info.lists()) #une liste des 2-tuple (key:list(val))
+    
+    #3 = n° tuple produits
+    #4 = n° tuple quantité
+    for i in range(len(l[3][1])):
+        r += f"{l[3][1][i]} : {l[4][1][i]}\n" 
+        
     return r

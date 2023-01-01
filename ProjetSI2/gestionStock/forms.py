@@ -19,7 +19,7 @@ class BC_ProduitForm(forms.Form):
 class BCForm(forms.Form):
     date = forms.DateTimeField(initial = datetime.now)
     fournisseur = FournisseurChoiceField(Fournisseur.objects.all())
-    produitformlist = [BC_ProduitForm,] # une liste de form de type BC_ProduitForm
+
 
 class FactureForm(forms.ModelForm):
     class Meta:

@@ -5,12 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bon de Commande</title>
+    <script>
+        function add() {
+            const div = document.getElementsByClassName("produits")[0];
+            const prod = div.getElementsByTagName("p")[0];
+            div.append(prod.cloneNode(true));
+        }
+    </script>
 </head>
 <body>
     <h1>Bon De Commande</h1>
     <form action="" method="POST">
         {% csrf_token %}
-        {{ form.as_div }}
+        {{ form.as_p }}
+        <div class="produits">
+            {% for produitform in listproduitform %}
+                <p>
+                {{ produitform }}
+                </p>
+            {% endfor %}
+        </div>
+        
+        <p></p><button id="add">+</button><p>
         <button type="submit">créer le bon commande</button>
     </form>
     {% if file %}
@@ -18,4 +34,8 @@
         <span><a href="{% url 'download_file' file %}" download>télécharger</a> le bon de commande</span>
     {% endif %}
 </body>
+    <script>
+        const btn_add = document.getElementById("add");
+        btn_add.addEventListener("click",add); 
+    </script>
 </html>
