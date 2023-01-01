@@ -2,21 +2,24 @@ from datetime import datetime
 from django import forms
 from .models import *
 
-class MultiProduitField(forms.ModelMultipleChoiceField):
-    qt = forms.IntegerField()
+class ProduitField(forms.ModelChoiceField):
     class Meta:
         model = Produit
-        field = ('codeP','designation')
+        field = ('CodeP','designation')
 
 class FournisseurChoiceField(forms.ModelChoiceField):
     class Meta:
         model = Fournisseur
         field = ('nom','prenom')
 
+class BC_ProduitForm(forms.Form):
+    produits = ProduitField(Produit.objects.all())
+    quantité = forms.IntegerField()
+
 class BCForm(forms.Form):
     date = forms.DateTimeField(initial = datetime.now)
     fournisseur = FournisseurChoiceField(Fournisseur.objects.all())
-    produits = MultiProduitField(Produit.objects.all())
+    produitformlist = [BC_ProduitForm,] # une liste de form de type BC_ProduitForm
 
 class FactureForm(forms.ModelForm):
     class Meta:

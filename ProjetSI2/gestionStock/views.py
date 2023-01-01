@@ -1,7 +1,7 @@
 import mimetypes
 from django.shortcuts import render,redirect
 from .models import Client,Facture,Produit,Stock,Prix,Avoir,Fournisseur
-from .forms import FactureForm,produitFacture,prixFacture,qtAchete,BCForm
+from .forms import FactureForm,produitFacture,prixFacture,qtAchete,BCForm,BC_ProduitForm
 from . import functions
 from datetime import datetime
 from django.http.response import HttpResponse
@@ -82,9 +82,13 @@ def créer_bon_commande(request):
             return render(request,"BonDeCommande.html",{"form":form,"file":file})
     else:
         form = BCForm()
+        if "add" in request.GET:
+                form.produitformlist.append(BC_ProduitForm()) 
+
         return render(request,"BonDeCommande.html",{"form":form,"file":file})
 
 def download_file(request, filename):
+
     BASE_DIR = os.path.dirname(os.path.abspath(__file__)) + "/files"
 
     if not filename :

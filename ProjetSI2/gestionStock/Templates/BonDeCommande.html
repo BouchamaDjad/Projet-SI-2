@@ -11,6 +11,7 @@
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_div }}
+        <button onclick="fun()"> + </button>
         <button type="submit">créer le bon commande</button>
     </form>
     {% if file %}
@@ -18,4 +19,9 @@
         <span><a href="{% url 'download_file' file %}" download>télécharger</a> le bon de commande</span>
     {% endif %}
 </body>
+    <script>
+        function fun(){
+            location.href += "add?1" 
+        }
+    </script>
 </html>
