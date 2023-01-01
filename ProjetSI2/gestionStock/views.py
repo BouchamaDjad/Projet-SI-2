@@ -80,16 +80,35 @@ def créer_bon_commande(request):
     file = ''
     if request.method == 'POST':
         form = BCForm(request.POST)
-        if form.is_valid():
+
+        produit_form_list = []
+        error = False
+
+        #3 = n° tuple produits
+        #4 = n° tuple quantité
+        req = list(request.POST.lists())[3:] #une liste des 2-tuple (key:list(val))
+
+        for i in range(len(req[0][1])):
+            bc_form = BC_ProduitForm({'produits':int(req[0][1][i]),
+                                      'quantité':int(req[1][1][i])})
+            if bc_form.is_valid():
+                produit_form_list.append(bc_form)
+            else:
+                error = True
+                break
+
+        if form.is_valid() and not error:
             now = datetime.now().strftime('%d%m%y %H%M%S')
             file = functions.pdf_gen(functions.cleaning_post_info(request.POST),f'./gestionStock/files/BonCommande {now}.pdf')
-            return render(request,"BonDeCommande.html",{"form":form,"file":file})
-    else:
-        form = BCForm()
-        if "add" in request.GET:
-                form.produitformlist.append(BC_ProduitForm()) 
-
-        return render(request,"BonDeCommande.html",{"form":form,"file":file})
+            return render(request,"BonDeCommande.html",{"form":form,
+                                                        "file":file,
+                                                        "listproduitform":produit_form_list})
+    
+    form = BCForm()
+    produit_form_list = [BC_ProduitForm()]
+    return render(request,"BonDeCommande.html",{"form":form,
+                                                "file":file,
+                                                "listproduitform":produit_form_list})
 
 def download_file(request, filename):
 
