@@ -1,7 +1,7 @@
 import mimetypes
 from django.shortcuts import render,redirect
 from .models import Client,Facture,Produit,Stock,Prix,Avoir,Fournisseur
-from .forms import FactureForm,produitFacture,prixFacture,qtAchete,BCForm,BC_ProduitForm
+from .forms import FactureForm,produitFacture,prixFacture,qtAchete,BCForm,BC_ProduitForm,OptionFacture
 from . import functions
 from datetime import datetime
 from django.http.response import HttpResponse
@@ -112,10 +112,26 @@ def download_file(request, filename):
 
 def afficher_facture(request, pk):
     facture = Facture.objects.get(numero = pk)
-    print(facture.numero)
     HT = 0
+    if request.method == 'POST' :
+        form = OptionFacture(request.POST)
+        if form.is_valid():
+           r = form.cleaned_data["remise"]
+           if not form.cleaned_data["payer"]:
+              for p in facture.avoir_set.all():
+                  HT += p.prix.PrixUnite * p.qta
+                  TTC = HT + HT * 0.19 
+              if r != 0:
+                  TTC = HT + HT * r/100
+              facture.fournisseur.solde += TTC
+              facture.sommeRestante = TTC
+              facture.fournisseur.save()
+           facture.remise = r
+           facture.save()
+           return redirect('saisiefacture')
+    
     for p in facture.avoir_set.all():
         HT += p.prix.PrixUnite * p.qta
     TTC = HT + HT * 0.19
-    
-    return render(request,"Facture.html",{"facture": facture,"TTC":TTC})
+    form = OptionFacture()
+    return render(request,"Facture.html",{"facture": facture,"TTC":TTC,"form":form})

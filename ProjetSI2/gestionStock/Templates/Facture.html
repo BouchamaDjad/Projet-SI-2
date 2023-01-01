@@ -29,5 +29,10 @@
         {% endfor %}
     </table>
     <p> TTC : {{TTC}} </p> 
+    <form method = "POST">
+        {%csrf_token%}
+        {{form.as_div}}
+    <button type= "submit">Confirmer</button>
+    </form>
 </body>
 </html>

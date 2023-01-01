@@ -88,6 +88,7 @@ class Fournisseur(models.Model):
 class Facture(models.Model):
     numero = models.IntegerField(primary_key=True)
     date = models.DateField()
+    remise = models.FloatField(default=0)
     sommeRestante = models.FloatField(default=0)
     fournisseur = models.ForeignKey(Fournisseur,on_delete=models.SET_NULL,null=True)
     def __str__(self):
