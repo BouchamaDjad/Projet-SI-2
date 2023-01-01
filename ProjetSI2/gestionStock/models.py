@@ -5,7 +5,8 @@ from django.db import models
 class Prix(models.Model):
     PrixUnite = models.FloatField()
     PrixVente = models.FloatField()
-    
+    def __str__(self):
+        return f'{self.PrixUnite}/{self.PrixVente}'
 
 class TypeProduit(models.Model):
     designation = models.CharField(max_length=20)
