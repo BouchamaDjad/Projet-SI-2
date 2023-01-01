@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture</title>
+</head>
+<body>
+    <h1>Liste des Produits de la facture N°{{facture.numero}}</h1>
+    <table border="1">
+        <thead>
+            <th>CodeP</th>
+            <th>Designation</th>
+            <th>PrixUnite</th>
+            <th>PrixVente</th>
+            <th>Quantite</th>
+            <th>HT</th>
+        </thead>
+        {% for p in facture.avoir_set.all %}
+            <tbody>
+                <td>{{ p.produit.CodeP }}</td>
+                <td>{{ p.produit.designation }}</td>
+                <td>{{ p.prix.PrixUnite }}</td>
+                <td>{{ p.prix.PrixVente }}</td>
+                <td>{{ p.qta }}</td>
+                <td>{%widthratio p.qta 1 p.prix.PrixUnite%}</td>
+            </tbody>
+        {% endfor %}
+    </table>
+    <p> TTC : {{TTC}} </p> 
+</body>
+</html>

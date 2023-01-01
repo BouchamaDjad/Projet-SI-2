@@ -24,6 +24,12 @@ def saisie_facture(request):
     return render(request,"saisie_facture.html",{'form':form})
 
 def produits_facture(request):
+    idF = Facture.objects.latest('numero').numero
+    facture = Facture.objects.get(numero = idF)
+    for p in facture.avoir_set.all():
+        print(p.produit)
+        print(p.prix)
+        print(p.qta)
     if request.method == 'POST':
         form_produit = produitFacture(request.POST)
         form_prix = prixFacture(request.POST)
@@ -38,7 +44,6 @@ def produits_facture(request):
             else : 
                 form_prix.save()
                 idPrix = Prix.objects.latest('id').id
-            idF = Facture.objects.latest('numero').numero
             qta = form_avoir.cleaned_data['qta']
             Avoir.objects.create(qta = qta,facture_id = idF,produit_id = idP,prix_id = idPrix)
             updateStock(idP,idPrix,qta)
@@ -49,7 +54,7 @@ def produits_facture(request):
     form_produit = produitFacture()
     form_prix = prixFacture()
     form_avoir = qtAchete()
-    context = {
+    context = { 'id': idF,
                 'form_prix' : form_prix,
                 'form_avoir' : form_avoir,
                 'msg' : msg,
@@ -100,3 +105,13 @@ def download_file(request, filename):
     response['Content-Disposition'] = "attachment; filename=%s" % filepath.split("/")[-1]
         # Return the response value
     return response
+
+def afficher_facture(request, pk):
+    facture = Facture.objects.get(numero = pk)
+    print(facture.numero)
+    HT = 0
+    for p in facture.avoir_set.all():
+        HT += p.prix.PrixUnite * p.qta
+    TTC = HT + HT * 0.19
+    
+    return render(request,"Facture.html",{"facture": facture,"TTC":TTC})
