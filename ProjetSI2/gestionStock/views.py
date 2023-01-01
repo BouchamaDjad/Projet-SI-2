@@ -122,7 +122,7 @@ def afficher_facture(request, pk):
                   HT += p.prix.PrixUnite * p.qta
                   TTC = HT + HT * 0.19 
               if r != 0:
-                  TTC = HT + HT * r/100
+                  TTC = HT - HT * r/100
               facture.fournisseur.solde += TTC
               facture.sommeRestante = TTC
               facture.fournisseur.save()
