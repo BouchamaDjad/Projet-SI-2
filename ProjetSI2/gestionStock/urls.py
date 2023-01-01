@@ -8,4 +8,5 @@ urlpatterns = [
     path('Clients/',views.afficher_client,name = "clients"),
     path('SaisieFacture/',views.saisie_facture, name='saisiefacture'),
     path('ProduitsFacture/',views.produits_facture, name='produitsfacture'),
+    path('Facture/<int:pk>/',views.afficher_facture,name="facture"),
 ]

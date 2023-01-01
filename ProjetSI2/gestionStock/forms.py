@@ -50,4 +50,8 @@ class qtAchete(forms.ModelForm):
         labels = {
             'qta':'Quantite',
         }
+
+class OptionFacture(forms.Form):
+    payer = forms.BooleanField(label='payer',required=False)
+    remise = forms.FloatField(label = 'Remise (%)',initial=0)
     
