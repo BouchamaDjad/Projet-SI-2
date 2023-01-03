@@ -9,6 +9,7 @@ urlpatterns = [
     path('SaisieFacture/',views.saisie_facture, name='saisiefacture'),
     path('ProduitsFacture/',views.produits_facture, name='produitsfacture'),
     path('Facture/<int:pk>/',views.afficher_facture,name="facture"),
+    path('Stock/',views.afficher_stock),
     path('ReglementFactures/',views.reglement_facture, name='reglementfacture'),
     path('ReglerFactures/',views.regler_factures, name='reglerfactures'),
     path('sauv_Reg/<int:pk>',views.sauv_reg,name='sauvreg')

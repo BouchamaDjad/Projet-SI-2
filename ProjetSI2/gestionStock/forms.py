@@ -69,3 +69,14 @@ class SelectionFournisseur(forms.Form):
     for f in fournisseurs :
         choices.append((f.id,f'{f.nom} {f.prenom}'))
     Fournisseur = forms.ChoiceField(choices = tuple(choices))
+
+class TypeProduitChoiceField(forms.ModelChoiceField):
+    class Meta:
+        model=TypeProduit
+        field=['designation'] 
+    
+class FiltreForm(forms.Form):
+    date = forms.DateField(required=False)
+    type = TypeProduitChoiceField(TypeProduit.objects.all(),required=False)
+    quantité = forms.IntegerField(label_suffix='<=',required=False)
+    designation_produit = forms.CharField(required=False)

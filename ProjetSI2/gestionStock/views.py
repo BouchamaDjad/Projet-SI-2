@@ -7,6 +7,7 @@ from datetime import datetime
 from django.http.response import HttpResponse
 from django.http import HttpResponse 
 from django.db.models import F
+from django import forms
 import os
 # Create your views here.
 
@@ -207,3 +208,50 @@ def sauv_reg(request, pk):
         return redirect("clients")
         
   
+def afficher_stock(request):
+    stock = None
+
+    if request.GET:
+        form = FiltreForm(request.GET)
+        if form.is_valid():
+            if form.cleaned_data["type"]:
+                stock = Stock.objects.filter(produit__typeP__designation=form.cleaned_data["type"])
+            if form.cleaned_data["date"]:
+                stock = Stock.objects.filter(Date=form.cleaned_data["date"])
+            if form.cleaned_data['quantité']:
+                stock = Stock.objects.filter(Qtp__lte=form.cleaned_data['quantité'])
+            if form.cleaned_data['designation_produit']:
+                stock = Stock.objects.filter(produit__designation__contains=form.cleaned_data['designation_produit'])
+            
+
+    if not stock:
+        form = FiltreForm()
+        stock = Stock.objects.all()
+
+    produits : list[dict] = [] 
+    Total_achat = 0
+    Total_vente = 0
+    for s in stock:
+        instance_prix = Prix.objects.get(id = s.Prix_id)
+        Total_achat += s.Qtp * instance_prix.PrixUnite
+        Total_vente += s.Qtp * instance_prix.PrixVente
+
+        trv = False
+        for p in produits:
+            if p["produit"].CodeP == s.produit_id and p["prix"].id == s.Prix_id:
+                p["qt"] += s.Qtp
+                trv = True
+                break
+
+        if not trv:
+            produits.append({"produit":Produit.objects.get(CodeP = s.produit_id),
+                             "prix":Prix.objects.get(id = s.Prix_id),
+                             "qt":s.Qtp})
+
+    benefice = Total_vente - Total_achat
+
+    return render(request,"Stock.html",{"form":form,
+                                        "produits":produits,
+                                        "Total_achat":Total_achat,
+                                        "Total_vente":Total_vente,
+                                        "benefice":benefice })
