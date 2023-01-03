@@ -54,4 +54,14 @@ class qtAchete(forms.ModelForm):
 class OptionFacture(forms.Form):
     payer = forms.BooleanField(label='payer',required=False)
     remise = forms.FloatField(label = 'Remise (%)',initial=0)
+
+class TypeProduitChoiceField(forms.ModelChoiceField):
+    class Meta:
+        model=TypeProduit
+        field=['designation'] 
     
+class FiltreForm(forms.Form):
+    date = forms.DateField(required=False)
+    type = TypeProduitChoiceField(TypeProduit.objects.all(),required=False)
+    quantité = forms.IntegerField(label_suffix='<=',required=False)
+    designation_produit = forms.CharField(required=False)
