@@ -1,12 +1,12 @@
 import mimetypes
 from django.shortcuts import render,redirect
 from .models import Client,Facture,Produit,Stock,Prix,Avoir,Fournisseur
-from .forms import FactureForm,produitFacture,prixFacture,qtAchete,BCForm,BC_ProduitForm,OptionFacture
+from .forms import *
 from . import functions
 from datetime import datetime
 from django.http.response import HttpResponse
 from django.http import HttpResponse 
-
+from django.db.models import F
 import os
 # Create your views here.
 
@@ -25,11 +25,6 @@ def saisie_facture(request):
 
 def produits_facture(request):
     idF = Facture.objects.latest('numero').numero
-    facture = Facture.objects.get(numero = idF)
-    for p in facture.avoir_set.all():
-        print(p.produit)
-        print(p.prix)
-        print(p.qta)
     if request.method == 'POST':
         form_produit = produitFacture(request.POST)
         form_prix = prixFacture(request.POST)
@@ -154,3 +149,61 @@ def afficher_facture(request, pk):
     TTC = HT + HT * 0.19
     form = OptionFacture()
     return render(request,"Facture.html",{"facture": facture,"TTC":TTC,"form":form})
+
+
+def reglement_facture(request):
+    msg = "entrez"
+    formF = SelectionFournisseur()
+    formR = reglementFacture()
+    context = {
+        "formF":formF,
+        "formR" : formR,
+        "choices" : formF.fields['Fournisseur'].choices,
+        "msg" : msg,
+    }
+    return render(request,'reglementfacture.html',context)
+
+def regler_factures(request):
+    if request.method == 'POST':
+        formF = SelectionFournisseur(request.POST)
+        formR = reglementFacture(request.POST)
+        if formF.is_valid() and formR.is_valid():
+            idF = formF.cleaned_data["Fournisseur"]
+            fournisseur = Fournisseur.objects.get(id = idF)
+            factures = fournisseur.facture_set.filter(sommeRestante__gt = 0).order_by("numero")
+            formR.save()
+            return render(request,"reglerFactures.html",{"factures":factures,"idF":idF})
+        else:
+            redirect("reglementfacture")
+
+def sauv_reg(request, pk):
+    if request.method == "POST":
+        fournisseur = Fournisseur.objects.get(id = pk)
+        factures = fournisseur.facture_set.filter(sommeRestante__gt = 0).order_by("numero")
+        valeurs = request.POST.getlist('valeur[]')
+        instance = ReglementFacture.objects.latest('id')
+        filled = False
+        date = instance.date
+        ids = []
+        for f in factures:
+            ids.append(f.numero)
+        
+        for (v,n) in zip(valeurs,ids):
+            if(float(v) != 0):
+                if(not filled):
+                    print(v,n)
+                    instance.facture_id = n
+                    instance.sommeAjoute = v
+                    instance.save()
+                    filled = True
+                else :
+                    print(v,n)
+                    ReglementFacture.objects.create(date = date,sommeAjoute = v, facture_id = n)
+                Facture.objects.filter(numero = n).update(sommeRestante = F('sommeRestante') - v)
+        
+        if(not filled):
+            instance.delete()
+        
+        return redirect("clients")
+        
+  

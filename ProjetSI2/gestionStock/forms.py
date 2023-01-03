@@ -54,4 +54,18 @@ class qtAchete(forms.ModelForm):
 class OptionFacture(forms.Form):
     payer = forms.BooleanField(label='payer',required=False)
     remise = forms.FloatField(label = 'Remise (%)',initial=0)
+
+class reglementFacture(forms.ModelForm):
+    class Meta:
+        model = ReglementFacture
+        fields = ['date']
+        widgets = {
+            'date':forms.DateInput( attrs= {'type':'date'})
+        }
     
+class SelectionFournisseur(forms.Form):
+    choices = []
+    fournisseurs = Fournisseur.objects.all()
+    for f in fournisseurs :
+        choices.append((f.id,f'{f.nom} {f.prenom}'))
+    Fournisseur = forms.ChoiceField(choices = tuple(choices))

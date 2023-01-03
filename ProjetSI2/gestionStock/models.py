@@ -101,9 +101,9 @@ class Avoir(models.Model):
     prix = models.ForeignKey(Prix,on_delete=models.CASCADE)
 
 class ReglementFacture(models.Model):
-    date = models.DateField(auto_now=True)
-    sommeAjoute = models.FloatField()
-    facture = models.ForeignKey(Facture,on_delete=models.CASCADE)
+    date = models.DateField(editable=True)
+    sommeAjoute = models.FloatField(default=0)
+    facture = models.ForeignKey(Facture,on_delete=models.SET_NULL,null=True)
 
 
 
