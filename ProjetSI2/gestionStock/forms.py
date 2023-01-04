@@ -80,3 +80,11 @@ class FiltreForm(forms.Form):
     type = TypeProduitChoiceField(TypeProduit.objects.all(),required=False)
     quantité = forms.IntegerField(label_suffix='<=',required=False)
     designation_produit = forms.CharField(required=False)
+
+class StockForm(forms.Form):
+    choice = [(p.CodeP,p.designation) for p in Produit.objects.all()]
+
+    codeP = forms.ChoiceField(choices=choice,label="CodeP")
+    prixHT = forms.FloatField(label="PrixHT")
+    prixVente =  forms.FloatField(label="PrixVente")
+    Qtp = forms.IntegerField(label="Quantité")

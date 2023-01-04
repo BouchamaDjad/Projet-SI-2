@@ -19,6 +19,7 @@
             <th>PrixUnite</th>
             <th>PrixVente</th>
             <th>Quantité</th>
+            <th></th>
         </thead>
         {% for p in produits %}
             <tbody>
@@ -27,6 +28,7 @@
                 <td>{{ p.prix.PrixUnite }}</td>
                 <td>{{ p.prix.PrixVente }}</td>
                 <td>{{ p.qt }}</td>
+                <td><a href=" {% url 'ajusterstock' p.produit.CodeP p.prix.id %}">ajuster</a></td>
             </tbody>
         {% endfor %}
     </table>

@@ -1,13 +1,12 @@
 import mimetypes
 from django.shortcuts import render,redirect
-from .models import Client,Facture,Produit,Stock,Prix,Avoir,Fournisseur
+from .models import *
 from .forms import *
 from . import functions
 from datetime import datetime
 from django.http.response import HttpResponse
 from django.http import HttpResponse 
 from django.db.models import F
-from django import forms
 import os
 # Create your views here.
 
@@ -175,7 +174,7 @@ def regler_factures(request):
             formR.save()
             return render(request,"reglerFactures.html",{"factures":factures,"idF":idF})
         else:
-            redirect("reglementfacture")
+            return redirect("reglementfacture")
 
 def sauv_reg(request, pk):
     if request.method == "POST":
@@ -255,3 +254,45 @@ def afficher_stock(request):
                                         "Total_achat":Total_achat,
                                         "Total_vente":Total_vente,
                                         "benefice":benefice })
+
+def ajuster_stock(request,pk,ppk):
+    if request.method == 'POST':
+        form = StockForm(request.POST)
+        
+        if form.is_valid():
+            
+            if not Prix.objects.filter(PrixUnite=form.cleaned_data['prixHT'],PrixVente=form.cleaned_data['prixVente']).exists():
+                Prix.objects.create(PrixUnite=form.cleaned_data['prixHT'],PrixVente=form.cleaned_data['prixVente'])
+                                      
+            
+            if Stock.objects.filter(produit_id = int(form.cleaned_data['codeP']),
+                                    Prix__PrixUnite = form.cleaned_data['prixHT'],
+                                    Prix__PrixVente=form.cleaned_data['prixVente']).exists():
+
+                instance = Stock.objects.get(produit_id = int(form.cleaned_data['codeP']),
+                                             Prix__PrixUnite = form.cleaned_data['prixHT'],
+                                             Prix__PrixVente=form.cleaned_data['prixVente'])
+                instance.Qtp = form.cleaned_data['Qtp'] # optimisation possible
+                instance.save()
+            else:
+                prix_id = Prix.objects.get(PrixUnite = form.cleaned_data['prixHT'],PrixVente=form.cleaned_data['prixVente']).id
+                instance = Stock.objects.create(produit_id = int(form.cleaned_data['codeP']),Prix_id=prix_id,Qtp=form.cleaned_data['Qtp'])
+
+            return redirect('stock')
+
+    stock=Stock.objects.filter(produit_id=pk,Prix_id=ppk)
+    produit = {
+        "produit":Produit.objects.get(CodeP=pk),
+        "prix":Prix.objects.get(id=ppk),
+        "qt":0
+    }
+    for s in stock:
+        if s.Prix == produit["prix"]:
+            produit["qt"] += s.Qtp
+
+    form = StockForm({"codeP":pk,
+                      "prixHT":produit["prix"].PrixUnite,
+                      "prixVente":produit["prix"].PrixVente,
+                      "Qtp":produit["qt"]})
+
+    return render(request,"ajuster_stock.html",{'produit':produit,'form':form})
