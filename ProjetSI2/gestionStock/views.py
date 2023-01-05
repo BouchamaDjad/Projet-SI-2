@@ -296,3 +296,19 @@ def ajuster_stock(request,pk,ppk):
                       "Qtp":produit["qt"]})
 
     return render(request,"ajuster_stock.html",{'produit':produit,'form':form})
+
+def entrer_en_stock(request):
+    if request.method == 'POST':
+        form = EntrerStockForm(request.POST)
+        if form.is_valid():
+            Produit.objects.create(CodeP=form.cleaned_data['CodeP'],
+                                   designation=form.cleaned_data['Designation'],
+                                   typeP = form.cleaned_data['Type'])
+            EntreeStock.objects.create(date = form.cleaned_data['Date'],
+                                       qt=form.cleaned_data['Quantité'],
+                                       produit = Produit.objects.get(CodeP=form.cleaned_data['CodeP']))
+            return redirect("entrystock")
+
+    form = EntrerStockForm()
+    entries = EntreeStock.objects.all()
+    return render(request,"entry stock.html",{"form":form,"entries":entries})

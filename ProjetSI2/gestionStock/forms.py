@@ -88,3 +88,10 @@ class StockForm(forms.Form):
     prixHT = forms.FloatField(label="PrixHT")
     prixVente =  forms.FloatField(label="PrixVente")
     Qtp = forms.IntegerField(label="Quantité")
+
+class EntrerStockForm(forms.Form):
+    CodeP = forms.IntegerField()
+    Designation  = forms.CharField()
+    Type = TypeProduitChoiceField(TypeProduit.objects.all())
+    Date = forms.DateField(initial=datetime.today())
+    Quantité = forms.IntegerField()

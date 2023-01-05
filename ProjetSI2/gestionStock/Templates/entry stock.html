@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrée en stock</title>
+</head>
+<body>
+    <h1>Les Entrée en stock</h1>
+    <table border="1">
+        <thead>
+            <th>Date</th>
+            <th>Quantité</th>
+            <th>CodeP</th>
+        </thead>
+        <tbody>
+            {% for e in entries %}
+                <td>{{ e.date }}</td>
+                <td> {{ e.qt }} </td>
+                <td> {{ e.produit_id }} </td>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">envoyer</button>
+    </form>
+</body>
+</html>
