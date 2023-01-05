@@ -90,7 +90,7 @@ class StockForm(forms.Form):
     Qtp = forms.IntegerField(label="Quantité")
 
 class EntrerStockForm(forms.Form):
-    CodeP = forms.IntegerField()
+    CodeP = forms.IntegerField(initial=Produit.objects.latest('CodeP').CodeP+1)
     Designation  = forms.CharField()
     Type = TypeProduitChoiceField(TypeProduit.objects.all())
     Date = forms.DateField(initial=datetime.today())
