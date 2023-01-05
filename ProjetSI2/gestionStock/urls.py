@@ -20,6 +20,8 @@ urlpatterns = [
     path('ReglerFactures/',views.regler_factures, name='reglerfactures'),
     path('sauv_Reg/<int:pk>',views.sauv_reg,name='sauvreg'),
 
-    path('EntréeStock/',views.entrer_en_stock,name='entrystock')
+    path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
+    path('SelectionClient/',views.selection_client,name='selectionclient'),
+    path('SaisirProduit/<int:pk>/',views.saisir_produit,name='saisirproduit'),
     
 ]

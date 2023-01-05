@@ -95,3 +95,10 @@ class EntrerStockForm(forms.Form):
     Type = TypeProduitChoiceField(TypeProduit.objects.all())
     Date = forms.DateField(initial=datetime.today())
     Quantité = forms.IntegerField()
+
+class FiltreClient(forms.Form):
+   nom = forms.CharField(required=True)
+
+
+class FiltreProduit(forms.Form):
+   nom = forms.CharField(required=True)

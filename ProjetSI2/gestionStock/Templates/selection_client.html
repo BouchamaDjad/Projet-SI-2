@@ -1,0 +1,27 @@
+<h1>Liste des Clients</h1>
+
+
+    <form method="GET">
+        {{form.as_p}}
+        <button type="submit">rechercher</button>
+    </form>
+    
+    <table border="1">
+        <thead>
+            <th>nom</th>
+            <th>prenom</th>
+            <th>adresse</th>
+            <th>phone</th>
+            <th>crédit</th>
+        </thead>
+        {% for client in clients %}
+            <tbody>
+                <td>{{ client.nom }}</td>
+                <td>{{ client.prenom }}</td>
+                <td>{{ client.adresse }}</td>
+                <td>{{ client.phone }}</td>
+                <td>{{ client.credit }}</td>
+                <td><a href=" {% url 'saisirproduit' client.id %}">choisir</a></td>
+            </tbody>
+        {% endfor %}
+</table>
