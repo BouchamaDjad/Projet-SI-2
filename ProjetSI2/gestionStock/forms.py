@@ -95,3 +95,8 @@ class EntrerStockForm(forms.Form):
     Type = TypeProduitChoiceField(TypeProduit.objects.all())
     Date = forms.DateField(initial=datetime.today())
     Quantité = forms.IntegerField()
+
+class SortieStockForm(forms.ModelForm):
+    class Meta:
+        model = SortieStock
+        fields = '__all__'

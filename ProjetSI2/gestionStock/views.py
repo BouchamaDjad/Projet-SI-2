@@ -213,19 +213,22 @@ def afficher_stock(request):
     if request.GET:
         form = FiltreForm(request.GET)
         if form.is_valid():
+            de_stocke = SortieStock.objects.all().values('produit_id') # pour ne pas afficher les produit
+            stock = Stock.objects.exclude(produit_id__in=de_stocke)    # déstocke
             if form.cleaned_data["type"]:
-                stock = Stock.objects.filter(produit__typeP__designation=form.cleaned_data["type"])
+                stock = stock.filter(produit__typeP__designation=form.cleaned_data["type"])
             if form.cleaned_data["date"]:
-                stock = Stock.objects.filter(Date=form.cleaned_data["date"])
+                stock = stock.filter(Date=form.cleaned_data["date"])
             if form.cleaned_data['quantité']:
-                stock = Stock.objects.filter(Qtp__lte=form.cleaned_data['quantité'])
+                stock = stock.filter(Qtp__lte=form.cleaned_data['quantité'])
             if form.cleaned_data['designation_produit']:
-                stock = Stock.objects.filter(produit__designation__contains=form.cleaned_data['designation_produit'])
+                stock = stock.filter(produit__designation__contains=form.cleaned_data['designation_produit'])
             
 
     if not stock:
         form = FiltreForm()
-        stock = Stock.objects.all()
+        de_stocke = SortieStock.objects.all().values('produit_id')
+        stock = Stock.objects.exclude(produit_id__in=de_stocke)
 
     produits : list[dict] = [] 
     Total_achat = 0
@@ -307,8 +310,25 @@ def entrer_en_stock(request):
             EntreeStock.objects.create(date = form.cleaned_data['Date'],
                                        qt=form.cleaned_data['Quantité'],
                                        produit = Produit.objects.get(CodeP=form.cleaned_data['CodeP']))
+            Stock.objects.create(date=form.cleaned_data['Date'],
+                                 Qtp=form.cleaned_data['Quantité'],
+                                 produit_id=form.cleaned_data['CodeP'])
             return redirect("entrystock")
 
     form = EntrerStockForm()
     entries = EntreeStock.objects.all()
     return render(request,"entry stock.html",{"form":form,"entries":entries})
+
+def sortie_stock(request):
+    if request.method == 'POST':
+        form = SortieStockForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # je ne vais pas faire 
+            # produit.objects.get(CodeP=from.cleaned_data['produit_id']).delete()
+            # car elle va supprimer le tuple qui a été créer en dessus dans sortie stock
+            return redirect('sortiestock')
+    
+    sorties = SortieStock.objects.all()
+    form = SortieStockForm()
+    return render(request,"Sortie Stock.html",{'sorties':sorties,'form':form})
