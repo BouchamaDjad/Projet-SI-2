@@ -1,0 +1,14 @@
+<form method ="POST" action = "../ReglerVentes/">
+    {% csrf_token %}
+    <label for="cl">Client : </label>
+    <input type="text" list="client_list" name ="Client" id = "cl" autocomplete="off">
+    <datalist id="client_list">
+    <select>
+        {% for option in choices %}
+        <option value="{{option.0}}">{{ option.1 }}</option>
+        {% endfor %}
+    </select>
+    </datalist>
+    {{formR.as_p}}
+<button type="submit">Valider</button>
+</form>

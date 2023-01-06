@@ -20,6 +20,10 @@ urlpatterns = [
     path('ReglerFactures/',views.regler_factures, name='reglerfactures'),
     path('sauv_Reg/<int:pk>',views.sauv_reg,name='sauvreg'),
 
+    path('ReglementVentes/',views.reglement_vente, name='reglementvente'),
+    path('ReglerVentes/',views.regler_ventes, name='reglerventes'), 
+    path('sauv_RegV/<int:pk>',views.sauv_regV,name='sauvregV'),
+
     path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
     path('SortieStock/',views.sortie_stock,name='sortiestock'),
     
@@ -29,6 +33,6 @@ urlpatterns = [
     path('SaisirProduit/<int:v>/',views.saisir_produit,name='saisirproduit'),
     path('QuantiteProduit/<int:v>/<int:s>',views.quantite_produit,name='quantiteproduit'),
     path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
-
+    
     
 ]

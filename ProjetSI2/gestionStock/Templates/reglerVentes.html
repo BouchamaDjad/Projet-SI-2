@@ -1,0 +1,25 @@
+{%if ventes%}
+<form method="POST" action ="{%url 'sauvregV' idC %}">
+    {%csrf_token%}
+<table border="1">
+        <thead>
+            <th>id</th>
+            <th>date Vente</th>
+            <th>Somme Restante</th>
+            <th>Reglement</th>
+        </thead>
+        {% for v in ventes %}
+            <tbody>
+                <td>{{ v.id }}</td>
+                <td>{{ v.Date}}</td>
+                <td>{{ v.restant }}</td>
+                <td><input type="number" name="valeur[]" max= {{v.restant}} min=0 value=0 step ="0.01"></td>
+            </tbody>
+        {% endfor %}
+    </table>
+<button type= "submit">submit </button>
+</form>
+{%else %}
+<h3>le client n'a aucun credit</h3>
+<a href="{%url "reglementvente"%}">retour</a>
+{%endif%}

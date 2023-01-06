@@ -69,9 +69,9 @@ class Composer(models.Model):
         return f'{self.produit.designation} {self.prix.PrixVente} {self.QtV}'
 
 class ReglementVente(models.Model):
-    date = models.DateField(auto_now=True)
-    sommeAjoute = models.FloatField()
-    vente = models.ForeignKey(Vente,on_delete=models.CASCADE)
+    date = models.DateField(editable=True)
+    sommeAjoute = models.FloatField(default=0)
+    vente = models.ForeignKey(Vente,on_delete=models.CASCADE,null=True)
     def __str__(self):
         return f'{self.vente} -  {self.sommeAjoute} -  {self.date}'
 

@@ -163,6 +163,17 @@ def reglement_facture(request):
     }
     return render(request,'reglementfacture.html',context)
 
+
+def reglement_vente(request):
+    formC = SelectionClient()
+    formR = reglementVente()
+    context = {
+        "formC":formC,
+        "formR" : formR,
+        "choices" : formC.fields['Client'].choices,
+    }
+    return render(request,'reglementVente.html',context)
+
 def regler_factures(request):
     if request.method == 'POST':
         formF = SelectionFournisseur(request.POST)
@@ -175,6 +186,19 @@ def regler_factures(request):
             return render(request,"reglerFactures.html",{"factures":factures,"idF":idF})
         else:
             return redirect("reglementfacture")
+
+def regler_ventes(request):
+    if request.method == 'POST':
+        formC = SelectionClient(request.POST)
+        formR = reglementVente(request.POST)
+        if formC.is_valid() and formR.is_valid():
+            idC = formC.cleaned_data["Client"]
+            client = Client.objects.get(id = idC)
+            ventes = client.vente_set.filter(restant__gt = 0).order_by("id")
+            formR.save()
+            return render(request,"reglerVentes.html",{"ventes":ventes,"idC":idC})
+        else:
+            return redirect("reglementvente")
 
 def sauv_reg(request, pk):
     if request.method == "POST":
@@ -198,12 +222,43 @@ def sauv_reg(request, pk):
                 else :
                     ReglementFacture.objects.create(date = date,sommeAjoute = v, facture_id = n)
                 Facture.objects.filter(numero = n).update(sommeRestante = F('sommeRestante') - v)
+                fournisseur.solde -= float(v)
+                fournisseur.save()
         
         if(not filled):
             instance.delete()
         
-        return redirect("clients")
+        return redirect("client")
+
+def sauv_regV(request,pk):
+    if request.method == "POST":
+        client = Client.objects.get(id = pk)
+        ventes = client.vente_set.filter(restant__gt = 0).order_by("id")
+        valeurs = request.POST.getlist('valeur[]')
+        instance = ReglementVente.objects.latest('id')
+        filled = False
+        date = instance.date
+        ids = []
+        for v in ventes:
+            ids.append(v.id)
         
+        for (v,n) in zip(valeurs,ids):
+            if(float(v) != 0):
+                if(not filled):
+                    instance.vente_id = n
+                    instance.sommeAjoute = v
+                    instance.save()
+                    filled = True
+                else :
+                    ReglementVente.objects.create(date = date,sommeAjoute = v, vente_id = n)
+                Vente.objects.filter(id = n).update(restant = F('restant') - v)
+                client.credit -= float(v)
+                client.save()
+        
+        if(not filled):
+            instance.delete()
+        
+        return redirect("reglementvente")
   
 def afficher_stock(request):
     stock = None
@@ -398,7 +453,7 @@ def payement_vente(request,v):
     vente = Vente.objects.get(id = v)
     total = 0
     for p in vente.composer_set.all():
-        total += p.prix.PrixVente
+        total += p.prix.PrixVente * p.QtV
 
     if total == 0:
        vente.delete()
