@@ -332,3 +332,39 @@ def sortie_stock(request):
     sorties = SortieStock.objects.all()
     form = SortieStockForm()
     return render(request,"Sortie Stock.html",{'sorties':sorties,'form':form})
+
+def selection_client(request):
+    clients = Client.objects.all()
+    
+    if request.GET:
+        form = FiltreClient(request.GET)
+        if form.is_valid():
+            clients = Client.objects.filter(nom__contains = form.cleaned_data['nom'])
+
+    else :
+        form = FiltreClient()
+    
+    context = {
+        "form": form,
+        "clients": clients
+    }
+
+    return render(request,"selection_client.html",context)
+
+def saisir_produit(request,pk):
+    cl = Client.objects.get(id = pk)
+    produits = Stock.objects.filter(Qtp__gt = 0)
+    if request.GET:
+        form = FiltreProduit(request.GET)
+        if form.is_valid():
+            produits = produits.filter(produit__designation__contains = form.cleaned_data['nom'])
+
+    else :
+        form = FiltreProduit()
+
+    context = {
+        "form" : form,
+        "produits" : produits,
+    }
+
+    return render(request,"produitVente.html",context)

@@ -1,0 +1,22 @@
+
+ <form method="GET">
+        {{form.as_p}}
+        <button type="submit">rechercher</button>
+    </form>
+
+<table border="1">
+        <thead>
+            <th>Designation</th>
+            <th>PrixUnite</th>
+            <th>PrixVente</th>
+            <th>Quantité</th>
+        </thead>
+        {% for p in produits %}
+            <tbody>
+                <td>{{ p.produit.designation }}</td>
+                <td>{{ p.Prix.PrixUnite }}</td>
+                <td>{{ p.Prix.PrixVente }}</td>
+                <td>{{ p.Qtp }}</td>
+            </tbody>
+        {% endfor %}
+    </table>
