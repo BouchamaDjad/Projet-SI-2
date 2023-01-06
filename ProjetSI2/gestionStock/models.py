@@ -55,7 +55,7 @@ class Client(models.Model):
 class Vente(models.Model):
     Date = models.DateField(auto_now=True)
     client = models.ForeignKey(Client,null=True,on_delete=models.SET_NULL)
-    restant = models.FloatField()
+    restant = models.FloatField(default=0,blank=True)
     def __str__(self):
         return f'{self.id} {self.Date}'
    

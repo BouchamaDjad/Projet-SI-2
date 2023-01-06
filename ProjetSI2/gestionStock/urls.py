@@ -22,6 +22,11 @@ urlpatterns = [
 
     path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
     path('SelectionClient/',views.selection_client,name='selectionclient'),
-    path('SaisirProduit/<int:pk>/',views.saisir_produit,name='saisirproduit'),
+    path('CreeClientVente/',views.cree_clientV,name='creeclientV'),
+    path('CreationVente/<int:pk>/',views.creation_vente,name="creationvente"),
+    path('SaisirProduit/<int:v>/',views.saisir_produit,name='saisirproduit'),
+    path('QuantiteProduit/<int:v>/<int:s>',views.quantite_produit,name='quantiteproduit'),
+    path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
+
     
 ]

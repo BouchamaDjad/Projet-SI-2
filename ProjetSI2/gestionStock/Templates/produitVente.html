@@ -17,6 +17,9 @@
                 <td>{{ p.Prix.PrixUnite }}</td>
                 <td>{{ p.Prix.PrixVente }}</td>
                 <td>{{ p.Qtp }}</td>
+               <td><a href=" {% url 'quantiteproduit' idV p.id %}">choisir</a></td>
             </tbody>
         {% endfor %}
-    </table>
+</table>
+
+<a href="{% url "payementvente" idV %}"> finaliser </a>

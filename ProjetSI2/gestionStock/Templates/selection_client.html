@@ -5,6 +5,8 @@
         {{form.as_p}}
         <button type="submit">rechercher</button>
     </form>
+
+    <a href="{%url "creeclientV" %}">Cree un client</a>
     
     <table border="1">
         <thead>
@@ -21,7 +23,9 @@
                 <td>{{ client.adresse }}</td>
                 <td>{{ client.phone }}</td>
                 <td>{{ client.credit }}</td>
-                <td><a href=" {% url 'saisirproduit' client.id %}">choisir</a></td>
+                <td><a href=" {% url 'creationvente' client.id %}">choisir</a></td>
             </tbody>
         {% endfor %}
 </table>
+
+

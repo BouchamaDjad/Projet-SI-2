@@ -102,3 +102,8 @@ class FiltreClient(forms.Form):
 
 class FiltreProduit(forms.Form):
    nom = forms.CharField(required=True)
+
+class FormClient(forms.ModelForm):
+    class Meta : 
+        model = Client
+        exclude = ['credit']
