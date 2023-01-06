@@ -22,7 +22,7 @@ class Produit(models.Model):
         return (self.designation)
 
 class Stock(models.Model):
-    Prix = models.ForeignKey(Prix,on_delete=models.CASCADE,related_name="StocksPrix")
+    Prix = models.ForeignKey(Prix,on_delete=models.CASCADE,null=True,related_name="StocksPrix")
     produit = models.ForeignKey(Produit,on_delete=models.CASCADE,related_name="StockProduits")
     Date = models.DateField(auto_now=True)
     Qtp = models.IntegerField()

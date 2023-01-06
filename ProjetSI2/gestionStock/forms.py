@@ -96,9 +96,13 @@ class EntrerStockForm(forms.Form):
     Date = forms.DateField(initial=datetime.today())
     Quantité = forms.IntegerField()
 
+class SortieStockForm(forms.ModelForm):
+    class Meta:
+        model = SortieStock
+        fields = '__all__'
+
 class FiltreClient(forms.Form):
    nom = forms.CharField(required=True)
-
 
 class FiltreProduit(forms.Form):
    nom = forms.CharField(required=True)

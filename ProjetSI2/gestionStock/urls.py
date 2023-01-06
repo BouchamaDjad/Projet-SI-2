@@ -21,6 +21,8 @@ urlpatterns = [
     path('sauv_Reg/<int:pk>',views.sauv_reg,name='sauvreg'),
 
     path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
+    path('SortieStock/',views.sortie_stock,name='sortiestock'),
+    
     path('SelectionClient/',views.selection_client,name='selectionclient'),
     path('CreeClientVente/',views.cree_clientV,name='creeclientV'),
     path('CreationVente/<int:pk>/',views.creation_vente,name="creationvente"),
