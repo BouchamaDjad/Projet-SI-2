@@ -106,3 +106,23 @@ class FiltreClient(forms.Form):
 
 class FiltreProduit(forms.Form):
    nom = forms.CharField(required=True)
+
+class FormClient(forms.ModelForm):
+    class Meta : 
+        model = Client
+        exclude = ['credit']
+
+class reglementVente(forms.ModelForm):
+    class Meta:
+        model = ReglementVente
+        fields = ['date']
+        widgets = {
+            'date':forms.DateInput( attrs= {'type':'date'})
+        }
+
+class SelectionClient(forms.Form):
+    choices = []
+    clients = Client.objects.all()
+    for f in clients :
+        choices.append((f.id,f'{f.nom} {f.prenom}'))
+    Client = forms.ChoiceField(choices = tuple(choices))

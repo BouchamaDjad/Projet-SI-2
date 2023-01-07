@@ -1,4 +1,4 @@
-
+{%if factures%}
 <form method="POST" action ="{%url 'sauvreg' idF %}">
     {%csrf_token%}
 <table border="1">
@@ -19,3 +19,7 @@
     </table>
 <button type= "submit">submit </button>
 </form>
+{%else%}
+<h3>le fournisseur n'a aucun solde</h3>
+<a href="{%url "reglementfacture"%}">retour</a>
+{%endif%}

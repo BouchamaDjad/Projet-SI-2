@@ -1,0 +1,12 @@
+
+<div>produit : {{ p.produit.designation }}</div>
+<div>prixUnite : {{ p.Prix.PrixUnite }}</div>
+<div>prixVente : {{ p.Prix.PrixVente }}</div>
+<div>Quantite en stock {{ p.Qtp }}</div>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for = 'qt'>Quantite achete : </label>
+    <input type = "number" max = {{p.Qtp}} name = "qt"> 
+    <button type = "submit">Valider </button>
+</form>

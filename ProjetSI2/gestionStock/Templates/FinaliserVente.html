@@ -1,0 +1,27 @@
+
+
+<table border="1">
+        <thead>
+            <th>produit</th>
+            <th>Prix Vente</th>
+            <th>Quantite</th>
+        </thead>
+        {% for c in vente.composer_set.all %}
+            <tbody>
+                <td>{{ c.produit.designation }}</td>
+                <td>{{ c.prix.PrixVente}}</td>
+                <td>{{ c.QtV}}</td>
+            </tbody>
+        {% endfor %}
+</table>
+
+<h4> total a payer : {{total}} </h4>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for ="status"> Vente Payer completement : </label>
+    <input type = "checkbox" name = "status" id ="status">
+    <label  for ="montant"> Montant attribue : </label> 
+    <input type="number" max = {{total}} name = "montant" step = "0.01" id="montant">
+    <button type="submit">Valider</button>
+</form>

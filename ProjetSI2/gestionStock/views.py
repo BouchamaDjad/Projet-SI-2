@@ -163,6 +163,17 @@ def reglement_facture(request):
     }
     return render(request,'reglementfacture.html',context)
 
+
+def reglement_vente(request):
+    formC = SelectionClient()
+    formR = reglementVente()
+    context = {
+        "formC":formC,
+        "formR" : formR,
+        "choices" : formC.fields['Client'].choices,
+    }
+    return render(request,'reglementVente.html',context)
+
 def regler_factures(request):
     if request.method == 'POST':
         formF = SelectionFournisseur(request.POST)
@@ -175,6 +186,19 @@ def regler_factures(request):
             return render(request,"reglerFactures.html",{"factures":factures,"idF":idF})
         else:
             return redirect("reglementfacture")
+
+def regler_ventes(request):
+    if request.method == 'POST':
+        formC = SelectionClient(request.POST)
+        formR = reglementVente(request.POST)
+        if formC.is_valid() and formR.is_valid():
+            idC = formC.cleaned_data["Client"]
+            client = Client.objects.get(id = idC)
+            ventes = client.vente_set.filter(restant__gt = 0).order_by("id")
+            formR.save()
+            return render(request,"reglerVentes.html",{"ventes":ventes,"idC":idC})
+        else:
+            return redirect("reglementvente")
 
 def sauv_reg(request, pk):
     if request.method == "POST":
@@ -191,20 +215,50 @@ def sauv_reg(request, pk):
         for (v,n) in zip(valeurs,ids):
             if(float(v) != 0):
                 if(not filled):
-                    print(v,n)
                     instance.facture_id = n
                     instance.sommeAjoute = v
                     instance.save()
                     filled = True
                 else :
-                    print(v,n)
                     ReglementFacture.objects.create(date = date,sommeAjoute = v, facture_id = n)
                 Facture.objects.filter(numero = n).update(sommeRestante = F('sommeRestante') - v)
+                fournisseur.solde -= float(v)
+                fournisseur.save()
         
         if(not filled):
             instance.delete()
         
         return redirect("clients")
+
+def sauv_regV(request,pk):
+    if request.method == "POST":
+        client = Client.objects.get(id = pk)
+        ventes = client.vente_set.filter(restant__gt = 0).order_by("id")
+        valeurs = request.POST.getlist('valeur[]')
+        instance = ReglementVente.objects.latest('id')
+        filled = False
+        date = instance.date
+        ids = []
+        for v in ventes:
+            ids.append(v.id)
+        
+        for (v,n) in zip(valeurs,ids):
+            if(float(v) != 0):
+                if(not filled):
+                    instance.vente_id = n
+                    instance.sommeAjoute = v
+                    instance.save()
+                    filled = True
+                else :
+                    ReglementVente.objects.create(date = date,sommeAjoute = v, vente_id = n)
+                Vente.objects.filter(id = n).update(restant = F('restant') - v)
+                client.credit -= float(v)
+                client.save()
+        
+        if(not filled):
+            instance.delete()
+        
+        return redirect("reglementvente")
   
 def afficher_stock(request):
     stock = Stock.objects.exclude(id__in=SortieStock.objects.all().values('stock_id'))           
@@ -359,8 +413,24 @@ def selection_client(request):
 
     return render(request,"selection_client.html",context)
 
-def saisir_produit(request,pk):
-    cl = Client.objects.get(id = pk)
+def cree_clientV(request):
+    if request.method == "POST":
+        form = FormClient(request.POST)
+        if form.is_valid:
+            l = form.save()
+            return redirect("creationvente",pk = l.id)
+    
+    form = FormClient()
+    return render(request,"CreeClientVente.html",{"form":form})
+
+
+def creation_vente(request,pk):
+    v = Vente.objects.create(client_id = pk)
+    return redirect("saisirproduit",v = v.id)
+
+
+
+def saisir_produit(request,v):
     produits = Stock.objects.filter(Qtp__gt = 0)
     if request.GET:
         form = FiltreProduit(request.GET)
@@ -373,7 +443,44 @@ def saisir_produit(request,pk):
     context = {
         "form" : form,
         "produits" : produits,
+        "idV" : v,
     }
 
     return render(request,"produitVente.html",context)
     
+
+def quantite_produit(request,v,s):
+    p = Stock.objects.get(id = s)
+    if request.method == 'POST':
+        qt = request.POST["qt"]
+        Composer.objects.create(produit_id = p.produit.CodeP, prix_id = p.Prix.id, vente_id = v,QtV = qt)
+        p.Qtp -= int(qt)
+        p.save()
+        return redirect("saisirproduit", v=v) 
+    return render(request,"quantiteVente.html",{"p":p})
+
+def payement_vente(request,v):
+    vente = Vente.objects.get(id = v)
+    total = 0
+    for p in vente.composer_set.all():
+        total += p.prix.PrixVente * p.QtV
+
+    if total == 0:
+       vente.delete()
+       return redirect("selectionclient")
+    
+    print(request.POST)
+    if request.method =="POST":
+        if "status" not in request.POST:
+            m = request.POST["montant"]
+            cl = vente.client
+            cl.credit += total - float(m)
+            vente.restant = total - float(m)
+            cl.save()
+            vente.save()
+        
+        return redirect("selectionclient")
+
+
+  
+    return render(request,"FinaliserVente.html",{"vente":vente,"total": total})
