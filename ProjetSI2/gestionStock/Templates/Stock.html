@@ -29,7 +29,7 @@
                 <td>{{ p.prix.PrixVente }}</td>
                 <td>{{ p.qt }}</td>
                 <td><a href=" {% url 'ajusterstock' p.produit.CodeP p.prix.id %}">ajuster</a>
-                <a href="{% url 'déstocker' p.s %}">déstocker</a></td>
+                <a href="{% url 'déstocker' p.s %}" {%if p.qt <= 0%} style = "pointer-events : none; color:gray;" {%endif%}>déstocker</a></td>
             </tbody>
         {% endfor %}
     </table>

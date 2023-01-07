@@ -100,6 +100,7 @@ class SortieStockForm(forms.ModelForm):
     class Meta:
         model = SortieStock
         fields = '__all__'
+        widgets = {'stock': forms.HiddenInput()}
 
 class FiltreClient(forms.Form):
    nom = forms.CharField(required=True)

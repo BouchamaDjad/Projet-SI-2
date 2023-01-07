@@ -261,7 +261,7 @@ def sauv_regV(request,pk):
         return redirect("reglementvente")
   
 def afficher_stock(request):
-    stock = Stock.objects.exclude(id__in=SortieStock.objects.all().values('stock_id'))           
+    stock = Stock.objects.all()       
 
     if request.GET:
         form = FiltreForm(request.GET)
