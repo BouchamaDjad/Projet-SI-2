@@ -28,7 +28,8 @@
                 <td>{{ p.prix.PrixUnite }}</td>
                 <td>{{ p.prix.PrixVente }}</td>
                 <td>{{ p.qt }}</td>
-                <td><a href=" {% url 'ajusterstock' p.produit.CodeP p.prix.id %}">ajuster</a></td>
+                <td><a href=" {% url 'ajusterstock' p.produit.CodeP p.prix.id %}">ajuster</a>
+                <a href="{% url 'déstocker' p.s %}">déstocker</a></td>
             </tbody>
         {% endfor %}
     </table>

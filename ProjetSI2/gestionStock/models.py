@@ -41,7 +41,8 @@ class EntreeStock(models.Model):
 class SortieStock(models.Model):
     date = models.DateField(auto_now=True)
     motif = models.CharField(max_length=30)
-    produit = models.ForeignKey(Produit,on_delete=models.SET_NULL,null=True)
+    qt = models.IntegerField(verbose_name="quantité déstocké",default=0)
+    stock = models.ForeignKey(Stock,on_delete=models.CASCADE,null=True) 
 
 class Client(models.Model):
     nom = models.CharField(max_length=50)
@@ -104,7 +105,3 @@ class ReglementFacture(models.Model):
     date = models.DateField(editable=True)
     sommeAjoute = models.FloatField(default=0)
     facture = models.ForeignKey(Facture,on_delete=models.SET_NULL,null=True)
-
-
-
-

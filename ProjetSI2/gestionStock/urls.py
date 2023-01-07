@@ -22,7 +22,8 @@ urlpatterns = [
 
     path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
     path('SortieStock/',views.sortie_stock,name='sortiestock'),
-    
+    path('Déstocker/<int:pk>',views.déstocker,name='déstocker'),
+
     path('SelectionClient/',views.selection_client,name='selectionclient'),
     path('SaisirProduit/<int:pk>/',views.saisir_produit,name='saisirproduit'),
     

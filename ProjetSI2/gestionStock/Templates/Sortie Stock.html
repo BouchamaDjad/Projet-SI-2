@@ -12,13 +12,21 @@
         <thead>
             <th>Date</th>
             <th>Motif</th>
+            <th>Quantité Déstocké</th>
             <th>CodeP</th>
+            <th>Prix Unité</th>
+            <th>Prix Vente</th>
         </thead>
         <tbody>
             {% for s in sorties %}
+            <tr>
                 <td>{{ s.date }}</td>
                 <td>{{ s.motif }}</td>
-                <td>{{ s.produit_id }}</td>
+                <td>{{ s.qt }}</td>
+                <td>{{ s.stock.produit_id }}</td>
+                <td>{{ s.stock.Prix.PrixUnite }}</td>
+                <td>{{ s.stock.Prix.PrixVente }}</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>

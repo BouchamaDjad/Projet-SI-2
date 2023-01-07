@@ -205,16 +205,13 @@ def sauv_reg(request, pk):
             instance.delete()
         
         return redirect("clients")
-        
   
 def afficher_stock(request):
-    stock = None
+    stock = Stock.objects.exclude(id__in=SortieStock.objects.all().values('stock_id'))           
 
     if request.GET:
         form = FiltreForm(request.GET)
         if form.is_valid():
-            de_stocke = SortieStock.objects.all().values('produit_id') # pour ne pas afficher les produit
-            stock = Stock.objects.exclude(produit_id__in=de_stocke)    # déstocke
             if form.cleaned_data["type"]:
                 stock = stock.filter(produit__typeP__designation=form.cleaned_data["type"])
             if form.cleaned_data["date"]:
@@ -223,12 +220,8 @@ def afficher_stock(request):
                 stock = stock.filter(Qtp__lte=form.cleaned_data['quantité'])
             if form.cleaned_data['designation_produit']:
                 stock = stock.filter(produit__designation__contains=form.cleaned_data['designation_produit'])
-            
-
-    if not stock:
+    else:
         form = FiltreForm()
-        de_stocke = SortieStock.objects.all().values('produit_id')
-        stock = Stock.objects.exclude(produit_id__in=de_stocke)
 
     produits : list[dict] = [] 
     Total_achat = 0
@@ -248,7 +241,8 @@ def afficher_stock(request):
         if not trv:
             produits.append({"produit":Produit.objects.get(CodeP = s.produit_id),
                              "prix":Prix.objects.get(id = s.Prix_id),
-                             "qt":s.Qtp})
+                             "qt":s.Qtp,
+                             "s":s.id})
 
     benefice = Total_vente - Total_achat
 
@@ -319,14 +313,28 @@ def entrer_en_stock(request):
     entries = EntreeStock.objects.all()
     return render(request,"entry stock.html",{"form":form,"entries":entries})
 
+def déstocker(request,pk):
+    if request.method == 'POST':
+        form = SortieStockForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            instance = Stock.objects.get(id=form.cleaned_data['stock'].id)
+            instance.Qtp -= form.cleaned_data['qt']
+            instance.save()
+            return redirect('stock')
+    
+    form = SortieStockForm(initial={'stock':pk})
+    return render(request,"DéStocker.html",{'form':form})
+
 def sortie_stock(request):
     if request.method == 'POST':
         form = SortieStockForm(request.POST)
         if form.is_valid():
             form.save()
-            # je ne vais pas faire 
-            # produit.objects.get(CodeP=from.cleaned_data['produit_id']).delete()
-            # car elle va supprimer le tuple qui a été créer en dessus dans sortie stock
+            instance = Stock.objects.get(id=form.cleaned_data['stock']) #
+            instance.Qtp -= form.cleaned_data['qt'] #
+            instance.save()
             return redirect('sortiestock')
     
     sorties = SortieStock.objects.all()
@@ -368,3 +376,4 @@ def saisir_produit(request,pk):
     }
 
     return render(request,"produitVente.html",context)
+    
