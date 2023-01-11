@@ -1,43 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+{%load static%}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock</title>
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <title>Clients</title>
 </head>
-<body>
-    <h1>Stock : </h1>
-    <form action="" method="get">
-        {{ form }}
-        <input type="submit" value="effectuer">
-    </form>
-    <table border="1">
-        <thead>
-            <th>CodeP</th>
-            <th>Designation</th>
-            <th>PrixUnite</th>
-            <th>PrixVente</th>
-            <th>Quantité</th>
-            <th></th>
-        </thead>
-        {% for p in produits %}
-            <tbody>
+<body class= "bg-primary bg-gradient">
+  <div class="container py-5">
+  <header class="text-center text-white">
+    <h1 class="display-4">Stock</h1>
+  </header>
+  <div class="row py-5">
+    <div class="col-lg-10 mx-auto">
+      <div class="card rounded shadow border-0">
+        <div class="card-body p-5 bg-white rounded">
+          <div class="table-responsive">
+            <table id="example" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                    <th>CodeP</th>
+                    <th>Designation</th>
+                    <th>PrixUnite</th>
+                    <th>PrixVente</th>
+                    <th>Quantité</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in produits %}
+                <tr>
                 <td>{{ p.produit.CodeP }}</td>
                 <td>{{ p.produit.designation }}</td>
                 <td>{{ p.prix.PrixUnite }}</td>
                 <td>{{ p.prix.PrixVente }}</td>
                 <td>{{ p.qt }}</td>
-                <td><a href=" {% url 'ajusterstock' p.produit.CodeP p.prix.id %}">ajuster</a>
-                <a href="{% url 'déstocker' p.s %}" {%if p.qt <= 0%} style = "pointer-events : none; color:gray;" {%endif%}>déstocker</a></td>
-            </tbody>
-        {% endfor %}
-    </table>
-    <span><strong>Total achat : </strong> {{ Total_achat }} 
-          <strong>Total vente : </strong> {{ Total_vente }}</span> <br>
-    <span><strong>benefice : </strong>{{ benefice }} </span>
+                <td><a href=" {% url 'ajusterstock' p.produit.CodeP p.prix.id %}">ajuster</a></td>
+                <td><a href="{% url 'déstocker' p.s %}" {%if p.qt <= 0%} style = "pointer-events : none; color:gray;" {%endif%}>déstocker</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script type="text/javascript" src="{%static 'script.js' %}"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
 </html>
-<!--
-    filtre possibles:
--->
