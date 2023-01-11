@@ -4,3 +4,11 @@ body {
 .date {
     width : fit-content;
 }
+
+.body-bg {
+    background-color: rgb(179, 0, 255);
+}
+
+.link {
+    margin-top : 15px;
+}
