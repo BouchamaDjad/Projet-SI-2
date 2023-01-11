@@ -2,6 +2,9 @@ myenv
 
 *.pdf
 
+css
+js
+
 ## l9it un gitignore pret mn internet copiyetou
 
 # Django #

@@ -26,8 +26,9 @@ class FactureForm(forms.ModelForm):
         model = Facture
         fields = ('numero','date','fournisseur')
         widgets = {
-            'date':forms.DateInput( attrs= {'type':'date'})
-            
+            'date':forms.DateInput( attrs= {'type':'date','class':"form-control date"}),
+            'numero':forms.NumberInput( attrs= {'class':"form-control"}),
+            'fournisseur':forms.Select( attrs= {'class':"form-control"}),
         }
 
 class produitFacture(forms.Form):
