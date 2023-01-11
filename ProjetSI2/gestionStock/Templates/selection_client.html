@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
     <title>Clients</title>
 </head>
-<body class ="body-bg">
+<body class ="green">
   <div class="container py-5">
   <header class="text-center text-white">
-    <h1 class="display-4">Liste des clients </h1>
+    <h1 class="display-4">Selectionner un client : </h1>
   </header>
   
   <div class="row py-5">
@@ -49,7 +49,10 @@
           </div>
         </div>
       </div>
-      <a href="{%url "creeclientV" %}" class="btn btn-primary link">Cree un client</a>
+      <div class="d-flex align-items-center text-white gap-3 mt-2">
+      <span>si le client n'existe pas :</span> 
+      <a href="{%url "creeclientV" %}" class="btn btn-secondary btn-sm">Cree un client</a>
+      </div>
     </div>
   </div>
 </div>

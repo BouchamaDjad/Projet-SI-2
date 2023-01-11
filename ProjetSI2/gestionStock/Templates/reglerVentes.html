@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
     <title>Clients</title>
 </head>
-<body class= "bg-primary bg-gradient">
+<body class= "green">
   {%if ventes%}
   <div class="container py-5">
   <header class="text-center text-white">
-    <h1 class="display-4">Liste des Ventes non Regler</h1>
+    <h1 class="display-4">Liste des achats impaye</h1>
   </header>
   <form method="POST" action ="{%url 'sauvregV' idC %}">
                 {%csrf_token%}
@@ -53,8 +53,10 @@
   </div>
 </div>
 {%else%}
-<h3>le client n'a aucun credit</h3>
-<a href="{%url "reglementvente"%}">retour</a>
+<div class="d-flex flex-column align-items-center justify-content-center gap-5 text-white h-100">
+    <h3>le client n'a aucun credit</h3>
+    <a href="{%url "reglementvente"%}" class="btn btn-danger">retour</a>
+</div>
 {%endif%}
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>

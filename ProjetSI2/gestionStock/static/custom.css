@@ -1,5 +1,6 @@
-body {
-    min-height: 100vh;
+html,body {
+    height: 100%;
+    margin : 0;
 }
 .date {
     width : fit-content;
@@ -9,6 +10,7 @@ body {
     background-color: rgb(71, 103, 99);
 }
 
-.link {
-    margin-top : 15px;
+
+.max_content {
+    width: max-content;
 }

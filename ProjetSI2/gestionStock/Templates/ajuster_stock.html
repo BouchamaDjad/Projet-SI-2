@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+{%load static%}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
     <title>Ajuster Stock</title>
 </head>
-<body>
-    <h1>Ajuster Stock</h1>
-    <table border="1">
-        <thead>
-            <th>CodeP</th>
-            <th>Designation</th>
-            <th>PrixUnite</th>
-            <th>PrixVente</th>
-            <th>Quantité</th>
-        </thead>
-            <tbody>
-                <td>{{ produit.produit.CodeP }}</td>
-                <td>{{ produit.produit.designation }}</td>
-                <td>{{ produit.prix.PrixUnite }}</td>
-                <td>{{ produit.prix.PrixVente }}</td>
-                <td>{{ produit.qt }}</td>
-            </tbody>
-    </table>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">envoyer</button>
+<body class>
+    <center class="h1 p-4">Ajuster Stock</center>
+<div class="w-75 mx-auto">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered shadow-sm">
+            <thead>
+                <th>CodeP</th>
+                <th>Designation</th>
+                <th>PrixUnite</th>
+                <th>PrixVente</th>
+                <th>Quantité</th>
+            </thead>
+                <tbody>
+                     <td>{{ produit.produit.CodeP }}</td>
+                     <td>{{ produit.produit.designation }}</td>
+                     <td>{{ produit.prix.PrixUnite }}</td>
+                     <td>{{ produit.prix.PrixVente }}</td>
+                     <td>{{ produit.qt }}</td>
+                </tbody>
+        </table>
+    </div>
+</div>
+    <form action="" method="post" class="d-flex flex-column text-black flex-wrap align-items-start gap-4 mx-auto mt-4 max_content">
+       {%for field in form%}
+        <div class="form-group">
+          <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+          {{field}}
+        </div>
+       {%endfor%}
+       <button type="submit" class="btn btn-primary d-inline">Valider</button>
     </form>
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script type="text/javascript" src="{%static 'script.js' %}"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </html>

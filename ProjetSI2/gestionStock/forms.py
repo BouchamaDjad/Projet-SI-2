@@ -61,7 +61,7 @@ class reglementFacture(forms.ModelForm):
         model = ReglementFacture
         fields = ['date']
         widgets = {
-            'date':forms.DateInput( attrs= {'type':'date'})
+            'date':forms.DateInput( attrs= {'type':'date','style':'display:block'})
         }
     
 class SelectionFournisseur(forms.Form):
@@ -84,11 +84,10 @@ class FiltreForm(forms.Form):
 
 class StockForm(forms.Form):
     choice = [(p.CodeP,p.designation) for p in Produit.objects.all()]
-
-    codeP = forms.ChoiceField(choices=choice,label="CodeP")
-    prixHT = forms.FloatField(label="PrixHT")
-    prixVente =  forms.FloatField(label="PrixVente")
-    Qtp = forms.IntegerField(label="Quantité")
+    codeP = forms.ChoiceField(choices=choice,label="CodeP", widget=forms.Select(attrs={"class":"form-control"}))
+    prixHT = forms.FloatField(label="PrixHT",widget=forms.NumberInput(attrs={"class":"form-control"}))
+    prixVente =  forms.FloatField(label="PrixVente",widget=forms.NumberInput(attrs={"class":"form-control"}))
+    Qtp = forms.IntegerField(label="Quantité",widget=forms.NumberInput(attrs={"class":"form-control"}))
 
 class EntrerStockForm(forms.Form):
     CodeP = forms.IntegerField(initial=Produit.objects.latest('CodeP').CodeP+1)
@@ -119,7 +118,7 @@ class reglementVente(forms.ModelForm):
         model = ReglementVente
         fields = ['date']
         widgets = {
-            'date':forms.DateInput( attrs= {'type':'date'})
+            'date':forms.DateInput( attrs= {'type':'date','style':'display:block'})
         }
 
 class SelectionClient(forms.Form):

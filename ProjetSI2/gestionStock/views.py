@@ -157,14 +157,12 @@ def download_file(request, filename):
 
 
 def reglement_facture(request):
-    msg = "entrez"
     formF = SelectionFournisseur()
     formR = reglementFacture()
     context = {
         "formF":formF,
         "formR" : formR,
-        "choices" : formF.fields['Fournisseur'].choices,
-        "msg" : msg,
+        "choices" : formF.fields['Fournisseur'].choices
     }
     return render(request,'reglementfacture.html',context)
 
