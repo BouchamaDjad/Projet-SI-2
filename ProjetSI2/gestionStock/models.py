@@ -92,8 +92,7 @@ class Facture(models.Model):
     remise = models.FloatField(default=0)
     sommeRestante = models.FloatField(default=0)
     fournisseur = models.ForeignKey(Fournisseur,on_delete=models.SET_NULL,null=True)
-    def __str__(self):
-        return f'{self.date} {self.fournisseur.nom}'
+
 
 class Avoir(models.Model):
     qta = models.IntegerField()

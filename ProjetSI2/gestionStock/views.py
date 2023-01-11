@@ -19,12 +19,12 @@ def saisie_facture(request):
         form = FactureForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("produitsfacture")
+            return redirect("produitsfacture",pk = form.cleaned_data["numero"])
     form = FactureForm()
     return render(request,"saisie_facture.html",{'form':form})
 
-def produits_facture(request):
-    idF = Facture.objects.latest('numero').numero
+def produits_facture(request,pk):
+    idF = pk
     if request.method == 'POST':
         form_produit = produitFacture(request.POST)
         form_prix = prixFacture(request.POST)
@@ -66,6 +66,37 @@ def updateStock(idP,idPrix,qta):
         instance.save()
     else :
         Stock.objects.create(Qtp = qta,produit_id = idP,Prix_id = idPrix)
+
+
+def afficher_facture(request, pk):
+    facture = Facture.objects.get(numero = pk)
+    HT = 0
+    if request.method == 'POST' :
+        form = OptionFacture(request.POST)
+        if form.is_valid():
+           r = form.cleaned_data["remise"]
+           if not form.cleaned_data["payer"]:
+              for p in facture.avoir_set.all():
+                  HT += p.prix.PrixUnite * p.qta
+                  TTC = HT + HT * 0.19 
+              if r != 0:
+                  TTC = HT - HT * r/100
+              facture.fournisseur.solde += TTC
+              facture.sommeRestante = TTC
+              facture.fournisseur.save()
+           facture.remise = r
+           facture.save()
+           return redirect('saisiefacture')
+    
+    for p in facture.avoir_set.all():
+        HT += p.prix.PrixUnite * p.qta
+    if HT == 0 : 
+        facture.delete()
+        return redirect("fournisseurs")
+    TTC = HT + HT * 0.19
+    form = OptionFacture()
+    return render(request,"Facture.html",{"facture": facture,"TTC":TTC,"form":form})
+
 
 def afficher_fournisseur(request):
     fournisseurs = Fournisseur.objects.all()
@@ -123,32 +154,6 @@ def download_file(request, filename):
     response['Content-Disposition'] = "attachment; filename=%s" % filepath.split("/")[-1]
         # Return the response value
     return response
-
-def afficher_facture(request, pk):
-    facture = Facture.objects.get(numero = pk)
-    HT = 0
-    if request.method == 'POST' :
-        form = OptionFacture(request.POST)
-        if form.is_valid():
-           r = form.cleaned_data["remise"]
-           if not form.cleaned_data["payer"]:
-              for p in facture.avoir_set.all():
-                  HT += p.prix.PrixUnite * p.qta
-                  TTC = HT + HT * 0.19 
-              if r != 0:
-                  TTC = HT - HT * r/100
-              facture.fournisseur.solde += TTC
-              facture.sommeRestante = TTC
-              facture.fournisseur.save()
-           facture.remise = r
-           facture.save()
-           return redirect('saisiefacture')
-    
-    for p in facture.avoir_set.all():
-        HT += p.prix.PrixUnite * p.qta
-    TTC = HT + HT * 0.19
-    form = OptionFacture()
-    return render(request,"Facture.html",{"facture": facture,"TTC":TTC,"form":form})
 
 
 def reglement_facture(request):
