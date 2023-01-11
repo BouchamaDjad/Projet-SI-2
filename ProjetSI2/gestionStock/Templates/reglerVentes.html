@@ -1,25 +1,66 @@
-{%if ventes%}
-<form method="POST" action ="{%url 'sauvregV' idC %}">
-    {%csrf_token%}
-<table border="1">
-        <thead>
-            <th>id</th>
-            <th>date Vente</th>
-            <th>Somme Restante</th>
-            <th>Reglement</th>
-        </thead>
-        {% for v in ventes %}
-            <tbody>
+<!DOCTYPE html>
+<html lang="fr">
+{%load static%}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <title>Clients</title>
+</head>
+<body class= "bg-primary bg-gradient">
+  {%if ventes%}
+  <div class="container py-5">
+  <header class="text-center text-white">
+    <h1 class="display-4">Liste des Ventes non Regler</h1>
+  </header>
+  <form method="POST" action ="{%url 'sauvregV' idC %}">
+                {%csrf_token%}
+  <div class="row py-5">
+    <div class="col-lg-10 mx-auto">
+      <div class="card rounded shadow border-0">
+        <div class="card-body p-5 bg-white rounded">
+          <div class="table-responsive">
+            <table id="example" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                        <th>id</th>
+                        <th>date Vente</th>
+                        <th>Somme Restante</th>
+                        <th>Reglement</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for v in ventes %}
+                <tr>
                 <td>{{ v.id }}</td>
                 <td>{{ v.Date}}</td>
                 <td>{{ v.restant }}</td>
                 <td><input type="number" name="valeur[]" max= {{v.restant}} min=0 value=0 step ="0.01"></td>
-            </tbody>
-        {% endfor %}
-    </table>
-<button type= "submit">submit </button>
-</form>
-{%else %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <button type= "submit">submit </button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%else%}
 <h3>le client n'a aucun credit</h3>
 <a href="{%url "reglementvente"%}">retour</a>
 {%endif%}
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script type="text/javascript" src="{%static 'script.js' %}"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+</html>

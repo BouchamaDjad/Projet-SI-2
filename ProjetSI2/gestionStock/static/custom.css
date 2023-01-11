@@ -5,8 +5,8 @@ body {
     width : fit-content;
 }
 
-.body-bg {
-    background-color: rgb(179, 0, 255);
+.green {
+    background-color: rgb(71, 103, 99);
 }
 
 .link {

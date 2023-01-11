@@ -1,5 +1,13 @@
 $(function () {
     $(document).ready(function () {
-        $('#example').DataTable();
+        $('#search').DataTable();
+    });
+});
+
+$(function () {
+    $(document).ready(function () {
+        $('#noSearch').DataTable({
+            "searching":false,
+        });
     });
 });

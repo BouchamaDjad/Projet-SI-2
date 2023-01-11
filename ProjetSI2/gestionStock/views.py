@@ -205,6 +205,7 @@ def sauv_reg(request, pk):
         fournisseur = Fournisseur.objects.get(id = pk)
         factures = fournisseur.facture_set.filter(sommeRestante__gt = 0).order_by("numero")
         valeurs = request.POST.getlist('valeur[]')
+        print(valeurs)
         instance = ReglementFacture.objects.latest('id')
         filled = False
         date = instance.date

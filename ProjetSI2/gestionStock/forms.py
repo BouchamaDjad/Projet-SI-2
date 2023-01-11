@@ -77,10 +77,10 @@ class TypeProduitChoiceField(forms.ModelChoiceField):
         field=['designation'] 
     
 class FiltreForm(forms.Form):
+    designation_produit = forms.CharField(required=False)
     date = forms.DateField(required=False)
     type = TypeProduitChoiceField(TypeProduit.objects.all(),required=False)
     quantité = forms.IntegerField(label_suffix='<=',required=False)
-    designation_produit = forms.CharField(required=False)
 
 class StockForm(forms.Form):
     choice = [(p.CodeP,p.designation) for p in Produit.objects.all()]
