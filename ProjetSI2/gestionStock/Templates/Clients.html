@@ -37,7 +37,7 @@
                 <td>{{ client.nom }}</td>
                 <td>{{ client.prenom }}</td>
                 <td>{{ client.adresse }}</td>
-                <td>{{ client.phone }}</td>
+                <td>{% firstof client.phone "" %}td>
                 <td>{{ client.credit }}</td>
                 </tr>
                 {% endfor %}
