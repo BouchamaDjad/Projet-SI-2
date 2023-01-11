@@ -6,7 +6,7 @@ from . import functions
 from datetime import datetime
 from django.http.response import HttpResponse
 from django.http import HttpResponse 
-from django.db.models import F,Q
+from django.db.models import F
 import os
 # Create your views here.
 
@@ -261,7 +261,7 @@ def sauv_regV(request,pk):
         return redirect("reglementvente")
   
 def afficher_stock(request):
-    stock = Stock.objects.filter( ~(Q(Qtp=0) & Q(id__in=SortieStock.objects.all().values('stock_id'))))    
+    stock = Stock.objects.all()    
 
     if request.GET:
         form = FiltreForm(request.GET)
