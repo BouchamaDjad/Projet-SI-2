@@ -42,6 +42,10 @@ class prixFacture(forms.ModelForm):
     class Meta : 
         model = Prix
         fields = '__all__'
+        widgets = {
+            "PrixUnite" : forms.NumberInput(attrs={"class":"form-control","style": "width:fit-content"}),
+            "PrixVente" : forms.NumberInput(attrs={"class":"form-control","style": "width:fit-content"}),
+        }
 
 
 class qtAchete(forms.ModelForm):
@@ -50,6 +54,9 @@ class qtAchete(forms.ModelForm):
         fields = ['qta']
         labels = {
             'qta':'Quantite',
+        }
+        widgets = {
+            'qta':forms.NumberInput(attrs={"class":"form-control","style": "width:fit-content"})
         }
 
 class OptionFacture(forms.Form):
@@ -90,17 +97,20 @@ class StockForm(forms.Form):
     Qtp = forms.IntegerField(label="Quantité",widget=forms.NumberInput(attrs={"class":"form-control"}))
 
 class EntrerStockForm(forms.Form):
-    CodeP = forms.IntegerField(initial=Produit.objects.latest('CodeP').CodeP+1)
-    Designation  = forms.CharField()
-    Type = TypeProduitChoiceField(TypeProduit.objects.all())
-    Date = forms.DateField(initial=datetime.today())
-    Quantité = forms.IntegerField()
+    CodeP = forms.IntegerField(initial=Produit.objects.latest('CodeP').CodeP+1,widget=forms.NumberInput(attrs={"class":"form-control"}) )
+    Designation  = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control"}))
+    Type = TypeProduitChoiceField(TypeProduit.objects.all(),widget=forms.Select(attrs={"class":"form-control"}))
+    Date = forms.DateField(initial=datetime.today(),widget=forms.DateInput(attrs={"class":"form-control","style":"display:block"}))
+    Quantité = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control"}))
 
 class SortieStockForm(forms.ModelForm):
     class Meta:
         model = SortieStock
-        fields = '__all__'
-        widgets = {'stock': forms.HiddenInput()}
+        fields = ["motif","qt"]
+        widgets = {
+            "motif":forms.TextInput(attrs={"class":"form-control"}),
+            "qt":forms.NumberInput(attrs={"class":"form-control"})
+        }
 
 class FiltreClient(forms.Form):
    nom = forms.CharField(required=True)
@@ -112,6 +122,10 @@ class FormClient(forms.ModelForm):
     class Meta : 
         model = Client
         exclude = ['credit']
+    def __init__(self, *args, **kwargs):
+        super(FormClient, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class reglementVente(forms.ModelForm):
     class Meta:

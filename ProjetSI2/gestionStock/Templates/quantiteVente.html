@@ -1,12 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+{%load static%}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <title>Clients</title>
+</head>
+<body class="">
+<div class="w-75 mx-auto mt-5">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered shadow-sm">
+            <thead>
+                <th>Designation</th>
+                <th>PrixUnite</th>
+                <th>PrixVente</th>
+                <th>Quantité</th>
+            </thead>
+                <tr>
+                    <td>{{ p.produit.designation }}</td>
+                    <td>{{ p.Prix.PrixUnite }}</td>
+                    <td>{{ p.Prix.PrixVente }}</td>
+                    <td>{{ p.Qtp }}</td>
+                </tr>
+        </table>
+    </div>
+</div>
 
-<div>produit : {{ p.produit.designation }}</div>
-<div>prixUnite : {{ p.Prix.PrixUnite }}</div>
-<div>prixVente : {{ p.Prix.PrixVente }}</div>
-<div>Quantite en stock {{ p.Qtp }}</div>
-
-<form method="POST">
+<form method="POST" class="d-flex text-black flex-wrap gap-4 mx-auto mt-4 max_content">
     {% csrf_token %}
-    <label for = 'qt'>Quantite achete : </label>
+    <label for = 'qt'>Quantite achete</label>
     <input type = "number" max = {{p.Qtp}} name = "qt"> 
-    <button type = "submit">Valider </button>
+    <button type = "submit" class="btn btn-primary">Valider </button>
 </form>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script type="text/javascript" src="{%static 'script.js' %}"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+</html>

@@ -1,11 +1,26 @@
-<center>
+<!DOCTYPE html>
+<html lang="fr">
+{%load static%}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <title>Clients</title>
+</head>
+<body class="green text-white">
+<center class="p-4 h2">
     {{msg}}
 </center>
 
-<form method ="POST">
+<form method ="POST" class="d-flex flex-column  flex-wrap justify-content-center align-items-center gap-3 mt-5">
     {% csrf_token %}
+    <div>
     <label for="pr">Produit : </label>
-    <input type="text" list="designation_list" name = "designation" id = "pr" autocomplete="off">
+    <input type="text" list="designation_list" class="form-control" style="width : fit-content" name = "designation" id = "pr" autocomplete="off">
     <datalist id="designation_list">
     <select>
         {% for option in choices %}
@@ -13,8 +28,27 @@
         {% endfor %}
     </select>
     </datalist>
-    {{form_prix.as_p}}
-    {{form_avoir.as_p}}
-    <button type = "submit">confirmer</button>
-    <a href = "{%url 'facture' id%}">finaliser la facture</a> 
+    </div>
+    {%for field in form_prix%}
+        <div class="form-group">
+          <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+          {{field}}
+        </div>
+       {%endfor%}
+    {%for field in form_avoir%}
+        <div class="form-group">
+          <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+          {{field}}
+        </div>
+       {%endfor%}
+    <button type = "submit" class="btn btn-primary">ajouter</button>
+    <a href = "{%url 'facture' id%}" class="btn btn-warning">finaliser la facture</a> 
 </form>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script type="text/javascript" src="{%static 'script.js' %}"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
+</html>

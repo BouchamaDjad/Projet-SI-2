@@ -11,3 +11,14 @@ $(function () {
         });
     });
 });
+
+
+$(function () {
+    $(document).ready(function () {
+        $('#dernier').DataTable({
+            columnDefs: [
+                { "searchable": false, "targets":-1},
+            ]
+        });
+    });
+});

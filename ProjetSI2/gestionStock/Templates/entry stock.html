@@ -1,31 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+{%load static%}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrée en stock</title>
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <title>Clients</title>
 </head>
-<body>
-    <h1>Les Entrée en stock</h1>
-    <table border="1">
-        <thead>
-            <th>Date</th>
-            <th>Quantité</th>
-            <th>CodeP</th>
-        </thead>
-        <tbody>
-            {% for e in entries %}
-                <td>{{ e.date }}</td>
-                <td> {{ e.qt }} </td>
-                <td> {{ e.produit_id }} </td>
-            {% endfor %}
-        </tbody>
-    </table>
-    <form action="" method="post">
+<body class= "green">
+  <div class="container py-5">
+  <header class="text-center text-white">
+    <h1 class="display-4">Liste des Entrees en Stock{{facture.numero}}</h1>
+  </header>
+  <div class="row py-5">
+    <div class="col-lg-10 mx-auto">
+      <div class="card rounded shadow border-0">
+        <div class="card-body p-5 bg-white rounded">
+          <div class="table-responsive">
+            <table id="search" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>CodeP</th>
+                    <th>designation</th>
+                    <th>Quantité</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for e in entries %}
+                    <td>{{ e.date }}</td>
+                    <td> {{ e.produit.CodeP }} </td>
+                    <td> {{ e.produit.designation }} </td>
+                    <td> {{ e.qt }} </td>
+
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <center class="h4 text-white">Ajouter une Entree : </center>
+    <form action="" method="post"  class="d-flex text-white flex-wrap justify-content-center align-items-center gap-3 mt-4">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">envoyer</button>
+       {%for field in form%}
+        <div class="form-group d-flex flex-column gap-2">
+          {{field.label}}
+          {{field}}
+        </div>
+       {%endfor%}
+        <button type="submit" class="btn btn-primary align-self-end">ajouter</button>
     </form>
+</div>
+
 </body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script type="text/javascript" src="{%static 'script.js' %}"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+
 </html>

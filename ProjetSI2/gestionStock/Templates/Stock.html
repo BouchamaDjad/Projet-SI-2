@@ -48,13 +48,13 @@
                 <tr>
                 <td>{{ p.produit.CodeP }}</td>
                 <td>{{ p.produit.designation }}</td>
-                <td>{{ p.prix.PrixUnite }}</td>
-                <td>{{ p.prix.PrixVente }}</td>
-                <td>{{ p.qt }}</td>
+                <td>{{ p.Prix.PrixUnite }}</td>
+                <td>{{ p.Prix.PrixVente }}</td>
+                <td>{{ p.Qtp}}</td>
                 <td>
                 <div class="d-flex justify-content-evenly">
-                <a href=" {% url 'ajusterstock' p.produit.CodeP p.prix.id %}" class="btn btn-warning">ajuster</a>
-                <a href="{% url 'déstocker' p.s %}" class="btn btn-danger" {%if p.qt <= 0%} style = "pointer-events : none; opacity:60%;" {%endif%}>
+                <a href=" {% url 'ajusterstock' p.produit.CodeP p.Prix.id %}" class="btn btn-warning">ajuster</a>
+                <a href="{% url 'déstocker' p.id %}" class="btn btn-danger" {%if p.qt <= 0%} style = "pointer-events : none; opacity:60%;" {%endif%}>
                   déstocker</a></td>
                 </div>
                 </tr>

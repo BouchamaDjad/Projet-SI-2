@@ -4,14 +4,13 @@
 <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{%static 'custom.css' %}"/>
 </head>
-
+<body class="green text-white">
 <center>
-    Bonjour veuillez saisir la facture
-
+   <h1 class="p-3">Veuillez Saisir la facture</h1>
 
 <form method="POST">
     {% csrf_token %}
-    <div class="form-group m-4 w-50">
+    <div class="form-group m-4" style="width : fit-content">
     {{form.numero.label}}
     {{form.numero}}
     </div>
@@ -19,10 +18,11 @@
     {{form.date.label}}
     {{form.date}}
     </div>
-    <div class="form-group m-4 w-50">
+    <div class="form-group m-4" style ="width:fit-content">
     {{form.fournisseur.label}}
     {{form.fournisseur}}
     </div>
 <button type ="submit"  class="btn btn-primary m-4" >Ajouter des produits</button>
 </form>
 </center>
+<body>

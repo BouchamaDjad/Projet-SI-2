@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
+{%load static%}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
     <title>Bon de Commande</title>
     <script>
         function add() {
@@ -13,26 +18,33 @@
         }
     </script>
 </head>
-<body>
-    <h1>Bon De Commande</h1>
-    <form action="" method="POST">
+<body class="green text-white">
+    <center class="h2 mt-4">Bon De Commande</center>
+    <form action="" method="POST" class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="d-flex gap-3">
+        {%for field in form%}
+        <div>
+          <label for="{{ field.auto_id }}">{{ field.label }} : </label>
+          {{field}}
+        </div>
+       {%endfor%}
+       </div>
         <div class="produits">
             {% for produitform in listproduitform %}
-                <p>
+                <p class="d-flex gap-2">
                 {{ produitform }}
                 </p>
             {% endfor %}
         </div>
         
         <!--<p></p><button id="add">+</button><p>-->
-        <input type="button" value="+" id="add">
-        <button type="submit">créer le bon commande</button>
+        <button type="button" class="btn btn-primary" id="add">Ajouter produit +</button>
+        <button type="submit" class="btn btn-danger">créer le bon commande</button>
     </form>
     {% if file %}
         <!--si le path du fichier est différent du None -->
-        <span><a href="{% url 'download_file' file %}" download>télécharger</a> le bon de commande</span>
+        <center><a href="{% url 'download_file' file %}" class="btn btn-info mt-5" download>télécharger le bon de commande</a></center>
     {% endif %}
 </body>
     <script>
