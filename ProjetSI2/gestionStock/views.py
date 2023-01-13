@@ -475,8 +475,11 @@ def stats(request):
     ).replace(day=1)
     first_day_of_twelve_months_ago = first_day_of_next_month - relativedelta(years=1)
     
-    ventes = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','vente__Date','vente__restant')
-    ventes = ventes.values("vente__Date").annotate(montant = Sum(F('QtV') * F('prix__PrixVente') -F('restant')))
-    print(ventes)
+    ventes = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','vente__Date')
+    stats= ventes.values("vente__Date__month").annotate(montant = Sum(F('QtV') * F('prix__PrixVente')))
+    context = {
+        'first_month' : first_day_of_next_month.month,
+        'stats12mois':stats,
+    }
 
-    return render(request,"base.html")
+    return render(request,"StatsVente.html",context)

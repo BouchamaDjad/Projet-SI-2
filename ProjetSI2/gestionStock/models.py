@@ -59,7 +59,7 @@ class Vente(models.Model):
     client = models.ForeignKey(Client,null=True,on_delete=models.SET_NULL)
     restant = models.FloatField(default=0,blank=True)
     def __str__(self):
-        return f'{self.id} {self.Date}'
+        return f'{self.id} {self.Date} // {self.restant}'
    
 
 class Composer(models.Model):

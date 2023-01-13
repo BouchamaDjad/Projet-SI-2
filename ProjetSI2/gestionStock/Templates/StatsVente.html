@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Stats Vente{% endblock title %}
+
+{% block content %}
+<div class="">
+  <canvas id="myChart"></canvas>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+  const MONTHS = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+];
+
+function months(config) {
+    var cfg = config || {};
+    var count = cfg.count || 12;
+    var section = cfg.section;
+    var values = [];
+    var i, value;
+
+    for (i = 0; i < count; ++i) {
+        value = MONTHS[Math.ceil(i+ {{first_month}} -1 ) % 12];
+        values.push(value.substring(0, section));
+    }
+
+    return values;
+}
+
+   const ctx = document.getElementById('myChart');
+   const labels = months({count:12});
+   montant = [{%for s in stats12mois%}{%if s.vente__Date__month >= first_month%}parseFloat('{{s.montant}}'),{%endif%}{% endfor %}]
+   montant = montant.concat([{%for s in stats12mois%}{%if s.vente__Date__month < first_month%}parseFloat('{{s.montant}}'),{%endif%}{% endfor %}])
+   console.log(montant)
+  new Chart(ctx, {
+    type: 'line',
+    data : {
+        labels: labels,
+        datasets: [{
+        label: 'My First Dataset',
+        data: montant,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+         tension: 0.1
+        }]
+    }
+  });
+</script>
+{% endblock script %}
+
+
+
+
+
