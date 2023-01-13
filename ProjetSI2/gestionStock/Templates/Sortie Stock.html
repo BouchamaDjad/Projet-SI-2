@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-{%load static%}
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
-    <link rel="stylesheet" href="{%static 'custom.css' %}"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
-    <title>Clients</title>
-</head>
+{% extends 'base.html' %}
+
+{% block content %}
 <body class= "green">
   <div class="container py-5">
   <header class="text-center text-white">
@@ -53,10 +43,7 @@
 </div>
 
 </body>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
-<script type="text/javascript" src="{%static 'script.js' %}"></script>
-<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+{% endblock content %}
 
-</html>
+
+

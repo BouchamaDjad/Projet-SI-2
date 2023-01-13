@@ -10,6 +10,10 @@ html,body {
     background-color: rgb(71, 103, 99);
 }
 
+.light_green{
+  background-color: rgb(147, 252, 192);
+}
+
 
 .max_content {
     width: max-content;
