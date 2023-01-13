@@ -375,18 +375,8 @@ def déstocker(request,pk):
     return render(request,"DéStocker.html",{'form':form})
 
 def sortie_stock(request):
-    if request.method == 'POST':
-        form = SortieStockForm(request.POST)
-        if form.is_valid():
-            form.save()
-            instance = Stock.objects.get(id=form.cleaned_data['stock']) #
-            instance.Qtp -= form.cleaned_data['qt'] #
-            instance.save()
-            return redirect('sortiestock')
-    
     sorties = SortieStock.objects.all()
-    form = SortieStockForm()
-    return render(request,"Sortie Stock.html",{'sorties':sorties,'form':form})
+    return render(request,"Sortie Stock.html",{'sorties':sorties})
 
 def selection_client(request):
     clients = Client.objects.all()
