@@ -2,11 +2,13 @@ import mimetypes
 from django.shortcuts import render,redirect
 from .models import *
 from .forms import *
+from django.utils.timezone import now
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from . import functions
-from datetime import datetime
 from django.http.response import HttpResponse
 from django.http import HttpResponse 
-from django.db.models import F
+from django.db.models import F,Sum
 import os
 # Create your views here.
 
@@ -109,7 +111,7 @@ def créer_bon_commande(request):
 
         produit_form_list = []
         error = False
-        
+
         #3 = n° tuple produits
         #4 = n° tuple quantité
         req = list(request.POST.lists())[3:] #une liste des 2-tuple (key:list(val))
@@ -475,3 +477,16 @@ def payement_vente(request,v):
 
   
     return render(request,"FinaliserVente.html",{"vente":vente,"total": total})
+
+def stats(request):
+    first_day_of_this_month = now().replace(day=1)
+    first_day_of_next_month = (
+       first_day_of_this_month + timedelta(days=32)
+    ).replace(day=1)
+    first_day_of_twelve_months_ago = first_day_of_next_month - relativedelta(years=1)
+    
+    ventes = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','vente__Date','vente__restant')
+    ventes = ventes.values("vente__Date").annotate(montant = Sum(F('QtV') * F('prix__PrixVente') -F('restant')))
+    print(ventes)
+
+    return render(request,"base.html")

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -54,7 +55,7 @@ class Client(models.Model):
         return f'{self.nom} {self.prenom}'
 
 class Vente(models.Model):
-    Date = models.DateField(auto_now=True)
+    Date = models.DateField(default=timezone.now)
     client = models.ForeignKey(Client,null=True,on_delete=models.SET_NULL)
     restant = models.FloatField(default=0,blank=True)
     def __str__(self):

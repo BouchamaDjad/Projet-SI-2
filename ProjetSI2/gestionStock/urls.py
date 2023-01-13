@@ -34,5 +34,7 @@ urlpatterns = [
     path('SaisirProduit/<int:v>/',views.saisir_produit,name='saisirproduit'),
     path('QuantiteProduit/<int:v>/<int:s>',views.quantite_produit,name='quantiteproduit'),
     path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
+
+    path('Stats/',views.stats,name='stats'),
         
 ]
