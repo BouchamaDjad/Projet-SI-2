@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<body class="">
+<div class="w-75 mx-auto mt-5">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered shadow-sm">
+            <thead>
+                <th>Designation</th>
+                <th>PrixUnite</th>
+                <th>PrixVente</th>
+                <th>Quantité</th>
+            </thead>
+                <tr>
+                    <td>{{ p.produit.designation }}</td>
+                    <td>{{ p.Prix.PrixUnite }}</td>
+                    <td>{{ p.Prix.PrixVente }}</td>
+                    <td>{{ p.Qtp }}</td>
+                </tr>
+        </table>
+    </div>
+</div>
+
+<form method="POST" class="d-flex text-black flex-wrap gap-4 mx-auto mt-4 max_content">
+    {% csrf_token %}
+    <label for = 'qt'>Quantite achete</label>
+    <input type = "number" max = {{p.Qtp}} name = "qt"> 
+    <button type = "submit" class="btn btn-primary">Valider </button>
+</form>
+</body>
+{% endblock content %}

@@ -30,9 +30,10 @@ urlpatterns = [
 
     path('SelectionClient/',views.selection_client,name='selectionclient'),
     path('CreeClientVente/',views.cree_clientV,name='creeclientV'),
-    path('CreationVente/<int:pk>/',views.creation_vente,name="creationvente"),
-    path('SaisirProduit/<int:v>/',views.saisir_produit,name='saisirproduit'),
-    path('QuantiteProduit/<int:v>/<int:s>',views.quantite_produit,name='quantiteproduit'),
+    path('SaisirProduit/<int:pk>/',views.saisir_produit,name='saisirproduit'),
+    path('SaisirProduit2/<int:v>/',views.saisir_produit2,name='saisirproduit2'),
+    path('QuantiteProduit/<int:pk>/<int:s>',views.quantite_produit,name='quantiteproduit'),
+    path('QuantiteProduit2/<int:v>/<int:s>',views.quantite_produit2,name="quantiteproduit2"),
     path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
 
     path('Stats/',views.stats,name='stats'),

@@ -82,7 +82,7 @@ def afficher_facture(request, pk):
                   HT += p.prix.PrixUnite * p.qta
                   TTC = HT + HT * 0.19 
               if r != 0:
-                  TTC = HT - HT * r/100
+                  TTC = TTC - TTC * r/100
               facture.fournisseur.solde += TTC
               facture.sommeRestante = TTC
               facture.fournisseur.save()
@@ -401,19 +401,31 @@ def cree_clientV(request):
         form = FormClient(request.POST)
         if form.is_valid:
             l = form.save()
-            return redirect("creationvente",pk = l.id)
+            return redirect("saisirproduit",pk = l.id)
     
     form = FormClient()
     return render(request,"CreeClientVente.html",{"form":form})
 
+def saisir_produit(request,pk):
+    produits = Stock.objects.filter(Qtp__gt = 0)
+    if request.GET:
+        form = FiltreProduit(request.GET)
+        if form.is_valid():
+            produits = produits.filter(produit__designation__contains = form.cleaned_data['nom'])
 
-def creation_vente(request,pk):
-    v = Vente.objects.create(client_id = pk)
-    return redirect("saisirproduit",v = v.id)
+    else :
+        form = FiltreProduit()
+
+    context = {
+        "form" : form,
+        "produits" : produits,
+        "idC" : pk,
+    }
+
+    return render(request,"produitVente.html",context)
 
 
-
-def saisir_produit(request,v):
+def saisir_produit2(request,v):
     produits = Stock.objects.filter(Qtp__gt = 0)
     if request.GET:
         form = FiltreProduit(request.GET)
@@ -429,18 +441,29 @@ def saisir_produit(request,v):
         "idV" : v,
     }
 
-    return render(request,"produitVente.html",context)
+    return render(request,"produitVente2.html",context)
     
 
-def quantite_produit(request,v,s):
+def quantite_produit(request,pk,s):
+    p = Stock.objects.get(id = s)
+    if request.method == 'POST':
+        v = Vente.objects.create(client_id = pk).id
+        qt = request.POST["qt"]
+        Composer.objects.create(produit_id = p.produit.CodeP, prix_id = p.Prix.id, vente_id = v,QtV = qt)
+        p.Qtp -= int(qt)
+        p.save()
+        return redirect("saisirproduit2", v=v) 
+    return render(request,"quantiteVente.html",{"p":p})
+
+def quantite_produit2(request,v,s):
     p = Stock.objects.get(id = s)
     if request.method == 'POST':
         qt = request.POST["qt"]
         Composer.objects.create(produit_id = p.produit.CodeP, prix_id = p.Prix.id, vente_id = v,QtV = qt)
         p.Qtp -= int(qt)
         p.save()
-        return redirect("saisirproduit", v=v) 
-    return render(request,"quantiteVente.html",{"p":p})
+        return redirect("saisirproduit2", v=v) 
+    return render(request,"quantiteVente2.html",{"p":p})
 
 def payement_vente(request,v):
     vente = Vente.objects.get(id = v)
@@ -448,11 +471,6 @@ def payement_vente(request,v):
     for p in vente.composer_set.all():
         total += p.prix.PrixVente * p.QtV
 
-    if total == 0:
-       vente.delete()
-       return redirect("selectionclient")
-    
-    print(request.POST)
     if request.method =="POST":
         if "status" not in request.POST:
             m = request.POST["montant"]

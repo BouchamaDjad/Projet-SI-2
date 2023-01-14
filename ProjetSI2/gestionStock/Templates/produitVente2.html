@@ -26,7 +26,7 @@
                     <td>{{ p.Prix.PrixUnite }}</td>
                     <td>{{ p.Prix.PrixVente }}</td>
                     <td>{{ p.Qtp }}</td>
-                    <td class="d-flex justify-content-center"><a href=" {% url 'quantiteproduit' idC p.id %}" class="btn btn-sm btn-primary">choisir</a></td>
+                    <td class="d-flex justify-content-center"><a href=" {% url 'quantiteproduit2' idV p.id %}" class="btn btn-sm btn-primary">choisir</a></td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -34,7 +34,7 @@
           </div>
         </div>
       </div>
-      <a href="{% url 'stock' %}" class="btn btn-light mt-2"> finaliser </a>
+      <a href="{% url "payementvente" idV %}" class="btn btn-light mt-2"> finaliser </a>
     </div>
   </div>
 </div>
