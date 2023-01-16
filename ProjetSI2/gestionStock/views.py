@@ -492,17 +492,23 @@ def stats(request):
        first_day_of_this_month + timedelta(days=32)
     ).replace(day=1)
     first_day_of_twelve_months_ago = first_day_of_next_month - relativedelta(years=1)
-    all_ventes = Composer.objects.all().values('QtV','prix__PrixVente','vente__Date')
+    all_ventes = Composer.objects.all().values('QtV','prix__PrixVente','prix__PrixUnite','vente__Date')
     statsAnnee= all_ventes.values("vente__Date__year").annotate(montant = Sum(F('QtV') * F('prix__PrixVente'))).order_by("vente__Date__year")
-    ventes12mois = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','vente__Date')
+    ventes12mois = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','prix__PrixUnite','vente__Date')
     stats= ventes12mois.values("vente__Date__month").annotate(montant = Sum(F('QtV') * F('prix__PrixVente'))).order_by("vente__Date__month")
     a = statsAnnee.first()['vente__Date__year']
     label_annee = [a+i for i in range(statsAnnee.count()) ]
+    
+    BenificeAnnee= all_ventes.values("vente__Date__year").annotate(benifice = Sum(F('QtV') * (F('prix__PrixVente') - F('prix__PrixUnite')))).order_by("vente__Date__year")
+    Benifice12mois= ventes12mois.values("vente__Date__month").annotate(benifice = Sum(F('QtV') * (F('prix__PrixVente') - F('prix__PrixUnite')))).order_by("vente__Date__month")
+    print(Benifice12mois)
     context = {
         'first_month' : first_day_of_next_month.month,
         'stats12mois':stats,
         'statsAnnee' : statsAnnee,
         'label_annee' : label_annee,
+        'benificeAnnee' : BenificeAnnee,
+        'benifice12mois' :Benifice12mois,
     }
 
     return render(request,"StatsVente.html",context)

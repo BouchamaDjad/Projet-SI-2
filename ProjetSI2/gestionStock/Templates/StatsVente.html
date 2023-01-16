@@ -9,6 +9,12 @@
 <div class="">
   <canvas id="annee"></canvas>
 </div>
+<div class="">
+  <canvas id="Benifice12mois"></canvas>
+</div>
+<div class="">
+  <canvas id="BenificeAnnee"></canvas>
+</div>
 {% endblock content %}
 
 {% block script %}
@@ -53,7 +59,7 @@ function months(config) {
     data : {
         labels: labels,
         datasets: [{
-        label: 'My First Dataset',
+        label: 'total vente 12 mois',
         data: montant,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
@@ -68,8 +74,41 @@ function months(config) {
     data : {
         labels: {{label_annee}},
         datasets: [{
-        label: 'My First Dataset',
+        label: 'total vente annee',
         data: [{%for s in statsAnnee%}parseFloat('{{s.montant}}'),{% endfor %}],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+         tension: 0.1
+        }]
+    }
+  });
+
+  benifice = [{%for s in benifice12mois%}{%if s.vente__Date__month >= first_month%}parseFloat('{{s.benifice}}'),{%endif%}{% endfor %}]
+  benifice = benifice.concat([{%for s in benifice12mois%}{%if s.vente__Date__month < first_month%}parseFloat('{{s.benifice}}'),{%endif%}{% endfor %}])
+
+  Benifice12mois = document.getElementById('Benifice12mois');
+  new Chart(Benifice12mois, {
+    type: 'line',
+    data : {
+        labels: labels,
+        datasets: [{
+        label: 'Ben 12 mois',
+        data: benifice,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+         tension: 0.1
+        }]
+    }
+  });
+
+  BenificeAnnee = document.getElementById('BenificeAnnee');
+  new Chart(BenificeAnnee, {
+    type: 'line',
+    data : {
+        labels: {{label_annee}},
+        datasets: [{
+        label: 'Ben Annee',
+        data: [{%for s in benificeAnnee%}parseFloat('{{s.benifice}}'),{% endfor %}],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
          tension: 0.1
