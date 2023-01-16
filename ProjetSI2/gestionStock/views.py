@@ -492,12 +492,17 @@ def stats(request):
        first_day_of_this_month + timedelta(days=32)
     ).replace(day=1)
     first_day_of_twelve_months_ago = first_day_of_next_month - relativedelta(years=1)
-    
-    ventes = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','vente__Date')
-    stats= ventes.values("vente__Date__month").annotate(montant = Sum(F('QtV') * F('prix__PrixVente')))
+    all_ventes = Composer.objects.all().values('QtV','prix__PrixVente','vente__Date')
+    statsAnnee= all_ventes.values("vente__Date__year").annotate(montant = Sum(F('QtV') * F('prix__PrixVente'))).order_by("vente__Date__year")
+    ventes12mois = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','vente__Date')
+    stats= ventes12mois.values("vente__Date__month").annotate(montant = Sum(F('QtV') * F('prix__PrixVente'))).order_by("vente__Date__month")
+    a = statsAnnee.first()['vente__Date__year']
+    label_annee = [a+i for i in range(statsAnnee.count()) ]
     context = {
         'first_month' : first_day_of_next_month.month,
         'stats12mois':stats,
+        'statsAnnee' : statsAnnee,
+        'label_annee' : label_annee,
     }
 
     return render(request,"StatsVente.html",context)

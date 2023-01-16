@@ -4,7 +4,10 @@
 
 {% block content %}
 <div class="">
-  <canvas id="myChart"></canvas>
+  <canvas id="12mois"></canvas>
+</div>
+<div class="">
+  <canvas id="annee"></canvas>
 </div>
 {% endblock content %}
 
@@ -40,11 +43,11 @@ function months(config) {
     return values;
 }
 
-   const ctx = document.getElementById('myChart');
    const labels = months({count:12});
    montant = [{%for s in stats12mois%}{%if s.vente__Date__month >= first_month%}parseFloat('{{s.montant}}'),{%endif%}{% endfor %}]
    montant = montant.concat([{%for s in stats12mois%}{%if s.vente__Date__month < first_month%}parseFloat('{{s.montant}}'),{%endif%}{% endfor %}])
-   console.log(montant)
+
+  ctx = document.getElementById('12mois');
   new Chart(ctx, {
     type: 'line',
     data : {
@@ -58,6 +61,23 @@ function months(config) {
         }]
     }
   });
+
+  chartAnnee = document.getElementById('annee');
+  new Chart(chartAnnee, {
+    type: 'line',
+    data : {
+        labels: {{label_annee}},
+        datasets: [{
+        label: 'My First Dataset',
+        data: [{%for s in statsAnnee%}parseFloat('{{s.montant}}'),{% endfor %}],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+         tension: 0.1
+        }]
+    }
+  });
+
+
 </script>
 {% endblock script %}
 
