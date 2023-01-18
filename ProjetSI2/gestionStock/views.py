@@ -492,7 +492,7 @@ def stats(request):
        first_day_of_this_month + timedelta(days=32)
     ).replace(day=1)
     first_day_of_twelve_months_ago = first_day_of_next_month - relativedelta(years=1)
-    all_ventes = Composer.objects.all().values('QtV','prix__PrixVente','prix__PrixUnite','vente__Date')
+    all_ventes = Composer.objects.all().values('produit','QtV','prix__PrixVente','prix__PrixUnite','vente__Date','vente__client')
     statsAnnee= all_ventes.values("vente__Date__year").annotate(montant = Sum(F('QtV') * F('prix__PrixVente'))).order_by("vente__Date__year")
     ventes12mois = Composer.objects.filter(vente__Date__gte = first_day_of_twelve_months_ago).values('QtV','prix__PrixVente','prix__PrixUnite','vente__Date')
     stats= ventes12mois.values("vente__Date__month").annotate(montant = Sum(F('QtV') * F('prix__PrixVente'))).order_by("vente__Date__month")
@@ -501,7 +501,36 @@ def stats(request):
     
     BenificeAnnee= all_ventes.values("vente__Date__year").annotate(benifice = Sum(F('QtV') * (F('prix__PrixVente') - F('prix__PrixUnite')))).order_by("vente__Date__year")
     Benifice12mois= ventes12mois.values("vente__Date__month").annotate(benifice = Sum(F('QtV') * (F('prix__PrixVente') - F('prix__PrixUnite')))).order_by("vente__Date__month")
-    print(Benifice12mois)
+    
+    total_achat_client = all_ventes.values("vente__client").annotate(total_achat = Sum(F('QtV') * F('prix__PrixVente')) - F('vente__client__credit')).order_by('-total_achat')
+
+    classementCl = []
+    l = list(total_achat_client)
+    leng = len(l)
+    i = 0
+    while i<3 and i<leng:
+        cl = Client.objects.get(id = l[i]['vente__client'])
+        classementCl.append({
+            'nom' : cl.nom,
+            'prenom' : cl.prenom,
+            'montant' : l[i]['total_achat']
+        })
+        i+=1
+    
+    q = all_ventes.values("produit").annotate(quantite = Sum('QtV')).order_by('-quantite')
+    
+    classementPr = []
+    l = list(q)
+    leng = len(l)
+    i = 0
+    while i<3 and i<leng:
+        p = Produit.objects.get(CodeP = l[i]['produit'])
+        classementPr.append({
+            'designation' : p.designation,
+            'quantite' : l[i]['quantite']
+        })
+        i+=1
+
     context = {
         'first_month' : first_day_of_next_month.month,
         'stats12mois':stats,
@@ -509,6 +538,8 @@ def stats(request):
         'label_annee' : label_annee,
         'benificeAnnee' : BenificeAnnee,
         'benifice12mois' :Benifice12mois,
+        'classementCl' : classementCl,
+        'classementPr' : classementPr,
     }
 
     return render(request,"StatsVente.html",context)
