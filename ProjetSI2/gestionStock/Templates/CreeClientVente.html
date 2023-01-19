@@ -2,7 +2,7 @@
 {% block title %}Creation Client{% endblock title %}
 {% block content %}
 
-<body class="green text-white">
+<div class="green text-white maincontent">
 <center class="h2 mt-4">Veuillez remplir le formulaire pour cree un client</center>
 <form method="POST" class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
     {% csrf_token %}
@@ -14,5 +14,5 @@
     {%endfor%}
     <button type="submit" class="btn btn-danger">Ajouter</button>
 </form>
-</body>
+</div>
 {% endblock content %}

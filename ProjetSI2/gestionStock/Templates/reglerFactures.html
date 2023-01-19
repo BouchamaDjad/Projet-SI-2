@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<body class= "green">
+<div class="green maincontent">
   {%if factures%}
   <div class="container py-5">
   <header class="text-center text-white">
@@ -48,5 +48,5 @@
     <a href="{%url "reglementfacture"%}" class="btn btn-danger">retour</a>
 </div>
 {%endif%}
-</body>
+</div>
 {% endblock content %}
