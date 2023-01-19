@@ -7,7 +7,7 @@
   <header class="text-center text-white">
     <h1 class="display-4">Liste des factures impaye</h1>
   </header>
-  <form method="POST" action ="{%url 'sauvreg' idF %}">
+  <form method="POST" action ="{%url 'sauvreg' idF date %}">
                 {%csrf_token%}
   <div class="row py-5">
     <div class="col-lg-10 mx-auto">

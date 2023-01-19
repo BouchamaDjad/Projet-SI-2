@@ -20,12 +20,13 @@ def saisie_facture(request):
     if request.method == 'POST':
         form = FactureForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("produitsfacture",pk = form.cleaned_data["numero"])
+            date = form.cleaned_data["date"]
+            idFr = form.cleaned_data["fournisseur"].id
+            return redirect("produitsfacture",pk = form.cleaned_data["numero"],idFr = idFr,date = str(date))
     form = FactureForm()
     return render(request,"saisie_facture.html",{'form':form})
 
-def produits_facture(request,pk):
+def produits_facture(request,pk,idFr,date):
     idF = pk
     if request.method == 'POST':
         form_produit = produitFacture(request.POST)
@@ -41,6 +42,10 @@ def produits_facture(request,pk):
             else : 
                 form_prix.save()
                 idPrix = Prix.objects.latest('id').id
+
+            if not Facture.objects.filter(numero = idF).exists():
+                Facture.objects.create(numero = idF,fournisseur_id = idFr,date = date)
+            
             qta = form_avoir.cleaned_data['qta']
             Avoir.objects.create(qta = qta,facture_id = idF,produit_id = idP,prix_id = idPrix)
             updateStock(idP,idPrix,qta)
@@ -71,7 +76,10 @@ def updateStock(idP,idPrix,qta):
 
 
 def afficher_facture(request, pk):
-    facture = Facture.objects.get(numero = pk)
+    try :
+        facture = Facture.objects.get(numero = pk)
+    except Facture.DoesNotExist:
+        return redirect("fournisseurs")
     HT = 0
     if request.method == 'POST' :
         form = OptionFacture(request.POST)
@@ -92,9 +100,6 @@ def afficher_facture(request, pk):
     
     for p in facture.avoir_set.all():
         HT += p.prix.PrixUnite * p.qta
-    if HT == 0 : 
-        facture.delete()
-        return redirect("fournisseurs")
     TTC = HT + HT * 0.19
     form = OptionFacture()
     return render(request,"Facture.html",{"facture": facture,"TTC":TTC,"form":form})
@@ -187,8 +192,8 @@ def regler_factures(request):
             idF = formF.cleaned_data["Fournisseur"]
             fournisseur = Fournisseur.objects.get(id = idF)
             factures = fournisseur.facture_set.filter(sommeRestante__gt = 0).order_by("numero")
-            formR.save()
-            return render(request,"reglerFactures.html",{"factures":factures,"idF":idF})
+            date = formR.cleaned_data["date"]
+            return render(request,"reglerFactures.html",{"factures":factures,"idF":idF,"date":date})
         else:
             return redirect("reglementfacture")
 
@@ -200,69 +205,44 @@ def regler_ventes(request):
             idC = formC.cleaned_data["Client"]
             client = Client.objects.get(id = idC)
             ventes = client.vente_set.filter(restant__gt = 0).order_by("id")
-            formR.save()
-            return render(request,"reglerVentes.html",{"ventes":ventes,"idC":idC})
+            date = formR.cleaned_data["date"]
+            return render(request,"reglerVentes.html",{"ventes":ventes,"idC":idC,"date":date})
         else:
             return redirect("reglementvente")
 
-def sauv_reg(request, pk):
+def sauv_reg(request,pk,date):
     if request.method == "POST":
         fournisseur = Fournisseur.objects.get(id = pk)
         factures = fournisseur.facture_set.filter(sommeRestante__gt = 0).order_by("numero")
         valeurs = request.POST.getlist('valeur[]')
-        print(valeurs)
-        instance = ReglementFacture.objects.latest('id')
-        filled = False
-        date = instance.date
         ids = []
         for f in factures:
             ids.append(f.numero)
         
         for (v,n) in zip(valeurs,ids):
-            if(float(v) != 0):
-                if(not filled):
-                    instance.facture_id = n
-                    instance.sommeAjoute = v
-                    instance.save()
-                    filled = True
-                else :
-                    ReglementFacture.objects.create(date = date,sommeAjoute = v, facture_id = n)
+            if(float(v) != 0): 
+                ReglementFacture.objects.create(date = date,sommeAjoute = v, facture_id = n)
                 Facture.objects.filter(numero = n).update(sommeRestante = F('sommeRestante') - v)
                 fournisseur.solde -= float(v)
                 fournisseur.save()
-        
-        if(not filled):
-            instance.delete()
-        
+
         return redirect("clients")
 
-def sauv_regV(request,pk):
+def sauv_regV(request,pk,date):
     if request.method == "POST":
         client = Client.objects.get(id = pk)
         ventes = client.vente_set.filter(restant__gt = 0).order_by("id")
         valeurs = request.POST.getlist('valeur[]')
-        instance = ReglementVente.objects.latest('id')
-        filled = False
-        date = instance.date
         ids = []
         for v in ventes:
             ids.append(v.id)
         
         for (v,n) in zip(valeurs,ids):
             if(float(v) != 0):
-                if(not filled):
-                    instance.vente_id = n
-                    instance.sommeAjoute = v
-                    instance.save()
-                    filled = True
-                else :
-                    ReglementVente.objects.create(date = date,sommeAjoute = v, vente_id = n)
+                ReglementVente.objects.create(date = date,sommeAjoute = v, vente_id = n)
                 Vente.objects.filter(id = n).update(restant = F('restant') - v)
                 client.credit -= float(v)
                 client.save()
-        
-        if(not filled):
-            instance.delete()
         
         return redirect("reglementvente")
   
