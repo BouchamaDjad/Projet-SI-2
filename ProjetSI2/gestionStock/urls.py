@@ -10,7 +10,7 @@ urlpatterns = [
     path('Clients/',views.afficher_client,name = "clients"),
 
     path('SaisieFacture/',views.saisie_facture, name='saisiefacture'),
-    path('ProduitsFacture/<int:pk>',views.produits_facture, name='produitsfacture'),
+    path('ProduitsFacture/<int:pk>/<int:idFr>/<str:date>/',views.produits_facture, name='produitsfacture'),
     path('Facture/<int:pk>/',views.afficher_facture,name="facture"),
 
     path('Stock/',views.afficher_stock,name='stock'),
@@ -18,15 +18,15 @@ urlpatterns = [
 
     path('ReglementFactures/',views.reglement_facture, name='reglementfacture'),
     path('ReglerFactures/',views.regler_factures, name='reglerfactures'),
-    path('sauv_Reg/<int:pk>',views.sauv_reg,name='sauvreg'),
+    path('sauv_Reg/<int:pk>/<str:date>',views.sauv_reg,name='sauvreg'),
 
     path('ReglementVentes/',views.reglement_vente, name='reglementvente'),
     path('ReglerVentes/',views.regler_ventes, name='reglerventes'), 
-    path('sauv_RegV/<int:pk>',views.sauv_regV,name='sauvregV'),
+    path('sauv_RegV/<int:pk>/<str:date>',views.sauv_regV,name='sauvregV'),
 
     path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
     path('SortieStock/',views.sortie_stock,name='sortiestock'),
-    path('Déstocker/<int:pk>',views.déstocker,name='déstocker'),
+    path('Déstocker/<int:pk>/',views.déstocker,name='déstocker'),
 
     path('SelectionClient/',views.selection_client,name='selectionclient'),
     path('CreeClientVente/',views.cree_clientV,name='creeclientV'),
@@ -37,6 +37,5 @@ urlpatterns = [
     path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
 
     path('Stats/',views.stats,name='stats'),
-    path('StatsAchats/',views.statsAchat,name='statsAchats')
-        
+    path('StatsAchats/',views.statsAchat,name='statsAchats'),    
 ]

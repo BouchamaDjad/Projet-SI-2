@@ -2,7 +2,7 @@
 {% block title %}Destockage{% endblock title %}
 
 {% block content %}
-<body class="green text-white">
+<div class="green text-white maincontent">
     <center class="h2 mt-4">Déstocker</center>
     <form action="" method="post"  class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
         {% csrf_token %}
@@ -15,5 +15,5 @@
         <button type="submit" class="btn btn-primary">confirmer</button>
         <a href="{% url 'stock' %}" class="btn btn-warning">retour</a>
     </form>
-</body>
+</div>
 {% endblock content %}

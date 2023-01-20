@@ -2,7 +2,7 @@
 {% block title %}Produit facture{% endblock title %}
 
 {% block content %}
-<body class="green text-white">
+<div class="green text-white maincontent">
 <center class="p-4 h2">
     {{msg}}
 </center>
@@ -35,5 +35,5 @@
     <button type = "submit" class="btn btn-primary">ajouter</button>
     <a href = "{%url 'facture' id%}" class="btn btn-warning">finaliser la facture</a> 
 </form>
-</body>
+</div>
 {% endblock content %}

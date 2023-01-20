@@ -2,7 +2,7 @@
 {% block title %}Finaliser Vente{% endblock title %}
 
 {% block content %}
-<body class= "green">
+<div class="green maincontent">
     <header class="text-center text-white p-4">
     <h1 class="display-4">Liste des Produits de la Vente : </h1>
   </header>
@@ -44,5 +44,5 @@
     <input type="number" max = {{total}} name = "montant" step = "0.01" id="montant">
     <button type="submit" class="btn btn-light">Valider</button>
 </form>
-</body>
+</div>
 {% endblock content %}

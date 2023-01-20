@@ -18,3 +18,7 @@ html,body {
 .max_content {
     width: max-content;
 }
+
+.maincontent {
+    height:100%;
+}
