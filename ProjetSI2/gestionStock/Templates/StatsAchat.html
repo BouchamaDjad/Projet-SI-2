@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Stats Vente{% endblock title %}
+
+{% block content %}
+<body>
+<div class="container">
+
+  <div class="row mb-5">
+    <div class="col">
+      <div class="">
+        <canvas id="12mois"></canvas>
+      </div>
+    </div>
+
+   <div class="col">
+      <div class="">
+         <canvas id="annee"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row mt-5 d-flex justify-content-center">
+    <img src = "{%static 'images/podium.png' %}" style = 'width : 150px; aspect-ratio : 1;'>
+  </div>
+
+  <div class="row mt-5 gap-4">
+    <div class="col border-end">
+
+      <h2 class="mb-5">Best Fournisseurs</h2>
+
+      {%for f in classementF%}
+
+       <div class="fs-3 d-flex gap-3 mb-3">
+        {%if forloop.counter == 1%}
+        <img src = "{%static "images/1.png" %}" style = 'width : 50px; aspect-ratio : 1;'>
+        {% elif forloop.counter == 2%}
+        <img src = "{%static "images/2.png" %}" style = 'width : 50px; aspect-ratio : 1;'>
+        {% else %} 
+        <img src = "{%static "images/3.png" %}" style = 'width : 50px; aspect-ratio : 1;'>
+        {%endif%}
+
+        {{f.nom}} {{f.prenom}} -> {{f.total}}
+       </div>
+
+      {%endfor%}
+
+    </div>
+
+   <div class="col">
+    <h2 class="mb-5">Best Products</h2>
+
+     {%for p in classementPr%}
+
+       <div class="fs-3 d-flex gap-3 mt-3">
+        {%if forloop.counter == 1%}
+        <img src = "{%static "images/1.png" %}" style = 'width : 50px; aspect-ratio : 1;'>
+        {% elif forloop.counter == 2%}
+        <img src = "{%static "images/2.png" %}" style = 'width : 50px; aspect-ratio : 1;'>
+        {% else %} 
+        <img src = "{%static "images/3.png" %}" style = 'width : 50px; aspect-ratio : 1;'>
+        {%endif%}
+
+        {{p.CodeP}} {{p.designation}} -> {{p.quantite}}
+       </div>
+
+      {%endfor%}
+
+    </div>
+
+  </div>
+
+</div>
+</body>
+{% endblock content %}
+
+{% block script %}
+<script>
+  const MONTHS = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+];
+
+function months(config) {
+    var cfg = config || {};
+    var count = cfg.count || 12;
+    var section = cfg.section;
+    var values = [];
+    var i, value;
+
+    for (i = 0; i < count; ++i) {
+        value = MONTHS[Math.ceil(i+ {{first_month}} -1 ) % 12];
+        values.push(value.substring(0, section));
+    }
+
+    return values;
+}
+
+  const labels = months({count:12});
+  montant = [{%for s in stats12mois%}{%if s.facture__date__month >= first_month%}parseFloat('{{s.montant}}'),{%endif%}{% endfor %}]
+  montant = montant.concat([{%for s in stats12mois%}{%if s.facture__date__month < first_month%}parseFloat('{{s.montant}}'),{%endif%}{% endfor %}])
+
+  label_annee = {{label_annee}};
+
+  ctx = document.getElementById('12mois');
+  new Chart(ctx, {
+    type: 'line',
+    data : {
+        labels: labels,
+        datasets: [{
+          label: 'total achat 12 mois',
+          data: montant,
+          fill: false,
+          borderColor: '#6A78B2',
+          tension: 0.1
+        }]
+    }
+  });
+
+  chartAnnee = document.getElementById('annee');
+  new Chart(chartAnnee, {
+    type: 'line',
+    data : {
+        labels: label_annee,
+        datasets: [{
+          label: 'total achat annee',
+          data: [{%for s in statsAnnee%}parseFloat('{{s.montant}}'),{% endfor %}],
+          fill: false,
+          borderColor: '#6A78B2',
+          tension: 0.1
+          }]
+    }
+  });
+
+</script>
+{% endblock script %}
+
+
+
+
+

@@ -37,5 +37,6 @@ urlpatterns = [
     path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
 
     path('Stats/',views.stats,name='stats'),
+    path('StatsAchats/',views.statsAchat,name='statsAchats')
         
 ]

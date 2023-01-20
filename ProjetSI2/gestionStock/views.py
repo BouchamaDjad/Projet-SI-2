@@ -210,7 +210,6 @@ def sauv_reg(request, pk):
         fournisseur = Fournisseur.objects.get(id = pk)
         factures = fournisseur.facture_set.filter(sommeRestante__gt = 0).order_by("numero")
         valeurs = request.POST.getlist('valeur[]')
-        print(valeurs)
         instance = ReglementFacture.objects.latest('id')
         filled = False
         date = instance.date
@@ -364,7 +363,6 @@ def déstocker(request,pk):
     if request.method == 'POST':
         form = SortieStockForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             SortieStock.objects.create(motif=form.cleaned_data["motif"],qt = form.cleaned_data["qt"],stock_id = pk)
             instance = Stock.objects.get(id=pk)
             instance.Qtp -= form.cleaned_data['qt']
@@ -543,3 +541,67 @@ def stats(request):
     }
 
     return render(request,"StatsVente.html",context)
+
+def statsAchat(request):
+
+    first_day_of_this_month = now().replace(day=1)
+    first_day_of_next_month = (
+       first_day_of_this_month + timedelta(days=32)
+    ).replace(day=1)
+    first_day_of_twelve_months_ago = first_day_of_next_month - relativedelta(years=1)
+
+    all_achats = Avoir.objects.all().values('produit','qta','prix__PrixUnite','facture__date','facture__fournisseur')
+
+    statsAnnee = all_achats.values("facture__date__year").annotate(montant = Sum(F('qta') * F('prix__PrixUnite'))).order_by("facture__date__year")
+    
+    achats12mois = Avoir.objects.filter(facture__date__gte = first_day_of_twelve_months_ago).values('qta','prix__PrixUnite','facture__date')
+
+    stats = achats12mois.values("facture__date__month").annotate(montant = Sum(F('qta') * F('prix__PrixUnite'))).order_by("facture__date__month")
+    
+    a = statsAnnee.first()['facture__date__year']
+    label_annee = [a+i for i in range(statsAnnee.count()) ]
+                                                                                                                                    #- F('facture__fournisseur__solde')
+    total_fournie_fournisseur = all_achats.values("facture__fournisseur").annotate(total_fournie = Sum(F('qta') * F('prix__PrixUnite'))).order_by('-total_fournie')
+
+    classementF = []
+    l = list(total_fournie_fournisseur)
+    length = len(l)
+    i = 0
+    while i<3 and i<length:
+        f = Fournisseur.objects.get(id = l[i]['facture__fournisseur'])
+        classementF.append({
+            'nom' : f.nom,
+            'prenom' : f.prenom,
+            'total' : l[i]['total_fournie']
+        })
+        i+=1
+   
+
+    plus_achetes = all_achats.values("produit").annotate(quantite = Sum('qta')).order_by('-quantite')
+    classementPr = []
+    l = list(plus_achetes)
+    length = len(l)
+    i = 0
+    while i<3 and i<length:
+        p = Produit.objects.get(CodeP = l[i]['produit'])
+        classementPr.append({
+            'CodeP':p.CodeP,
+            'designation' : p.designation,
+            'quantite' : l[i]['quantite']
+        })
+        i+=1
+
+
+
+    context = {
+        'first_month' : first_day_of_next_month.month,
+        'stats12mois':stats,
+        'statsAnnee' : statsAnnee,
+        'label_annee' : label_annee,
+        'classementF' : classementF,
+        'classementPr' : classementPr,
+    }
+
+    print
+
+    return render(request,"StatsAchat.html",context)
