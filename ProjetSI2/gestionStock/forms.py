@@ -146,8 +146,27 @@ class reglementVente(forms.ModelForm):
         }
 
 class SelectionClient(forms.Form):
-    choices = []
-    clients = Client.objects.all()
-    for f in clients :
-        choices.append((f.id,f'{f.nom} {f.prenom}'))
-    Client = forms.ChoiceField(choices = tuple(choices))
+    def __init__(self,choixC,*args, **kwargs):
+        super(SelectionClient, self).__init__(*args, **kwargs)
+        self.fields['Client'].choices = choixC
+    Client = forms.ChoiceField(choices = ())
+
+class FormType(forms.ModelForm):
+    class Meta:
+        model = TypeProduit
+        fields= ["designation"]
+    def __init__(self, *args, **kwargs):
+        super(FormType, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+class FormProduit(forms.ModelForm):
+    class Meta:
+        model = Produit
+        fields= ["designation","typeP"]
+    def __init__(self, *args, **kwargs):
+        super(FormProduit, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'  
+
+

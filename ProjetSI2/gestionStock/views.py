@@ -179,7 +179,11 @@ def reglement_facture(request):
 
 
 def reglement_vente(request):
-    formC = SelectionClient()
+    choices = []
+    clients = Client.objects.all()
+    for f in clients :
+        choices.append((f.id,f'{f.nom} {f.prenom}'))
+    formC = SelectionClient(choices)
     formR = reglementVente()
     context = {
         "formC":formC,
@@ -648,3 +652,22 @@ def creation_client(request):
         return redirect('clients')
     form = FormClient()
     return render(request,"CreeClient.html",{"form":form})
+
+def ajout_produit(request):
+    if request.method == 'POST':
+        form = FormProduit(request.POST)
+        if form.is_valid:
+            form.save()
+        return redirect('stock')
+    form = FormProduit()
+    return render(request,"ajoutProduit.html",{"form":form})
+
+def ajout_type(request):
+    if request.method == 'POST':
+        form = FormType(request.POST)
+        if form.is_valid:
+            print("n")
+            form.save()
+        return redirect('stock')
+    form = FormType()
+    return render(request,"ajoutType.html",{"form":form})

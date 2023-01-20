@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('AjouterType/',views.ajout_type,name="ajoutType"),
+    path('AjouterProduits/',views.ajout_produit,name="ajoutproduit"),
     path('Fournisseurs/',views.afficher_fournisseur,name="fournisseurs"),
     path('ModifierFournisseur/<int:pk>/',views.edit_fournisseur,name="editfournisseur"),
     path('AjouterFournisseur/',views.ajouter_fournisseur,name="ajouterfournisseur"),

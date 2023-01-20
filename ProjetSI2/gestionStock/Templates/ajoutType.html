@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Creation Client{% endblock title %}
+{% block content %}
+
+<div class="background-light maincontent">
+<center class="h2 mt-4">Veuillez remplir le formulaire pour Ajouter un Type de produits</center>
+<form method="POST" class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
+    {% csrf_token %}
+    {%for field in form%}
+        <div class="form-group">
+          <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+          {{field}}
+        </div>
+    {%endfor%}
+    <button type="submit" class="btn btn-danger">Ajouter</button>
+</form>
+</div>
+{% endblock content %}
