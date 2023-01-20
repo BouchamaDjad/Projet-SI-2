@@ -12,16 +12,31 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>{% block title %}{% endblock title %}</title>
 </head>
-
+<body>
+    <div class="d-flex">
+    {% include 'navbar.html' %}
     {% block content %}
     {% endblock content %}
+    </div>
 
     {% block script %}{% endblock script %}
-    
+
+
+<script>
+(() => {
+    'use strict'
+    const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+        new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+})()
+</script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
 <script type="text/javascript" src="{%static 'script.js' %}"></script>
 <script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="{%static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
 
 </html>

@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="green maincontent">
-    <header class="text-center text-white p-4">
+    <header class="text-center  p-4">
     <h1 class="display-4">Liste des Produits de la Vente : </h1>
   </header>
 <div class="py-4">
@@ -34,9 +34,9 @@
       </div>
     </div>
 </div>
-<center class="text-white center h3"> Total a payer : {{total}} </center> 
+<center class=" center h3"> Total a payer : {{total}} </center> 
 
-<form method="POST" class="d-flex text-white flex-wrap justify-content-center align-items-center gap-3 mt-5">
+<form method="POST" class="d-flex  flex-wrap justify-content-center align-items-center gap-3 mt-5">
     {% csrf_token %}
     <label for ="status"> Vente Payer completement : </label>
     <input type = "checkbox" class="form-control-lg" name = "status" id ="status">

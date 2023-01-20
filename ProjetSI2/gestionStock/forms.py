@@ -97,7 +97,8 @@ class StockForm(forms.Form):
     Qtp = forms.IntegerField(label="Quantité",widget=forms.NumberInput(attrs={"class":"form-control"}))
 
 class EntrerStockForm(forms.Form):
-    CodeP = forms.IntegerField(initial=Produit.objects.latest('CodeP').CodeP+1,widget=forms.NumberInput(attrs={"class":"form-control"}) )
+    min = Produit.objects.latest('CodeP').CodeP+1
+    CodeP = forms.IntegerField(initial=min,widget=forms.NumberInput(attrs={"class":"form-control","min":min}) )
     Designation  = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control"}))
     Type = TypeProduitChoiceField(TypeProduit.objects.all(),widget=forms.Select(attrs={"class":"form-control"}))
     Date = forms.DateField(initial=datetime.today(),widget=forms.DateInput(attrs={"class":"form-control","style":"display:block"}))

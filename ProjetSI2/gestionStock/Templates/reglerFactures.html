@@ -4,7 +4,7 @@
 <div class="green maincontent">
   {%if factures%}
   <div class="container py-5">
-  <header class="text-center text-white">
+  <header class="text-center ">
     <h1 class="display-4">Liste des factures impaye</h1>
   </header>
   <form method="POST" action ="{%url 'sauvreg' idF date %}">
@@ -43,7 +43,7 @@
   </form>
 </div>
 {%else%}
-<div class="d-flex flex-column align-items-center justify-content-center gap-5 text-white h-100">
+<div class="d-flex flex-column align-items-center justify-content-center gap-5  h-100">
     <h3>le fournisseur n'a aucun solde</h3>
     <a href="{%url "reglementfacture"%}" class="btn btn-danger">retour</a>
 </div>

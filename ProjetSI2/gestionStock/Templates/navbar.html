@@ -1,0 +1,106 @@
+{%load static%}
+<div class="flex-shrink-0 p-3 bg-white" style="width: 200px;">
+    <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+      <img class="bi pe-none me-2" width="30" height="30" src="{%static 'images/store.png'%}">
+      <span class="fs-5 fw-semibold">myStore</span>
+    </a>
+    <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#Favoris-collapse" aria-expanded="false">
+         Favoris
+        </button>
+        <div class="collapse" id="Favoris-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{%url 'selectionclient'%} " class="link-dark d-inline-flex text-decoration-none rounded">Vente au comptoir</a></li>
+            <li><a href="{%url 'reglementvente'%} " class="link-dark d-inline-flex text-decoration-none rounded">Clients</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Journal Ventes</a></li>
+          </ul>
+        </div>
+      </li>
+     <li class="border-top my-3"></li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+          Vente
+        </button>
+        <div class="collapse" id="home-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{%url 'selectionclient'%} " class="link-dark d-inline-flex text-decoration-none rounded">Vente au comptoir</a></li>
+            <li><a href="{%url 'reglementvente'%} " class="link-dark d-inline-flex text-decoration-none rounded">Paiement Credit</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Journal</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#achat-collapse" aria-expanded="false">
+          Achat
+        </button>
+        <div class="collapse" id="achat-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{%url 'creationBC'%} " class="link-dark d-inline-flex text-decoration-none rounded">Bon de commande</a></li>
+            <li><a href="{%url 'saisiefacture'%} " class="link-dark d-inline-flex text-decoration-none rounded">Facture</a></li>
+            <li><a href="{%url 'reglementfacture'%}" class="link-dark d-inline-flex text-decoration-none rounded">Reglement de facture</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Journal</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          Clients
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{%url 'clients'%}" class="link-dark d-inline-flex text-decoration-none rounded">Liste</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#fournisseurs-collapse" aria-expanded="false">
+        Fournisseurs
+        </button>
+        <div class="collapse" id="fournisseurs-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{%url 'fournisseurs'%} " class="link-dark d-inline-flex text-decoration-none rounded">Liste</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#stock-collapse" aria-expanded="false">
+        Stock
+        </button>
+        <div class="collapse" id="stock-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{%url 'stock'%}" class="link-dark d-inline-flex text-decoration-none rounded">Consulter</a></li>
+            <li><a href="{%url 'entrystock' %}" class="link-dark d-inline-flex text-decoration-none rounded">Entrees</a></li>
+            <li><a href="{%url 'sortiestock' %}" class="link-dark d-inline-flex text-decoration-none rounded">Sorties</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+        Dashboard
+        </button>
+        <div class="collapse" id="dashboard-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{%url 'stats'%}" class="link-dark d-inline-flex text-decoration-none rounded">Ventes</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Achats</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="border-top my-3"></li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+          Account
+        </button>
+        <div class="collapse" id="account-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New...</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Profile</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Settings</a></li>
+            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Sign out</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+</div>

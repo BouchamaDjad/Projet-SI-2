@@ -3,11 +3,11 @@
 {% block content %}
 <div class="green maincontent">
   <div class="container py-5">
-  <header class="text-center text-white">
+  <header class="text-center">
     <h1 class="display-4">Stock</h1>
   </header>
 
-  <form action="" method="get" class="d-flex text-white flex-wrap justify-content-center align-items-center gap-3 mt-5">
+  <form action="" method="get" class="d-flex flex-wrap justify-content-center align-items-center gap-3 mt-5">
        {%for field in form%}
         <div class="form-group">
           {{field.label}}
@@ -43,7 +43,7 @@
                 <td>{{ p.Qtp}}</td>
                 <td>
                 <div class="d-flex justify-content-evenly">
-                <a href=" {% url 'ajusterstock' p.produit.CodeP p.Prix.id %}" class="btn btn-warning">ajuster</a>
+                <a href=" {% url 'ajusterstock' p.id %}" class="btn btn-warning">ajuster</a>
                 <a href="{% url 'déstocker' p.id %}" class="btn btn-danger" {%if p.qt <= 0%} style = "pointer-events : none; opacity:60%;" {%endif%}>
                   déstocker</a></td>
                 </div>

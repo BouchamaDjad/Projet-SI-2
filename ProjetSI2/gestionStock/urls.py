@@ -14,19 +14,18 @@ urlpatterns = [
     path('Facture/<int:pk>/',views.afficher_facture,name="facture"),
 
     path('Stock/',views.afficher_stock,name='stock'),
-    path('Stock/edit/<int:pk>/<int:ppk>',views.ajuster_stock,name='ajusterstock'),
+    path('Stock/edit/<int:s>',views.ajuster_stock,name='ajusterstock'),
 
     path('ReglementFactures/',views.reglement_facture, name='reglementfacture'),
     path('ReglerFactures/',views.regler_factures, name='reglerfactures'),
     path('sauv_Reg/<int:pk>/<str:date>',views.sauv_reg,name='sauvreg'),
+    path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
+    path('SortieStock/',views.sortie_stock,name='sortiestock'),
+    path('Déstocker/<int:pk>/',views.déstocker,name='déstocker'),
 
     path('ReglementVentes/',views.reglement_vente, name='reglementvente'),
     path('ReglerVentes/',views.regler_ventes, name='reglerventes'), 
     path('sauv_RegV/<int:pk>/<str:date>',views.sauv_regV,name='sauvregV'),
-
-    path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
-    path('SortieStock/',views.sortie_stock,name='sortiestock'),
-    path('Déstocker/<int:pk>/',views.déstocker,name='déstocker'),
 
     path('SelectionClient/',views.selection_client,name='selectionclient'),
     path('CreeClientVente/',views.cree_clientV,name='creeclientV'),

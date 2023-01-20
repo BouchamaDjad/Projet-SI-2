@@ -4,7 +4,7 @@
 <div class="green maincontent">
   {%if ventes%}
   <div class="container py-5">
-  <header class="text-center text-white">
+  <header class="text-center ">
     <h1 class="display-4">Liste des achats impaye</h1>
   </header>
   <form method="POST" action ="{%url 'sauvregV' idC date %}">
@@ -43,7 +43,7 @@
   </div>
 </div>
 {%else%}
-<div class="d-flex flex-column align-items-center justify-content-center gap-5 text-white h-100">
+<div class="d-flex flex-column align-items-center justify-content-center gap-5  h-100">
     <h3>le client n'a aucun credit</h3>
     <a href="{%url "reglementvente"%}" class="btn btn-danger">retour</a>
 </div>

@@ -266,10 +266,13 @@ def afficher_stock(request):
     Total_achat = 0
     Total_vente = 0
     for s in stock:
-        instance_prix = Prix.objects.get(id = s.Prix_id)
-        if instance_prix:
-            Total_achat += s.Qtp * instance_prix.PrixUnite
-            Total_vente += s.Qtp * instance_prix.PrixVente
+        try : 
+            instance_prix = Prix.objects.get(id = s.Prix_id)
+            if instance_prix:
+                Total_achat += s.Qtp * instance_prix.PrixUnite
+                Total_vente += s.Qtp * instance_prix.PrixVente
+        except Prix.DoesNotExist:
+            pass
 
     benefice = Total_vente - Total_achat
 
@@ -279,16 +282,16 @@ def afficher_stock(request):
                                         "Total_vente":Total_vente,
                                         "benefice":benefice })
 
-def ajuster_stock(request,pk,ppk):
+def ajuster_stock(request,s):
+    stock=Stock.objects.get(id = s)
     if request.method == 'POST':
         form = StockForm(request.POST)
         
         if form.is_valid():
-            
             if not Prix.objects.filter(PrixUnite=form.cleaned_data['prixHT'],PrixVente=form.cleaned_data['prixVente']).exists():
                 Prix.objects.create(PrixUnite=form.cleaned_data['prixHT'],PrixVente=form.cleaned_data['prixVente'])
                                       
-            
+            stock.delete()
             if Stock.objects.filter(produit_id = int(form.cleaned_data['codeP']),
                                     Prix__PrixUnite = form.cleaned_data['prixHT'],
                                     Prix__PrixVente=form.cleaned_data['prixVente']).exists():
@@ -296,7 +299,7 @@ def ajuster_stock(request,pk,ppk):
                 instance = Stock.objects.get(produit_id = int(form.cleaned_data['codeP']),
                                              Prix__PrixUnite = form.cleaned_data['prixHT'],
                                              Prix__PrixVente=form.cleaned_data['prixVente'])
-                instance.Qtp = form.cleaned_data['Qtp'] # optimisation possible
+                instance.Qtp += form.cleaned_data['Qtp'] # optimisation possible
                 instance.save()
             else:
                 prix_id = Prix.objects.get(PrixUnite = form.cleaned_data['prixHT'],PrixVente=form.cleaned_data['prixVente']).id
@@ -304,22 +307,18 @@ def ajuster_stock(request,pk,ppk):
 
             return redirect('stock')
 
-    stock=Stock.objects.filter(produit_id=pk,Prix_id=ppk)
-    produit = {
-        "produit":Produit.objects.get(CodeP=pk),
-        "prix":Prix.objects.get(id=ppk),
-        "qt":0
-    }
-    for s in stock:
-        if s.Prix == produit["prix"]:
-            produit["qt"] += s.Qtp
+    if stock.Prix:
+        prixUnite = stock.Prix.PrixUnite
+        prixVente:stock.Prix.PrixVente
+    else:
+        prixUnite = None
+        prixVente=None
+    form = StockForm({"codeP":stock.produit.CodeP,
+                      "prixHT":prixUnite,
+                      "prixVente":prixVente,
+                      "Qtp":stock.Qtp})
 
-    form = StockForm({"codeP":pk,
-                      "prixHT":produit["prix"].PrixUnite,
-                      "prixVente":produit["prix"].PrixVente,
-                      "Qtp":produit["qt"]})
-
-    return render(request,"ajuster_stock.html",{'produit':produit,'form':form})
+    return render(request,"ajuster_stock.html",{'stock':stock,'form':form})
 
 def entrer_en_stock(request):
     if request.method == 'POST':
@@ -334,7 +333,6 @@ def entrer_en_stock(request):
             Stock.objects.create(Date=form.cleaned_data['Date'],
                                  Qtp=form.cleaned_data['Quantité'],
                                  produit_id=form.cleaned_data['CodeP'])
-            return redirect("entrystock")
 
     form = EntrerStockForm()
     entries = EntreeStock.objects.all()
@@ -342,17 +340,13 @@ def entrer_en_stock(request):
 
 def déstocker(request,pk):
     if request.method == 'POST':
-        form = SortieStockForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            SortieStock.objects.create(motif=form.cleaned_data["motif"],qt = form.cleaned_data["qt"],stock_id = pk)
-            instance = Stock.objects.get(id=pk)
-            instance.Qtp -= form.cleaned_data['qt']
-            instance.save()
-            return redirect('stock')
+        SortieStock.objects.create(motif=request.POST["motif"],qt = request.POST["qt"],stock_id = pk)
+        instance = Stock.objects.get(id=pk)
+        instance.Qtp -= int(request.POST['qt'])
+        instance.save()
+        return redirect('stock')
     
-    form = SortieStockForm()
-    return render(request,"DéStocker.html",{'form':form})
+    return render(request,"DéStocker.html",{'max':Stock.objects.get(id = pk).Qtp})
 
 def sortie_stock(request):
     sorties = SortieStock.objects.all()
@@ -387,7 +381,7 @@ def cree_clientV(request):
     return render(request,"CreeClientVente.html",{"form":form})
 
 def saisir_produit(request,pk):
-    produits = Stock.objects.filter(Qtp__gt = 0)
+    produits = Stock.objects.filter(Qtp__gt = 0,Prix__isnull = False)
     if request.GET:
         form = FiltreProduit(request.GET)
         if form.is_valid():

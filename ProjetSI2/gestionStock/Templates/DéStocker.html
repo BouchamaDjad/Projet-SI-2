@@ -2,16 +2,18 @@
 {% block title %}Destockage{% endblock title %}
 
 {% block content %}
-<div class="green text-white maincontent">
-    <center class="h2 mt-4">Déstocker</center>
+<div class="green maincontent">
+    <center class="h2 pt-4">Déstocker</center>
     <form action="" method="post"  class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
         {% csrf_token %}
-        {%for field in form%}
         <div class="form-group">
-          <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
-           {{field}}
+          <label class="form-label" for="id_motif">Motif</label>
+           <input type="text" name="motif" class="form-control" maxlength="30"  id="id_motif" required>
         </div>
-       {%endfor%}
+        <div class="form-group">
+          <label class="form-label" for="id_qt">Quantité déstocké</label>
+           <input type="number" name="qt" value="0" class="form-control" id="id_qt" max = '{{max}}' required>
+        </div>
         <button type="submit" class="btn btn-primary">confirmer</button>
         <a href="{% url 'stock' %}" class="btn btn-warning">retour</a>
     </form>
