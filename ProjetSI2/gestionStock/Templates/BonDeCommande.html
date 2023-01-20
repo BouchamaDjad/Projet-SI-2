@@ -4,7 +4,7 @@
 
 
 {% block content %}
-<div class="green maincontent">
+<div class="background-light maincontent">
     <center class="h2 mt-4">Bon De Commande</center>
     <form action="" method="POST" class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
         {% csrf_token %}
@@ -18,7 +18,7 @@
        </div>
         <div class="produits">
             {% for produitform in listproduitform %}
-                <p class="d-flex gap-2">
+                <p class="d-flex gap-4">
                 {{ produitform }}
                 </p>
             {% endfor %}

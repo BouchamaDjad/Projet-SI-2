@@ -3,29 +3,29 @@
 {% block title %}Stats Vente{% endblock title %}
 
 {% block content %}
-<div class="maincontent">
+<div class="maincontent background-light p-5">
 <div class="container">
-  <div class="row mb-5">
-    <div class="col">
-      <div class="">
-        <canvas id="12mois"></canvas>
+  <div class="row mb-5 gap-3 justify-content-center">
+    <div class="col chartCard">
+      <div class="chart-container" style="position: relative; height:100%;">
+        <canvas id="12mois" class="my-4 w-100"></canvas>
       </div>
     </div>
-   <div class="col">
-      <div class="">
-         <canvas id="annee"></canvas>
+   <div class="col chartCard">
+      <div class="chart-container" style="position: relative; height:100%;">
+         <canvas id="annee" class="my-4 w-100"></canvas>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <div class="">
-        <canvas id="Benifice12mois"></canvas>
+  <div class="row gap-3 justify-content-center">
+    <div class="col chartCard">
+      <div class="chart-container" style="position: relative;height:100%;">
+        <canvas id="Benifice12mois" class="my-4 w-100"></canvas>
       </div>
     </div>
-   <div class="col">
-      <div class="">
-        <canvas id="BenificeAnnee"></canvas>
+   <div class="col chartCard">
+      <div class="chart-container" style="position: relative;height:100%;">
+        <canvas id="BenificeAnnee" class="my-4 w-100"></canvas>
       </div>
     </div>
   </div>
@@ -113,9 +113,14 @@ function months(config) {
         label: 'total vente 12 mois',
         data: montant,
         fill: false,
+        backgroundColor:'rgb(255,255,255)',
         borderColor: 'rgb(75, 192, 192)',
          tension: 0.1
         }]
+    },
+    option : {
+      maintainAspectRatio:false,
+      responsive:true,
     }
   });
 
@@ -131,6 +136,10 @@ function months(config) {
         borderColor: 'rgb(75, 192, 192)',
          tension: 0.1
         }]
+    },
+    option : {
+      maintainAspectRatio:false,
+      responsive:true,
     }
   });
 
@@ -149,6 +158,10 @@ function months(config) {
         borderColor: 'rgb(75, 192, 192)',
          tension: 0.1
         }]
+    },
+    option : {
+      maintainAspectRatio:false,
+      responsive:true,
     }
   });
 
@@ -164,6 +177,10 @@ function months(config) {
         borderColor: 'rgb(75, 192, 192)',
          tension: 0.1
         }]
+    },
+    option : {
+      maintainAspectRatio:false,
+      responsive:true,
     }
   });
 

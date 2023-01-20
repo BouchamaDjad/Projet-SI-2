@@ -164,7 +164,11 @@ def download_file(request, filename):
 
 
 def reglement_facture(request):
-    formF = SelectionFournisseur()
+    choices = []
+    fournisseurs = Fournisseur.objects.all()
+    for f in fournisseurs :
+        choices.append((f.id,f'{f.nom} {f.prenom}'))
+    formF = SelectionFournisseur(choices)
     formR = reglementFacture()
     context = {
         "formF":formF,
@@ -579,3 +583,68 @@ def statsAchat(request):
     }
 
     return render(request,"StatsAchat.html",context)
+
+def supprimer_client(request,pk):
+    instance = Client.objects.get(id = pk)
+    instance.delete()
+    return redirect("clients")
+    
+def supprimer_fournisseur(request,pk):
+    instance = Fournisseur.objects.get(id = pk)
+    instance.delete()
+    return redirect("fournisseurs")
+
+def ajouter_fournisseur(request):
+    if request.method == "POST":
+        form = FormFournisseur(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect("fournisseurs")
+    
+    form = FormClient()
+    return render(request,"CreeFournisseur.html",{"form":form})
+
+def edit_client(request,pk):
+    client = Client.objects.get(id = pk)
+    if request.method == 'POST':
+        form = FormClient(request.POST,instance=client)
+        if form.is_valid:
+            form.save()
+        return redirect('clients')
+           
+    
+
+    form = FormClient(initial={
+    'nom': client.nom, 
+    'prenom':client.prenom,
+    'phone':client.phone,
+    'adresse':client.adresse
+    })
+
+    return render(request,"modifierClient.html",{"form":form})
+
+def edit_fournisseur(request,pk):
+    fournisseur = Fournisseur.objects.get(id = pk)
+    if request.method == 'POST':
+        form = FormFournisseur(request.POST,instance=fournisseur)
+        if form.is_valid:
+            form.save()
+        return redirect('fournisseurs')
+           
+    form = FormFournisseur(initial={
+    'nom': fournisseur.nom, 
+    'prenom':fournisseur.prenom,
+    'phone':fournisseur.phone,
+    'adresse':fournisseur.adresse
+    })
+
+    return render(request,"modifierFournisseur.html",{"form":form})
+
+def creation_client(request):
+    if request.method == 'POST':
+        form = FormClient(request.POST)
+        if form.is_valid:
+            form.save()
+        return redirect('clients')
+    form = FormClient()
+    return render(request,"CreeClient.html",{"form":form})

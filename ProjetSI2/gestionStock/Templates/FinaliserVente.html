@@ -2,7 +2,7 @@
 {% block title %}Finaliser Vente{% endblock title %}
 
 {% block content %}
-<div class="green maincontent">
+<div class="background-light maincontent">
     <header class="text-center  p-4">
     <h1 class="display-4">Liste des Produits de la Vente : </h1>
   </header>
@@ -42,7 +42,7 @@
     <input type = "checkbox" class="form-control-lg" name = "status" id ="status">
     <label  for ="montant"> Montant attribue : </label> 
     <input type="number" max = {{total}} name = "montant" step = "0.01" id="montant">
-    <button type="submit" class="btn btn-light">Valider</button>
+    <button type="submit" class="btn btn-primary">Valider</button>
 </form>
 </div>
 {% endblock content %}

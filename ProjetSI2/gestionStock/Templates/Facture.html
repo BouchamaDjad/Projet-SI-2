@@ -2,7 +2,7 @@
 {% block title %}Facture{% endblock title %}
 
 {% block content %}
-<div class="green maincontent">
+<div class="background-light maincontent">
   <div class="container py-5">
   <header class="text-center ">
     <h1 class="display-4">Liste des Produits de la facture N°{{facture.numero}}</h1>
@@ -45,7 +45,7 @@
     <form method = "POST" class="d-flex  flex-wrap justify-content-center align-items-center gap-3 mt-5">
         {%csrf_token%}
         {{form.as_div}}
-    <button type= "submit" class="btn btn-light">Confirmer</button>
+    <button type= "submit" class="btn btn-primary">Confirmer</button>
    </form>
 </div>
 

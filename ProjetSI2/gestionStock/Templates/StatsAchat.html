@@ -3,19 +3,19 @@
 {% block title %}Stats Vente{% endblock title %}
 
 {% block content %}
-<div class="maincontent">
+<div class="maincontent background-light p-5">
 <div class="container">
 
-  <div class="row mb-5">
-    <div class="col">
-      <div class="">
-        <canvas id="12mois"></canvas>
+  <div class="row mb-5 gap-3 justify-content-center">
+    <div class="col chartCard">
+      <div class="chart-container" style="position: relative; height:100%;">
+        <canvas id="12mois" class="my-4 w-100"></canvas>
       </div>
     </div>
 
-   <div class="col">
-      <div class="">
-         <canvas id="annee"></canvas>
+   <div class="col chartCard">
+      <div class="chart-container" style="position: relative; height:100%;">
+         <canvas id="annee" class="my-4 w-100"></canvas>
       </div>
     </div>
 

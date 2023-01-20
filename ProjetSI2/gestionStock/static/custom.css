@@ -11,12 +11,8 @@ body {
     width : fit-content;
 }
 
-.green {
-    background-color: #f8f9fd;
-}
-
-.light_green{
-  background-color: rgb(147, 252, 192);
+.background-light {
+    background-color: rgb(248, 249, 253);
 }
 
 
@@ -27,6 +23,16 @@ body {
 .maincontent {
     min-height:100vh;
     flex:1;
+    box-shadow:-1px 0 0 rgba(0, 0, 0, .1);;
+}
+
+.chartCard {
+    padding : 20px;
+    background-color: white;
+    border-radius: 8px;
+    border:1px solid rgb(4, 65, 65);
+    max-width: 700px;
+    min-width:400px;
 }
 
 

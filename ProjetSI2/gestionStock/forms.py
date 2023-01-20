@@ -72,11 +72,11 @@ class reglementFacture(forms.ModelForm):
         }
     
 class SelectionFournisseur(forms.Form):
-    choices = []
-    fournisseurs = Fournisseur.objects.all()
-    for f in fournisseurs :
-        choices.append((f.id,f'{f.nom} {f.prenom}'))
-    Fournisseur = forms.ChoiceField(choices = tuple(choices))
+    def __init__(self,choixF,*args, **kwargs):
+        super(SelectionFournisseur, self).__init__(*args, **kwargs)
+        self.fields['Fournisseur'].choices = choixF
+    
+    Fournisseur = forms.ChoiceField(choices = ())
 
 class TypeProduitChoiceField(forms.ModelChoiceField):
     class Meta:
@@ -127,6 +127,15 @@ class FormClient(forms.ModelForm):
         super(FormClient, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+class FormFournisseur(forms.ModelForm):
+    class Meta : 
+        model = Fournisseur
+        exclude = ['solde']
+    def __init__(self, *args, **kwargs):
+        super(FormFournisseur, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'  
 
 class reglementVente(forms.ModelForm):
     class Meta:

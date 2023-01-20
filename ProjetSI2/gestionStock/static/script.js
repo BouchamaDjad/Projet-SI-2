@@ -23,3 +23,13 @@ $(function () {
         });
     });
 });
+
+$(function () {
+    $(document).ready(function () {
+        $('#deuxF').DataTable({
+            columnDefs: [
+                { "searchable": false, "targets":[2,3,4,5]},
+            ]
+        });
+    });
+});

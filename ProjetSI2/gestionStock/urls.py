@@ -3,11 +3,17 @@ from . import views
 
 urlpatterns = [
     path('Fournisseurs/',views.afficher_fournisseur,name="fournisseurs"),
+    path('ModifierFournisseur/<int:pk>/',views.edit_fournisseur,name="editfournisseur"),
+    path('AjouterFournisseur/',views.ajouter_fournisseur,name="ajouterfournisseur"),
+    path('SupprimerFournisseur/<int:pk>',views.supprimer_fournisseur,name="supprimerfournisseur"),
 
     path('BonCommande/',views.créer_bon_commande,name="creationBC"),
     path('BC/<str:filename>/',views.download_file,name="download_file"),
 
     path('Clients/',views.afficher_client,name = "clients"),
+    path('CreationClient/',views.creation_client,name = "creationclient"),
+    path('SupprimerClient/<int:pk>',views.supprimer_client,name = "supprimerclient"),
+    path('Clients/edit/<int:pk>',views.edit_client,name = "editclient"),
 
     path('SaisieFacture/',views.saisie_facture, name='saisiefacture'),
     path('ProduitsFacture/<int:pk>/<int:idFr>/<str:date>/',views.produits_facture, name='produitsfacture'),
@@ -36,5 +42,5 @@ urlpatterns = [
     path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
 
     path('Stats/',views.stats,name='stats'),
-    path('StatsAchats/',views.statsAchat,name='statsAchats'),    
+    path('StatsAchats/',views.statsAchat,name='statsAchats'), 
 ]

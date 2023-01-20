@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="green maincontent">
+<div class="background-light maincontent">
   <div class="container py-5">
   <header class="text-center">
     <h1 class="display-4">Stock</h1>
@@ -42,11 +42,12 @@
                 <td>{{ p.Prix.PrixVente }}</td>
                 <td>{{ p.Qtp}}</td>
                 <td>
-                <div class="d-flex justify-content-evenly">
-                <a href=" {% url 'ajusterstock' p.id %}" class="btn btn-warning">ajuster</a>
-                <a href="{% url 'déstocker' p.id %}" class="btn btn-danger" {%if p.qt <= 0%} style = "pointer-events : none; opacity:60%;" {%endif%}>
-                  déstocker</a></td>
-                </div>
+                  <div class="d-flex justify-content-evenly">
+                    <a href=" {% url 'ajusterstock' p.id %}" class="btn btn-warning">ajuster</a>
+                    <a href="{% url 'déstocker' p.id %}" class="btn btn-danger" {%if p.qt <= 0%} style = "pointer-events : none; opacity:60%;" {%endif%}>
+                    déstocker</a>
+                  </div>
+                </td>
                 </tr>
                 {% endfor %}
               </tbody>

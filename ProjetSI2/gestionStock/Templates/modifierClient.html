@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Creation Client{% endblock title %}
+{% block title %}modification client{% endblock title %}
 {% block content %}
 
 <div class="background-light maincontent">
-<center class="h2 mt-4">Veuillez remplir le formulaire pour cree un client</center>
+<center class="h2 mt-4">Veuillez remplir le formulaire pour modifier le client</center>
 <form method="POST" class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
     {% csrf_token %}
     {%for field in form%}
@@ -12,7 +12,7 @@
           {{field}}
         </div>
     {%endfor%}
-    <button type="submit" class="btn btn-danger">Ajouter</button>
+    <button type="submit" class="btn btn-danger">Ajuster</button>
 </form>
 </div>
 {% endblock content %}
