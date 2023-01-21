@@ -183,7 +183,7 @@ def reglement_vente(request):
     clients = Client.objects.all()
     for f in clients :
         choices.append((f.id,f'{f.nom} {f.prenom}'))
-    formC = SelectionClient(tuple(choices))
+    formC = SelectionClient(choixC = tuple(choices))
     formR = reglementVente()
     context = {
         "formC":formC,
@@ -212,7 +212,11 @@ def regler_factures(request):
 
 def regler_ventes(request):
     if request.method == 'POST':
-        formC = SelectionClient(request.POST)
+        choices = []
+        clients = Client.objects.all()
+        for f in clients :
+            choices.append((f.id,f'{f.nom} {f.prenom}'))
+        formC = SelectionClient(request.POST,choixC=choices)
         formR = reglementVente(request.POST)
         if formC.is_valid() and formR.is_valid():
             idC = formC.cleaned_data["Client"]
