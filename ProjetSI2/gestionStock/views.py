@@ -168,7 +168,7 @@ def reglement_facture(request):
     fournisseurs = Fournisseur.objects.all()
     for f in fournisseurs :
         choices.append((f.id,f'{f.nom} {f.prenom}'))
-    formF = SelectionFournisseur(choices)
+    formF = SelectionFournisseur(choixF=tuple(choices))
     formR = reglementFacture()
     context = {
         "formF":formF,
@@ -183,7 +183,7 @@ def reglement_vente(request):
     clients = Client.objects.all()
     for f in clients :
         choices.append((f.id,f'{f.nom} {f.prenom}'))
-    formC = SelectionClient(choices)
+    formC = SelectionClient(tuple(choices))
     formR = reglementVente()
     context = {
         "formC":formC,
@@ -194,8 +194,13 @@ def reglement_vente(request):
 
 def regler_factures(request):
     if request.method == 'POST':
-        formF = SelectionFournisseur(request.POST)
+        choices = []
+        fournisseurs = Fournisseur.objects.all()
+        for f in fournisseurs :
+            choices.append((f.id,f'{f.nom} {f.prenom}'))
+        formF = SelectionFournisseur(request.POST,choixF=choices)
         formR = reglementFacture(request.POST)
+        print(formF.fields['Fournisseur'].choices)
         if formF.is_valid() and formR.is_valid():
             idF = formF.cleaned_data["Fournisseur"]
             fournisseur = Fournisseur.objects.get(id = idF)
@@ -666,7 +671,6 @@ def ajout_type(request):
     if request.method == 'POST':
         form = FormType(request.POST)
         if form.is_valid:
-            print("n")
             form.save()
         return redirect('stock')
     form = FormType()
@@ -692,3 +696,60 @@ def edit_types(request,pk):
     
     form = FormType()
     return render(request,"editType.html",{"form":form})
+
+def liste_factures(request):
+    factures = Facture.objects.all()
+    context = {
+        'factures':factures,
+    }
+    return render(request,"journal facture.html",context)
+
+def details_facture(request,pk):
+    try :
+        facture = Facture.objects.get(numero = pk)
+    except Facture.DoesNotExist:
+        return redirect("listefactures")
+    HT = 0
+    for p in facture.avoir_set.all():
+        HT += p.prix.PrixUnite * p.qta
+    TTC = HT + HT * 0.19
+    TTC = TTC - TTC * facture.remise/100
+    return render(request,"details facture.html",{"facture": facture,"TTC":TTC})
+
+def edit_facture(request,pk):
+    try :
+        facture = Facture.objects.get(numero = pk)
+    except Facture.DoesNotExist:
+        return redirect("listefactures")
+    if request.method == 'POST':
+        r = facture.sommeRestante
+        id = facture.fournisseur.id
+        form = FormFacture(request.POST, instance = facture)
+        if form.is_valid():
+            if id == form.cleaned_data["fournisseur"].id:
+                f = Fournisseur.objects.get(id = id)
+                f.solde += float(form.cleaned_data["sommeRestante"]) - r
+                f.save()
+            else : 
+                f = Fournisseur.objects.get(id = id)
+                f.solde -= r
+                f.save()
+                f2 = Fournisseur.objects.get(id = form.cleaned_data["fournisseur"].id)
+                f2.solde += float(form.cleaned_data["sommeRestante"])
+                f2.save()
+            form.save()
+            return redirect("listefactures")    
+
+                    
+    form = FormFacture(instance=facture)
+    context = {
+        "form":form
+    }
+    return render(request,'edit facture.html',context)
+
+def supprimer_facture(request,pk):
+    f = Facture.objects.get(numero = pk)
+    f.fournisseur.solde-=f.sommeRestante
+    f.fournisseur.save()
+    f.delete()
+    return redirect("listefactures")

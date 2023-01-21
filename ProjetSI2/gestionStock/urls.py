@@ -27,6 +27,10 @@ urlpatterns = [
     path('SaisieFacture/',views.saisie_facture, name='saisiefacture'),
     path('ProduitsFacture/<int:pk>/<int:idFr>/<str:date>/',views.produits_facture, name='produitsfacture'),
     path('Facture/<int:pk>/',views.afficher_facture,name="facture"),
+    path('listeFactures/',views.liste_factures,name="listefactures"),
+    path('detailsFacture/<int:pk>',views.details_facture,name="detailsfacture"),
+    path('editFacture/<int:pk>',views.edit_facture,name="editfacture"),
+    path('SupprimerFacture/<int:pk>',views.supprimer_facture,name="supprimerfacture"),
 
     path('Stock/',views.afficher_stock,name='stock'),
     path('Stock/edit/<int:s>',views.ajuster_stock,name='ajusterstock'),

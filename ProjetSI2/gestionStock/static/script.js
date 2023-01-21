@@ -40,6 +40,7 @@ Urls = [
     { nom: "Bon de commande", url: "http://127.0.0.1:8000/BonCommande/" },
     { nom: "Saisir Facture", url:"http://127.0.0.1:8000/SaisieFacture/" },
     { nom: "Reglement de facture", url:"http://127.0.0.1:8000/ReglementFactures/" },
+    { nom: "Journal Achats", url: "http://127.0.0.1:8000/listeFactures/" },
     { nom: "liste clients", url:"http://127.0.0.1:8000/Clients/" },
     { nom: "Ajout client", url:"http://127.0.0.1:8000/CreationClient/" },
     { nom: "Liste Fournisseurs", url:"http://127.0.0.1:8000/Fournisseurs/" },
@@ -51,7 +52,7 @@ Urls = [
     { nom: "Liste Types Produits" ,url:"http://127.0.0.1:8000/TypesProduits"},
     { nom: "Ajout Type produit", url:"http://127.0.0.1:8000/AjouterType/" },
     { nom: "stats Ventes", url:"http://127.0.0.1:8000/Stats/" },
-    { nom: "stats Achats", url:"http://127.0.0.1:8000/StatsAchats/" }
+    { nom: "stats Achats", url:"http://127.0.0.1:8000/StatsAchats/" },
 ]
 
 function getUrl(nom){

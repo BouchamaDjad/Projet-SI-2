@@ -72,9 +72,10 @@ class reglementFacture(forms.ModelForm):
         }
     
 class SelectionFournisseur(forms.Form):
-    def __init__(self,choixF,*args, **kwargs):
-        super(SelectionFournisseur, self).__init__(*args, **kwargs)
-        self.fields['Fournisseur'].choices = choixF
+    def __init__(self,*args, **kwargs):
+        self._choixF = kwargs.pop('choixF', None)
+        super().__init__(*args, **kwargs)
+        self.fields['Fournisseur'].choices = self._choixF
     
     Fournisseur = forms.ChoiceField(choices = ())
 
@@ -146,9 +147,10 @@ class reglementVente(forms.ModelForm):
         }
 
 class SelectionClient(forms.Form):
-    def __init__(self,choixC,*args, **kwargs):
+    def __init__(self,*args, **kwargs):
+        self._choixC = kwargs.pop('choixC', None)
         super(SelectionClient, self).__init__(*args, **kwargs)
-        self.fields['Client'].choices = choixC
+        self.fields['Client'].choices =self._choixC
     Client = forms.ChoiceField(choices = ())
 
 class FormType(forms.ModelForm):
@@ -168,3 +170,12 @@ class FormProduit(forms.ModelForm):
         super(FormProduit, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'  
+
+class FormFacture(forms.ModelForm):
+    class Meta:
+        model = Facture
+        exclude = ["numero"]
+    def __init__(self, *args, **kwargs):
+        super(FormFacture, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
