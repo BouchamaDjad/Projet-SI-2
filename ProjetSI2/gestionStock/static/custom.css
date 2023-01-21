@@ -20,6 +20,32 @@ body {
     width: max-content;
 }
 
+.containerF {
+  z-index: 6;
+  width: 300px;
+  padding: 16px;
+  color: rgb(255, 0, 0);
+  background-color: #1f1f1f;
+  border-radius: 8px;
+  font-size: 20px;
+  transform: scale(1);
+  transition: ease-in 0.2s;
+  top : 30px;
+  left: 40%;
+}
+
+.opt {
+  margin-top:5px;
+  color : white;
+  font-size: 15px;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.688);
+  z-index: 5;
+}
+
+
 .maincontent {
     min-height:100vh;
     flex:1;

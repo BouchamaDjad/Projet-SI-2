@@ -9,11 +9,9 @@
         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#Favoris-collapse" aria-expanded="false">
          Favoris
         </button>
+         <span style="margin-left:20px;"><img id="wheel" style="width:24px; height:24px;"; src="{%static 'images/settings.png'%}"></span>
         <div class="collapse" id="Favoris-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="{%url 'selectionclient'%} " class="link-dark d-inline-flex text-decoration-none rounded">Vente au comptoir</a></li>
-            <li><a href="{%url 'reglementvente'%} " class="link-dark d-inline-flex text-decoration-none rounded">Clients</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Journal Ventes</a></li>
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" id="favoris">
           </ul>
         </div>
       </li>
@@ -37,7 +35,7 @@
         <div class="collapse" id="achat-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="{%url 'creationBC'%} " class="link-dark d-inline-flex text-decoration-none rounded">Bon de commande</a></li>
-            <li><a href="{%url 'saisiefacture'%} " class="link-dark d-inline-flex text-decoration-none rounded">Facture</a></li>
+            <li><a href="{%url 'saisiefacture'%} " class="link-dark d-inline-flex text-decoration-none rounded">Saisir Facture</a></li>
             <li><a href="{%url 'reglementfacture'%}" class="link-dark d-inline-flex text-decoration-none rounded">Reglement de facture</a></li>
             <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Journal</a></li>
           </ul>
@@ -115,4 +113,15 @@
         </div>
       </li>
     </ul>
+</div>
+
+
+<div class="overlay position-absolute top-0 start-0 end-0 bottom-0 d-none">
+</div>
+
+<div class="containerF position-absolute d-none">
+    <div class="d-flex justify-content-between"><div>chosisser vos favoris</div><span id="close">X</span></div>
+    <div class="urls">
+      
+    </div>
 </div>
