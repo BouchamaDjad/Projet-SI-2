@@ -24,7 +24,10 @@
                 <tr>
                     <td>{{ t.designation }}</td>
                     <td>
+                      <div class="d-flex justify-content-evenly">
+                        <a href=" {% url 'editTypes' t.id %}" class="btn btn-warning">modifier</a>
                         <a href=" {% url 'DeleteTypes' t.id %}" class="btn btn-danger">supprimer</a>
+                      </div>
                     </td>
                 </tr>
                 {% endfor %}

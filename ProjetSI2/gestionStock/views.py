@@ -680,3 +680,15 @@ def supprimer_type(request,pk):
     instance = TypeProduit.objects.get(id = pk)
     instance.delete()
     return redirect('types produit') 
+
+def edit_types(request,pk):
+    if request.method == 'POST':
+        form = FormType(request.POST)
+        if form.is_valid():
+            t = TypeProduit.objects.get(id = pk)
+            t.designation = form.cleaned_data['designation']
+            t.save()
+        return redirect('types produit')
+    
+    form = FormType()
+    return render(request,"editType.html",{"form":form})

@@ -5,6 +5,7 @@ urlpatterns = [
     path('AjouterType/',views.ajout_type,name="ajoutType"),
     path('TypesProduits/',views.afficher_type,name='types produit'),
     path('SupprimerType/<int:pk>',views.supprimer_type ,name='DeleteTypes'),
+    path('TypesProduits/edit/<int:pk>',views.edit_types,name='editTypes'),
 
     path('AjouterProduits/',views.ajout_produit,name="ajoutproduit"),
     # modifier
