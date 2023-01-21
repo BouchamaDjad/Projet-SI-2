@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Types Produits{% endblock title %}
+
+{% block content %}
+<div class= "background-light maincontent">
+  <div class="container py-5">
+  <header class="text-center ">
+    <h1 class="display-4">Liste des Types</h1>
+  </header>
+  <div class="row py-5">
+    <div class="col-lg-10 mx-auto">
+      <div class="card rounded shadow border-0">
+        <div class="card-body p-5 bg-white rounded">
+          <div class="table-responsive">
+            <table id="deuxF" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                    <th>Désignation des types</th>
+                    <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for t in types %}
+                <tr>
+                    <td>{{ t.designation }}</td>
+                    <td>
+                        <a href=" {% url 'DeleteTypes' t.id %}" class="btn btn-danger">supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

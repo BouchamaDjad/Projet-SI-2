@@ -671,3 +671,12 @@ def ajout_type(request):
         return redirect('stock')
     form = FormType()
     return render(request,"ajoutType.html",{"form":form})
+
+def afficher_type(request):
+    produit_types = TypeProduit.objects.all()
+    return render(request,"types produit.html",{"types":produit_types})
+
+def supprimer_type(request,pk):
+    instance = TypeProduit.objects.get(id = pk)
+    instance.delete()
+    return redirect('types produit') 

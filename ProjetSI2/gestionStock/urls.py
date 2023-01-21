@@ -3,7 +3,13 @@ from . import views
 
 urlpatterns = [
     path('AjouterType/',views.ajout_type,name="ajoutType"),
+    path('TypesProduits/',views.afficher_type,name='types produit'),
+    path('SupprimerType/<int:pk>',views.supprimer_type ,name='DeleteTypes'),
+
     path('AjouterProduits/',views.ajout_produit,name="ajoutproduit"),
+    # modifier
+    # suppression
+
     path('Fournisseurs/',views.afficher_fournisseur,name="fournisseurs"),
     path('ModifierFournisseur/<int:pk>/',views.edit_fournisseur,name="editfournisseur"),
     path('AjouterFournisseur/',views.ajouter_fournisseur,name="ajouterfournisseur"),

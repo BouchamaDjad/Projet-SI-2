@@ -48,6 +48,7 @@ Urls = [
     { nom: "Entrees stock", url:"http://127.0.0.1:8000/EntréeStock/" },
     { nom: "Sorties stock", url:"http://127.0.0.1:8000/SortieStock/" },
     { nom: "Ajout Produit", url:"http://127.0.0.1:8000/AjouterProduits/" },
+    { nom: "Liste Types Produits" ,url:"http://127.0.0.1:8000/TypesProduits"},
     { nom: "Ajout Type produit", url:"http://127.0.0.1:8000/AjouterType/" },
     { nom: "stats Ventes", url:"http://127.0.0.1:8000/Stats/" },
     { nom: "stats Achats", url:"http://127.0.0.1:8000/StatsAchats/" }
