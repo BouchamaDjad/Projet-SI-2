@@ -38,6 +38,10 @@ urlpatterns = [
     path('ReglementFactures/',views.reglement_facture, name='reglementfacture'),
     path('ReglerFactures/',views.regler_factures, name='reglerfactures'),
     path('sauv_Reg/<int:pk>/<str:date>',views.sauv_reg,name='sauvreg'),
+    path('journalReglement/',views.liste_reglementF,name="listereglementF"),
+    path('editReglementF/<int:pk>',views.edit_reglementF,name="editreglementF"),
+    path('SupprimerReglementF/<int:pk>',views.supprimer_reglementF,name="supprimerreglementF"),
+    
     path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
     path('SortieStock/',views.sortie_stock,name='sortiestock'),
     path('Déstocker/<int:pk>/',views.déstocker,name='déstocker'),

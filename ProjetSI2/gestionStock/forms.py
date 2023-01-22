@@ -179,3 +179,12 @@ class FormFacture(forms.ModelForm):
         super(FormFacture, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+class FormRegF(forms.ModelForm):
+    class Meta:
+        model = ReglementFacture
+        exclude = ["facture"]
+    def __init__(self, *args, **kwargs):
+        super(FormRegF, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

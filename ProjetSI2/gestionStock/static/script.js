@@ -41,6 +41,7 @@ Urls = [
     { nom: "Saisir Facture", url:"http://127.0.0.1:8000/SaisieFacture/" },
     { nom: "Reglement de facture", url:"http://127.0.0.1:8000/ReglementFactures/" },
     { nom: "Journal Achats", url: "http://127.0.0.1:8000/listeFactures/" },
+    { nom: "Journal Reglement Facture", url: "http://127.0.0.1:8000/journalReglement/" },
     { nom: "liste clients", url:"http://127.0.0.1:8000/Clients/" },
     { nom: "Ajout client", url:"http://127.0.0.1:8000/CreationClient/" },
     { nom: "Liste Fournisseurs", url:"http://127.0.0.1:8000/Fournisseurs/" },

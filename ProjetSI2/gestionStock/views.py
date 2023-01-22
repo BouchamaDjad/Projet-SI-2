@@ -757,3 +757,42 @@ def supprimer_facture(request,pk):
     f.fournisseur.save()
     f.delete()
     return redirect("listefactures")
+
+def liste_reglementF(request):
+    reglements = ReglementFacture.objects.all()
+    context = {
+        'reglements':reglements,
+    }
+    return render(request,"listRegFactures.html",context)
+
+def edit_reglementF(request,pk):
+    try :
+        reg = ReglementFacture.objects.get(id = pk)
+    except Facture.DoesNotExist:
+        return redirect("listereglementF")
+    if request.method == 'POST':
+        r = reg.sommeAjoute
+        form = FormRegF(request.POST, instance = reg)
+        if form.is_valid():
+            if reg.facture:
+                reg.facture.fournisseur.solde += r - float(form.cleaned_data["sommeAjoute"])
+                reg.facture.fournisseur.save()
+                reg.facture.sommeRestante += r - float(form.cleaned_data["sommeAjoute"])
+                reg.facture.save()
+            form.save()
+            return redirect("listereglementF")            
+    form = FormRegF(instance=reg)
+    context = {
+        "form":form
+    }
+    return render(request,'edit regelementF.html',context)
+
+def supprimer_reglementF(request,pk):
+    reg = ReglementFacture.objects.get(id = pk)
+    if reg.facture:
+        reg.facture.fournisseur.solde +=reg.sommeAjoute
+        reg.facture.fournisseur.save()
+        reg.facture.sommeRestante +=reg.sommeAjoute
+        reg.facture.save()
+    reg.delete()
+    return redirect("listereglementF")
