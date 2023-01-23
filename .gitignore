@@ -1,5 +1,8 @@
 myenv
 
+#pour le temporaire du docx
+~* 
+
 *.pdf
 
 css

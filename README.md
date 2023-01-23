@@ -1,8 +1,9 @@
 # Projet SI 2
 
-myenv/scripts/Activate
+il reste 
+    **1. le readme.txt** 
+    **2. le manuel** 
 
-Super User : admin/admin
 
 ---
 
