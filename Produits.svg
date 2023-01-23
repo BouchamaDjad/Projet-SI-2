@@ -39,7 +39,7 @@
 	<line x1="211" y1="515" x2="345" y2="287" stroke="#4393c3" stroke-width="2"/>
 	<text x="245" y="473" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
 	<line x1="479" y1="287" x2="345" y2="287" stroke="#4393c3" stroke-width="2"/>
-	<text x="389" y="304" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
+	<text x="389" y="304" fill="#b2182b" font-family="Verdana" font-size="12">0,N</text>
 	<g>
 		<path d="M369 262 a14 14 90 0 1 14 14 V287 h-76 V276 a14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
 		<path d="M383 287 v11 a14 14 90 0 1 -14 14 H321 a14 14 90 0 1 -14 -14 V287 H76" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>
@@ -122,7 +122,7 @@
 	<line x1="619" y1="422" x2="619" y2="515" stroke="#4393c3" stroke-width="2"/>
 	<text x="624" y="473" fill="#b2182b" font-family="Verdana" font-size="12">1,N</text>
 	<line x1="479" y1="287" x2="619" y2="515" stroke="#4393c3" stroke-width="2"/>
-	<text x="510" y="329" fill="#b2182b" font-family="Verdana" font-size="12">1,1</text>
+	<text x="510" y="329" fill="#b2182b" font-family="Verdana" font-size="12">1,N</text>
 	<g>
 		<path d="M646 490 a14 14 90 0 1 14 14 V515 h-82 V504 a14 14 90 0 1 14 -14" fill="#92c5de" stroke="#92c5de" stroke-width="0"/>
 		<path d="M660 515 v11 a14 14 90 0 1 -14 14 H592 a14 14 90 0 1 -14 -14 V515 H82" fill="#d1e5f0" stroke="#d1e5f0" stroke-width="0"/>

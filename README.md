@@ -1,8 +1,8 @@
 # Projet SI 2
 
 il reste 
-    1.**le readme.txt** 
-    2.**le manuel** 
+    1. **le readme.txt** 
+    2. **le manuel** 
 
 
 ---
