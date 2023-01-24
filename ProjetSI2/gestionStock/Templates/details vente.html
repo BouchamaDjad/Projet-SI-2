@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Facture{% endblock title %}
+
+{% block content %}
+<div class="background-light maincontent">
+  <div class="container py-5">
+  <header class="text-center ">
+    <h1 class="display-4">Liste des Produits de la Vente N°{{vente.id}}</h1>
+  </header>
+  <div class="row py-5">
+    <div class="col-lg-10 mx-auto">
+      <div class="card rounded shadow border-0">
+        <div class="card-body p-5 bg-white rounded">
+          <div class="table-responsive">
+            <table id="dernier" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                    <th>CodeP</th>
+                    <th>Designation</th>
+                    <th>PrixVente Unitaire</th>
+                    <th>Quantite</th>
+                    <th>PrixVente total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in vente.composer_set.all %}
+                <tr>
+                    <td>{{ p.produit.CodeP }}</td>
+                    <td>{{ p.produit.designation }}</td>
+                    <td>{{ p.prix.PrixVente }}</td>
+                    <td>{{ p.QtV }}</td>
+                    <td>{%widthratio p.QtV 1 p.prix.PrixVente%}</td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <center class=" center h3"> Total = {{total}} </center> 
+  <div class="d-flex justify-content-center">
+    <a href="{%url 'listeventes'%}" class="btn btn-warning">Retour</a>
+  </div> 
+</div>
+
+</div>
+{% endblock content %}

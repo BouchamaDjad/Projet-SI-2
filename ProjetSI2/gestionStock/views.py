@@ -727,20 +727,33 @@ def edit_facture(request,pk):
         return redirect("listefactures")
     if request.method == 'POST':
         r = facture.sommeRestante
-        id = facture.fournisseur.id
+        if facture.fournisseur:
+            id = facture.fournisseur.id
+        else :
+            id = None
         form = FormFacture(request.POST, instance = facture)
         if form.is_valid():
-            if id == form.cleaned_data["fournisseur"].id:
-                f = Fournisseur.objects.get(id = id)
-                f.solde += float(form.cleaned_data["sommeRestante"]) - r
-                f.save()
+            if id == None:
+                if form.cleaned_data["fournisseur"]:
+                    f2 = Fournisseur.objects.get(id = form.cleaned_data["fournisseur"].id)
+                    f2.solde += float(form.cleaned_data["sommeRestante"])
+                    f2.save()
+            elif form.cleaned_data["fournisseur"]:
+                if id == form.cleaned_data["fournisseur"].id:
+                    f = Fournisseur.objects.get(id = id)
+                    f.solde += float(form.cleaned_data["sommeRestante"]) - r
+                    f.save()
+                else :
+                    f = Fournisseur.objects.get(id = id)
+                    f.solde -= r
+                    f.save()
+                    f2 = Fournisseur.objects.get(id = form.cleaned_data["fournisseur"].id)
+                    f2.solde += float(form.cleaned_data["sommeRestante"])
+                    f2.save()
             else : 
                 f = Fournisseur.objects.get(id = id)
                 f.solde -= r
                 f.save()
-                f2 = Fournisseur.objects.get(id = form.cleaned_data["fournisseur"].id)
-                f2.solde += float(form.cleaned_data["sommeRestante"])
-                f2.save()
             form.save()
             return redirect("listefactures")    
 
@@ -753,8 +766,9 @@ def edit_facture(request,pk):
 
 def supprimer_facture(request,pk):
     f = Facture.objects.get(numero = pk)
-    f.fournisseur.solde-=f.sommeRestante
-    f.fournisseur.save()
+    if f.fournisseur:
+        f.fournisseur.solde-=f.sommeRestante
+        f.fournisseur.save()
     f.delete()
     return redirect("listefactures")
 
@@ -796,3 +810,126 @@ def supprimer_reglementF(request,pk):
         reg.facture.save()
     reg.delete()
     return redirect("listereglementF")
+
+def liste_paiement(request):
+    paiements = ReglementVente.objects.all()
+    context = {
+        'paiements':paiements,
+    }
+    return render(request,"listepaiements.html",context)
+
+def edit_paiement(request,pk):
+    try :
+        reg = ReglementVente.objects.get(id = pk)
+    except ReglementVente.DoesNotExist:
+        return redirect("listepaiements")
+    if request.method == 'POST':
+        r = reg.sommeAjoute
+        form = FormRegV(request.POST, instance = reg)
+        if form.is_valid():
+            if reg.vente:
+                reg.vente.client.credit += r - float(form.cleaned_data["sommeAjoute"])
+                reg.vente.client.save()
+                reg.vente.restant += r - float(form.cleaned_data["sommeAjoute"])
+                reg.vente.save()
+            form.save()
+            return redirect("listepaiements")            
+    form = FormRegV(instance=reg)
+    context = {
+        "form":form
+    }
+    return render(request,'edit paiement.html',context)
+
+def supprimer_paiement(request,pk):
+    reg = ReglementVente.objects.get(id = pk)
+    if reg.vente:
+        reg.vente.client.credit +=reg.sommeAjoute
+        reg.vente.client.save()
+        reg.vente.restant +=reg.sommeAjoute
+        reg.vente.save()
+    reg.delete()
+    return redirect("listepaiements")
+
+def liste_ventes(request):
+    ventes = Vente.objects.all()
+
+    totalAchat = 0
+    totalVente = 0
+    for v in ventes:
+        for p in v.composer_set.all():
+            totalAchat += p.prix.PrixUnite * p.QtV
+            totalVente += p.prix.PrixVente * p.QtV
+
+    benefice = totalVente - totalAchat
+
+    context = {
+        'ventes':ventes,
+        'benefice':benefice,
+        'total' : totalVente,
+    }
+    
+    return render(request,"journal vente.html",context)
+
+def details_vente(request,pk):
+    try :
+        vente = Vente.objects.get(id = pk)
+    except Vente.DoesNotExist:
+        return redirect("listeventes")
+    total = 0
+    for p in vente.composer_set.all():
+        total += p.prix.PrixVente * p.QtV
+    return render(request,"details vente.html",{"vente": vente,"total":total})
+
+
+def edit_vente(request,pk):
+    try :
+        vente = Vente.objects.get(id = pk)
+    except Vente.DoesNotExist:
+        return redirect("listeventes")
+    if request.method == 'POST':
+        r = vente.restant
+        if vente.client:
+            id = vente.client.id
+        else:
+            id = None
+
+        form = FormVente(request.POST, instance = vente)
+        if form.is_valid():
+            if id == None:
+                if form.cleaned_data["client"]:
+                    c2 = Client.objects.get(id = form.cleaned_data["client"].id)
+                    c2.credit += float(form.cleaned_data["restant"])
+                    c2.save()
+            elif form.cleaned_data["client"]:
+                if id == form.cleaned_data["client"].id:
+                    c = Client.objects.get(id = id)
+                    c.credit += float(form.cleaned_data["restant"]) - r
+                    c.save()
+                else :
+                    c = Client.objects.get(id = id)
+                    c.credit -= r
+                    c.save()
+                    if form.cleaned_data["client"]:
+                        c2 = Client.objects.get(id = form.cleaned_data["client"].id)
+                        c2.credit += float(form.cleaned_data["restant"])
+                        c2.save()
+            else :
+                c = Client.objects.get(id = id)
+                c.credit -= r
+                c.save()
+            
+            form.save()
+            return redirect("listeventes")
+    form = FormVente(instance=vente)
+    context = {
+        "form":form
+    }
+    return render(request,'edit vente.html',context)
+
+def supprimer_vente(request,pk):
+    v = Vente.objects.get(id = pk)
+    if v.client:
+        v.client.solde-=v.restant
+        v.client.save()
+    v.delete()
+    return redirect("listeventes")

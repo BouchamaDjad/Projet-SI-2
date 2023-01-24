@@ -49,6 +49,9 @@ urlpatterns = [
     path('ReglementVentes/',views.reglement_vente, name='reglementvente'),
     path('ReglerVentes/',views.regler_ventes, name='reglerventes'), 
     path('sauv_RegV/<int:pk>/<str:date>',views.sauv_regV,name='sauvregV'),
+    path('journalPaiement/',views.liste_paiement,name="listepaiements"),
+    path('editPaiement/<int:pk>',views.edit_paiement,name="editpaiement"),
+    path('SupprimerPaiement/<int:pk>',views.supprimer_paiement,name="supprimerpaiement"),
 
     path('SelectionClient/',views.selection_client,name='selectionclient'),
     path('CreeClientVente/',views.cree_clientV,name='creeclientV'),
@@ -57,6 +60,10 @@ urlpatterns = [
     path('QuantiteProduit/<int:pk>/<int:s>',views.quantite_produit,name='quantiteproduit'),
     path('QuantiteProduit2/<int:v>/<int:s>',views.quantite_produit2,name="quantiteproduit2"),
     path('PayementVente/<int:v>/',views.payement_vente,name='payementvente'),
+    path('listeVentes/',views.liste_ventes,name="listeventes"),
+    path('detailsVentes/<int:pk>',views.details_vente,name="detailsvente"),
+    path('editVente/<int:pk>',views.edit_vente,name="editvente"),
+    path('SupprimerVente/<int:pk>',views.supprimer_vente,name="supprimervente"),
 
     path('Stats/',views.stats,name='stats'),
     path('StatsAchats/',views.statsAchat,name='statsAchats'), 

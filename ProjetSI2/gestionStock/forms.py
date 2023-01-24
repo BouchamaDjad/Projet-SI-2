@@ -188,3 +188,21 @@ class FormRegF(forms.ModelForm):
         super(FormRegF, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+class FormRegV(forms.ModelForm):
+    class Meta:
+        model = ReglementVente
+        exclude = ["vente"]
+    def __init__(self, *args, **kwargs):
+        super(FormRegV, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+class FormVente(forms.ModelForm):
+    class Meta:
+        model = Vente
+        fields = '__all__'
+    def __init__(self, *args, **kwargs):
+        super(FormVente, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

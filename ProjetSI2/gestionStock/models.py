@@ -56,7 +56,7 @@ class Client(models.Model):
 
 class Vente(models.Model):
     Date = models.DateField(default=timezone.now)
-    client = models.ForeignKey(Client,null=True,on_delete=models.SET_NULL)
+    client = models.ForeignKey(Client,null=True,on_delete=models.SET_NULL,blank=True)
     restant = models.FloatField(default=0,blank=True)
     def __str__(self):
         return f'{self.id} {self.Date} // {self.restant}'
@@ -73,7 +73,7 @@ class Composer(models.Model):
 class ReglementVente(models.Model):
     date = models.DateField(editable=True)
     sommeAjoute = models.FloatField(default=0)
-    vente = models.ForeignKey(Vente,on_delete=models.CASCADE,null=True)
+    vente = models.ForeignKey(Vente,on_delete=models.CASCADE,null=True,blank=True)
     def __str__(self):
         return f'{self.vente} -  {self.sommeAjoute} -  {self.date}'
 
@@ -92,7 +92,7 @@ class Facture(models.Model):
     date = models.DateField()
     remise = models.FloatField(default=0)
     sommeRestante = models.FloatField(default=0)
-    fournisseur = models.ForeignKey(Fournisseur,on_delete=models.SET_NULL,null=True)
+    fournisseur = models.ForeignKey(Fournisseur,on_delete=models.SET_NULL,null=True,blank=True)
 
 
 class Avoir(models.Model):
@@ -104,4 +104,4 @@ class Avoir(models.Model):
 class ReglementFacture(models.Model):
     date = models.DateField(editable=True)
     sommeAjoute = models.FloatField(default=0)
-    facture = models.ForeignKey(Facture,on_delete=models.SET_NULL,null=True)
+    facture = models.ForeignKey(Facture,on_delete=models.SET_NULL,null=True,blank=True)

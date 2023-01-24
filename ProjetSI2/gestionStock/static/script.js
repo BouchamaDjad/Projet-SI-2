@@ -18,7 +18,7 @@ $(function () {
     $(document).ready(function () {
         $('#dernier').DataTable({
             columnDefs: [
-                { "searchable": false, "targets":-1},
+                { orderable: false,"searchable": false, "targets":-1},
             ]
         });
     });
