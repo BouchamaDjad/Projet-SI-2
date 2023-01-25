@@ -43,7 +43,12 @@ urlpatterns = [
     path('SupprimerReglementF/<int:pk>',views.supprimer_reglementF,name="supprimerreglementF"),
     
     path('EntréeStock/',views.entrer_en_stock,name='entrystock'),
+    path('editEntree/<int:pk>',views.edit_entree,name="editentree"),
+    path('SupprimerEntree/<int:pk>',views.supprimer_entree,name="supprimerentree"),
+
     path('SortieStock/',views.sortie_stock,name='sortiestock'),
+    path('editSortie/<int:pk>',views.edit_sortie,name="editsortie"),
+    path('SupprimerSortie/<int:pk>',views.supprimer_sortie,name="supprimersortie"),
     path('Déstocker/<int:pk>/',views.déstocker,name='déstocker'),
 
     path('ReglementVentes/',views.reglement_vente, name='reglementvente'),

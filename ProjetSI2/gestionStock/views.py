@@ -357,7 +357,7 @@ def entrer_en_stock(request):
 
 def déstocker(request,pk):
     if request.method == 'POST':
-        SortieStock.objects.create(motif=request.POST["motif"],qt = request.POST["qt"],stock_id = pk)
+        SortieStock.objects.create(motif=request.POST["motqtif"],qt = request.POST[""],stock_id = pk)
         instance = Stock.objects.get(id=pk)
         instance.Qtp -= int(request.POST['qt'])
         instance.save()
@@ -933,3 +933,56 @@ def supprimer_vente(request,pk):
         v.client.save()
     v.delete()
     return redirect("listeventes")
+
+def edit_entree(request,pk):
+    try:
+        e = EntreeStock.objects.get(id = pk)
+    except EntreeStock.DoesNotExist :
+        return redirect("entrystock")
+    
+    if request.method == "POST":
+        form = FormEntreeEdit(request.POST)
+        if form.is_valid():     
+            e.produit.designation = request.POST["Designation"]
+            e.produit.typeP = TypeProduit.objects.get(id = request.POST["Type"])
+            e.qt = request.POST["Quantite"]
+            e.date = request.POST["Date"]
+            e.produit.save()
+            e.save()
+            return redirect("entrystock")
+    form = FormEntreeEdit(initial={
+        "Designation":e.produit.designation,
+        "Type":e.produit.typeP,
+        "Date":e.date,
+        "Quantite":e.qt
+    })
+
+    return render(request,"edit entree.html",{"form":form})
+def supprimer_entree(request,pk):
+    try:
+        e = EntreeStock.objects.get(id = pk)
+    except EntreeStock.DoesNotExist :
+        return redirect("entrystock")
+    e.produit.delete()
+    e.delete()
+    return redirect("entrystock")
+
+def edit_sortie(request,pk):
+    s = SortieStock.objects.get(id = pk)
+    if request.method == "POST":
+        r = s.qt
+        form = FormSortieEdit(request.POST,instance = s)
+        if form.is_valid():
+            form.save()
+            s.stock.Qtp += r - int(form.cleaned_data["qt"])
+            s.stock.save()
+            return redirect("sortiestock")
+    form = FormSortieEdit(instance=s)
+    return render(request,"edit sortie.html",{"form":form})
+
+def supprimer_sortie(request,pk):
+    s = SortieStock.objects.get(id = pk)
+    s.stock.Qtp += s.qt
+    s.stock.save()
+    s.delete()
+    return redirect("sortiestock")

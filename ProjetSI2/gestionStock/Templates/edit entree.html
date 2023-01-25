@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Modification d'une entree{% endblock title %}
+{% block content %}
+
+<div class="background-light maincontent">
+<form action="" method="post"  class="d-flex flex-column flex-wrap align-items-center gap-4 mx-auto mt-4 max_content">
+        {% csrf_token %}
+       {%for field in form%}
+        <div class="form-group d-flex flex-column gap-2">
+          {{field.label}}
+          {{field}}
+        </div>
+       {%endfor%}
+        <button type="submit" class="btn btn-primary">modifier</button>
+    </form>
+</div>
+{% endblock content %}

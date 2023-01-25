@@ -19,6 +19,7 @@
                     <th>CodeP</th>
                     <th>designation</th>
                     <th>Quantité</th>
+                    <th><th>
                 </tr>
               </thead>
               <tbody>
@@ -28,6 +29,12 @@
                     <td> {{ e.produit.CodeP }} </td>
                     <td> {{ e.produit.designation }} </td>
                     <td> {{ e.qt }} </td>
+                    <td>
+                      <div class="d-flex gap-2">
+                        <a href="{%url 'editentree' e.id%}" class="btn btn-warning">Modifier</a>
+                        <a href="{%url 'supprimerentree' e.id%}" class="btn btn-danger">Supprimer</a>
+                      </div>
+                    </td>
                 </tr>
                 {% endfor %}
               </tbody>

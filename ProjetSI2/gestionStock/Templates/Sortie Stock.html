@@ -20,6 +20,7 @@
                     <th>Motif</th>
                     <th>Prix Unité</th>
                     <th>Prix Vente</th>
+                    <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -31,6 +32,12 @@
                         <td>{{ s.motif }}</td>
                         <td>{{ s.stock.Prix.PrixUnite }}</td>
                         <td>{{ s.stock.Prix.PrixVente }}</td>
+                        <td>
+                          <div class="d-flex gap-2">
+                            <a href="{%url 'editsortie' s.id%}" class="btn btn-warning">Modifier</a>
+                            <a href="{%url 'supprimersortie' s.id%}" class="btn btn-danger">Supprimer</a>
+                          </div>
+                        </td>
                     </tr>
                 {% endfor %}
               </tbody>

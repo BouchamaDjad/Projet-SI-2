@@ -35,12 +35,12 @@ class Stock(models.Model):
         ]
 
 class EntreeStock(models.Model):
-    date = models.DateField(auto_now=True)
+    date = models.DateField(default=timezone.now,editable=True)
     qt = models.IntegerField()
     produit = models.ForeignKey(Produit,on_delete=models.SET_NULL,null=True)
 
 class SortieStock(models.Model):
-    date = models.DateField(auto_now=True)
+    date = models.DateField(default=timezone.now,editable=True)
     motif = models.CharField(max_length=30)
     qt = models.IntegerField(verbose_name="quantité déstocké",default=0)
     stock = models.ForeignKey(Stock,on_delete=models.CASCADE,null=True) 

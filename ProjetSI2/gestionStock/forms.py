@@ -206,3 +206,19 @@ class FormVente(forms.ModelForm):
         super(FormVente, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+class FormEntreeEdit(forms.Form):
+    Designation  = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control"}))
+    Type = TypeProduitChoiceField(TypeProduit.objects.all(),widget=forms.Select(attrs={"class":"form-control"}))
+    Date = forms.DateField(initial=datetime.today(),widget=forms.DateInput(attrs={"class":"form-control","style":"display:block"}))
+    Quantite = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control"}))
+
+class FormSortieEdit(forms.ModelForm):
+    class Meta:
+        model = SortieStock
+        fields = ["date","motif","qt"]
+        widgets = {
+            "date":forms.DateInput(attrs={"class":"form-control","style":"display:block"}),
+            "motif":forms.TextInput(attrs={"class":"form-control"}),
+            "qt":forms.NumberInput(attrs={"class":"form-control"})
+        }
