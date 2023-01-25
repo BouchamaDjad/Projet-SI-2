@@ -32,11 +32,12 @@ class FactureForm(forms.ModelForm):
         }
 
 class produitFacture(forms.Form):
-    choices = []
-    products = Produit.objects.all()
-    for p in products :
-        choices.append((p.designation,p.designation))
-    designation = forms.ChoiceField(choices = tuple(choices))
+    def __init__(self,*args, **kwargs):
+        self._choixP = kwargs.pop('choixP', None)
+        super().__init__(*args, **kwargs)
+        self.fields['designation'].choices = self._choixP
+    
+    designation = forms.ChoiceField(choices = ())
 
 class prixFacture(forms.ModelForm):
     class Meta : 

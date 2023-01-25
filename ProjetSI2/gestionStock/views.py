@@ -28,8 +28,12 @@ def saisie_facture(request):
 
 def produits_facture(request,pk,idFr,date):
     idF = pk
+    choices = []
+    products = Produit.objects.all()
+    for p in products :
+        choices.append((p.designation,p.designation))
     if request.method == 'POST':
-        form_produit = produitFacture(request.POST)
+        form_produit = produitFacture(request.POST,choixP = choices)
         form_prix = prixFacture(request.POST)
         form_avoir = qtAchete(request.POST)
         if form_prix.is_valid() and form_avoir.is_valid() and form_produit.is_valid():
@@ -53,7 +57,7 @@ def produits_facture(request,pk,idFr,date):
            msg = "erreur reessayer"
     else :
         msg = "Ajouter un produit a la facture"
-    form_produit = produitFacture()
+    form_produit = produitFacture(choixP = choices)
     form_prix = prixFacture()
     form_avoir = qtAchete()
     context = { 'id': idF,
@@ -357,7 +361,7 @@ def entrer_en_stock(request):
 
 def déstocker(request,pk):
     if request.method == 'POST':
-        SortieStock.objects.create(motif=request.POST["motqtif"],qt = request.POST[""],stock_id = pk)
+        SortieStock.objects.create(motif=request.POST["motif"],qt = request.POST["qt"],stock_id = pk)
         instance = Stock.objects.get(id=pk)
         instance.Qtp -= int(request.POST['qt'])
         instance.save()
