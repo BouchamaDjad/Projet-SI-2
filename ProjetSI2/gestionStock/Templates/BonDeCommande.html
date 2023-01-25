@@ -24,12 +24,10 @@
             {% endfor %}
         </div>
         
-        <!--<p></p><button id="add">+</button><p>-->
         <button type="button" class="btn btn-primary" id="add">Ajouter produit +</button>
         <button type="submit" class="btn btn-danger">créer le bon commande</button>
     </form>
     {% if file %}
-        <!--si le path du fichier est différent du None -->
         <center><a href="{% url 'download_file' file %}" class="btn btn-info mt-5" download>télécharger le bon de commande</a></center>
     {% endif %}
 </div>
