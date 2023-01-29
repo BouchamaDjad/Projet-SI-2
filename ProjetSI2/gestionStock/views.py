@@ -990,3 +990,35 @@ def supprimer_sortie(request,pk):
     s.stock.save()
     s.delete()
     return redirect("sortiestock")
+
+def liste_produits(request):
+    produits = Produit.objects.all()
+    if request.GET:
+        form = FiltreProduit(request.GET)
+        if form.is_valid():
+            if form.cleaned_data["type"]:
+                produits = produits.filter(typeP__designation=form.cleaned_data["type"])
+            if form.cleaned_data['designation']:
+                produits = produits.filter(designation__contains=form.cleaned_data['designation'])
+    else:
+        form = FiltreProduit()
+    context = {
+        'produits':produits,
+        'form':form,
+    }
+    return render(request,"liste produits.html",context)
+
+def edit_produit(request,pk):
+    p = Produit.objects.get(CodeP = pk)
+    if request.method == "POST":
+        form = EditProduit(request.POST,instance=p)
+        if form.is_valid():
+            form.save()
+            return redirect("listeproduits")
+    form = EditProduit(instance=p)
+    return render(request,"edit produit.html",{"form":form})
+
+def supprimer_produit(request,pk):
+    p = Produit.objects.get(CodeP = pk)
+    p.delete()
+    return redirect("listeproduits")

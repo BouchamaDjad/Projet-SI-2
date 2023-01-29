@@ -6,10 +6,10 @@ urlpatterns = [
     path('TypesProduits/',views.afficher_type,name='types produit'),
     path('SupprimerType/<int:pk>',views.supprimer_type ,name='DeleteTypes'),
     path('TypesProduits/edit/<int:pk>',views.edit_types,name='editTypes'),
-
+    path('listeProduits/',views.liste_produits,name="listeproduits"),
     path('AjouterProduits/',views.ajout_produit,name="ajoutproduit"),
-    # modifier
-    # suppression
+    path('editProduit/<int:pk>',views.edit_produit,name="editproduit"),
+    path('SupprimerProduit/<int:pk>',views.supprimer_produit,name="supprimerproduit"),
 
     path('Fournisseurs/',views.afficher_fournisseur,name="fournisseurs"),
     path('ModifierFournisseur/<int:pk>/',views.edit_fournisseur,name="editfournisseur"),

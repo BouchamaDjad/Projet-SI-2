@@ -7,10 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{%static 'custom.css' %}"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="{%static 'dataTables.bootstrap4.min.css' %}"/>
     <link rel="icon" type="image/x-icon" href="{% static 'images/store.png' %}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{%static 'chart.js'%}"></script>
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body class="position-relative">
@@ -32,10 +31,10 @@
     })
 })()
 </script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script type="text/javascript" src="{%static 'jquery-3.6.3.min.js' %}" ></script>
 <script type="text/javascript" src="{%static 'script.js' %}" defer></script>
-<script src = "https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src = "https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js" ></script>
+<script src ="{%static 'jquery.dataTables.min.js'%}"></script>
+<script src = "{%static 'dataTables.bootstrap4.min.js'%}" ></script>
 <script src="{%static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 

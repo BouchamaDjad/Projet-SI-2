@@ -223,3 +223,12 @@ class FormSortieEdit(forms.ModelForm):
             "motif":forms.TextInput(attrs={"class":"form-control"}),
             "qt":forms.NumberInput(attrs={"class":"form-control"})
         }
+
+class FiltreProduit(forms.Form):
+    designation = forms.CharField(required=False)
+    type = TypeProduitChoiceField(TypeProduit.objects.all(),required=False)
+
+class EditProduit(forms.ModelForm):
+    class Meta:
+        model = Produit
+        fields = ["designation","typeP"]

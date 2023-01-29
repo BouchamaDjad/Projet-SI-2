@@ -5,11 +5,11 @@
       <span class="fs-5 fw-semibold">myStore</span>
     </a>
     <ul class="list-unstyled ps-0">
-        <li class="mb-1">
+        <li class="mb-1 d-flex justify-content-between">
         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#Favoris-collapse" aria-expanded="false">
          Favoris
         </button>
-         <span style="margin-left:20px;"><img id="wheel" style="width:24px; height:24px;"; src="{%static 'images/settings.png'%}"></span>
+         <span><img id="wheel" style="width:24px; height:24px;"; src="{%static 'images/settings.png'%}"></span>
         <div class="collapse" id="Favoris-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" id="favoris">
           </ul>
@@ -84,6 +84,7 @@
         <div class="collapse" id="produit-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="{%url 'ajoutproduit'%}" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter</a></li>
+            <li><a href="{%url 'listeproduits'%}" class="link-dark d-inline-flex text-decoration-none rounded">Liste</a></li>
             <li><a href="{%url 'types produit'%}" class="link-dark d-inline-flex text-decoration-none rounded">Liste des Types</a></li>
             <li><a href="{%url 'ajoutType' %}" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter Type</a></li>
             <li><a href="{%url 'sortiestock' %}" class="link-dark d-inline-flex text-decoration-none rounded">Sorties</a></li>
@@ -98,20 +99,6 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="{%url 'stats'%}" class="link-dark d-inline-flex text-decoration-none rounded">Ventes</a></li>
             <li><a href="{%url 'statsAchats'%}" class="link-dark d-inline-flex text-decoration-none rounded">Achats</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="border-top my-3"></li>
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-          Account
-        </button>
-        <div class="collapse" id="account-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New...</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Profile</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Settings</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Sign out</a></li>
           </ul>
         </div>
       </li>
