@@ -5,11 +5,13 @@
       <span class="fs-5 fw-semibold">myStore</span>
     </a>
     <ul class="list-unstyled ps-0">
-        <li class="mb-1 d-flex justify-content-between">
+        <li class="mb-1">
+        <div class="d-flex justify-content-between">
         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#Favoris-collapse" aria-expanded="false">
          Favoris
         </button>
          <span><img id="wheel" style="width:24px; height:24px;"; src="{%static 'images/settings.png'%}"></span>
+        </div>
         <div class="collapse" id="Favoris-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" id="favoris">
           </ul>
