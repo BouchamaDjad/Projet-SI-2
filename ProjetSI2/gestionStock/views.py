@@ -933,7 +933,7 @@ def edit_vente(request,pk):
 def supprimer_vente(request,pk):
     v = Vente.objects.get(id = pk)
     if v.client:
-        v.client.solde-=v.restant
+        v.client.credit-=v.restant
         v.client.save()
     v.delete()
     return redirect("listeventes")

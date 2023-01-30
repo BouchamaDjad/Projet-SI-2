@@ -1,14 +1,59 @@
 $(function () {
     $(document).ready(function () {
-        $('#search').DataTable();
-    });
-});
+        let table = $('#search').DataTable({
+            lengthChange: false,
+            buttons: [
+                {
 
-$(function () {
-    $(document).ready(function () {
-        $('#noSearch').DataTable({
-            "searching":false,
+                    extend: 'print',
+                    text: '<i class="fa-solid fa-print fa-xl"></i>',
+                    titleAttr: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel fa-xl"></i>',
+                    titleAttr: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                }
+            ],
         });
+        table.buttons().container()
+            .appendTo('#search_wrapper .col-md-6:eq(0)');
+    });
+});
+
+$(function () {
+    $(document).ready(function () {
+        let table = $('#noSearch').DataTable({
+            "searching":false,
+            lengthChange: false,
+            buttons: [
+                {
+                    
+                    extend: 'print',
+                    text: '<i class="fa-solid fa-print fa-xl"></i>',
+                    titleAttr: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel fa-xl"></i>',
+                    titleAttr: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                }
+            ],
+        });
+        table.buttons().container()
+            .appendTo('#noSearch_wrapper .col-md-6:eq(0)');
     });
 });
 
@@ -16,21 +61,65 @@ $(function () {
 
 $(function () {
     $(document).ready(function () {
-        $('#dernier').DataTable({
+        let table = $('#dernier').DataTable({
             columnDefs: [
                 { orderable: false,"searchable": false, "targets":-1},
-            ]
+            ],
+            lengthChange: false,
+            buttons: [
+                {
+
+                    extend: 'print',
+                    text: '<i class="fa-solid fa-print fa-xl"></i>',
+                    titleAttr: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel fa-xl"></i>',
+                    titleAttr: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                }
+            ],
         });
+        table.buttons().container()
+            .appendTo('#dernier_wrapper .col-md-6:eq(0)');
     });
 });
 
 $(function () {
     $(document).ready(function () {
-        $('#deuxF').DataTable({
+        let table = $('#deuxF').DataTable({
             columnDefs: [
                 { "searchable": false, "targets":[2,3,4,5]},
+            ],
+            lengthChange: false,
+            buttons: [
+                {
+
+                    extend: 'print',
+                    text: '<i class="fa-solid fa-print fa-xl"></i>',
+                    titleAttr: 'print',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="fa fa-file-excel fa-xl"></i>',
+                    titleAttr: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                }
             ]
         });
+        table.buttons().container()
+            .appendTo('#deuxF_wrapper .col-md-6:eq(0)');
     });
 });
 
