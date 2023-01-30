@@ -19,6 +19,14 @@ $(function () {
                     exportOptions: {
                         columns: ':not(:last-child)',
                     }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf fa-xl"></i>',
+                    titleAttr: 'PDF',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
                 }
             ],
         });
@@ -46,6 +54,14 @@ $(function () {
                     extend: 'excel',
                     text: '<i class="fa fa-file-excel fa-xl"></i>',
                     titleAttr: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf fa-xl"></i>',
+                    titleAttr: 'PDF',
                     exportOptions: {
                         columns: ':not(:last-child)',
                     }
@@ -83,6 +99,14 @@ $(function () {
                     exportOptions: {
                         columns: ':not(:last-child)',
                     }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf fa-xl"></i>',
+                    titleAttr: 'PDF',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
                 }
             ],
         });
@@ -112,6 +136,14 @@ $(function () {
                     extend: 'excel',
                     text: '<i class="fa fa-file-excel fa-xl"></i>',
                     titleAttr: 'excel',
+                    exportOptions: {
+                        columns: ':not(:last-child)',
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf fa-xl"></i>',
+                    titleAttr: 'PDF',
                     exportOptions: {
                         columns: ':not(:last-child)',
                     }
