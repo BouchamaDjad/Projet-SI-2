@@ -1,0 +1,49 @@
+<div class="row py-4" id="stock_table">
+    <div class="col-lg-10 mx-auto">
+      <div class="card rounded shadow border-0">
+        <div class="card-body p-4 bg-white rounded">
+          <div class="table-responsive">
+            <table id="noSearch" style="width:100%" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                    <th>CodeP</th>
+                    <th>Designation</th>
+                    <th>PrixUnite</th>
+                    <th>PrixVente</th>
+                    <th>Quantité</th>
+                    <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in produits %}
+                <tr>
+                <td>{{ p.produit.CodeP }}</td>
+                <td>{{ p.produit.designation }}</td>
+                <td>{{ p.Prix.PrixUnite }}</td>
+                <td>{{ p.Prix.PrixVente }}</td>
+                <td>{{ p.Qtp}}</td>
+                <td>
+                  <div class="d-flex justify-content-evenly">
+                    <a href=" {% url 'ajusterstock' p.id %}" class="btn btn-warning">ajuster</a>
+                    <a href="{% url 'déstocker' p.id %}" class="btn btn-danger" {%if p.qt <= 0%} style = "pointer-events : none; opacity:60%;" {%endif%}>
+                    déstocker</a>
+                  </div>
+                </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-4 mt-1 bg-blue rounded">
+        <div class="card rounded shadow border-0">
+          <p class="p-2">
+            <strong> le total achat </strong> : {{Total_achat}} </br>
+            <strong> le total vente </strong> : {{Total_vente}} </br>
+            <strong> le benefice </strong> : {{benefice}} </br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -297,6 +297,13 @@ def afficher_stock(request):
 
     benefice = Total_vente - Total_achat
 
+    if 'HX-Request' in request.headers:
+        return render(request, "stock_table.html",{
+                                        "produits":stock,
+                                        "Total_achat":Total_achat,
+                                        "Total_vente":Total_vente,
+                                        "benefice":benefice })
+
     return render(request,"Stock.html",{"form":form,
                                         "produits":stock,
                                         "Total_achat":Total_achat,
